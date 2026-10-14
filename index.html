@@ -34,19 +34,18 @@
 
     .container { width: 100%; max-width: 480px; }
     
-    /* Header - Typographic Hierarchy */
     header { text-align: center; margin-bottom: 26px; }
     h1 { 
       font-family: 'Fredoka', cursive, sans-serif; 
-      font-size: 40px; /* Bigger tool name */
+      font-size: 40px; 
       font-weight: 700; 
       color: var(--dark-green); 
       letter-spacing: 0.5px; 
       line-height: 1.15;
     }
     p.tagline { 
-      font-size: 15px; /* Subheading size */
-      font-weight: 500; /* Clean, not heavy */
+      font-size: 15px; 
+      font-weight: 500; 
       color: var(--midnight-green); 
       margin-top: 6px; 
       letter-spacing: 0.2px;
@@ -56,7 +55,7 @@
     #landingScreen { display: block; }
     .landing-title { 
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 22px; /* Standard section heading size */
+      font-size: 22px; 
       font-weight: 600; 
       color: var(--dark-green); 
       text-align: center; 
@@ -93,15 +92,15 @@
     }
     .track-info h3 { 
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 19px; /* Standard card title */
+      font-size: 19px; 
       font-weight: 600; 
       color: var(--dark-green); 
       margin-bottom: 6px; 
       line-height: 1.25;
     }
     .track-info p { 
-      font-size: 15px; /* Same size as subheading */
-      font-weight: 400; /* Regular, NOT bold */
+      font-size: 15px; 
+      font-weight: 400; 
       color: var(--text-muted); 
       line-height: 1.55; 
       margin-bottom: 10px;
@@ -164,11 +163,11 @@
       letter-spacing: 0.5px; 
     }
     
-    .pill-group { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; }
+    .pill-group { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; }
     .pill-group:last-child { margin-bottom: 0; }
     .pill { 
       flex: 1; 
-      padding: 9px 8px; 
+      padding: 9px 10px; 
       font-family: 'Fredoka', cursive, sans-serif;
       font-size: 13px; 
       font-weight: 600; 
@@ -188,7 +187,7 @@
     }
     .pill.locked { 
       background: #F3F5F4; 
-      color: #8C9E96; 
+      color: #7D8F86; 
       border-color: #E2E8E5; 
     }
 
@@ -222,7 +221,6 @@
       min-height: 56px; 
     }
 
-    /* Strict Water-Lily Plot Twist Banner */
     .twist-banner {
       display: none;
       background: #F3E4E1;
@@ -241,7 +239,6 @@
       to { transform: scale(1.015); }
     }
 
-    /* Scaffolding Accordion Button & Box */
     .btn-ideas {
       background: #EDF3EF;
       border: 1.5px solid var(--border-soft);
@@ -269,7 +266,6 @@
     }
     .scaffold-box strong { font-family: 'Fredoka', cursive, sans-serif; color: var(--dark-green); }
     
-    /* Lifeboat Drawer */
     .lifeboat-drawer {
       margin-top: 14px;
       padding-top: 12px;
@@ -278,12 +274,8 @@
       color: var(--dark-green);
       line-height: 1.6;
     }
-    .lifeboat-item {
-      margin-bottom: 8px;
-    }
-    .lifeboat-item:last-child {
-      margin-bottom: 0;
-    }
+    .lifeboat-item { margin-bottom: 8px; }
+    .lifeboat-item:last-child { margin-bottom: 0; }
     .lifeboat-label {
       font-family: 'Fredoka', cursive, sans-serif;
       font-size: 12.5px;
@@ -306,7 +298,6 @@
       margin: 2px 4px 2px 0;
     }
 
-    /* Timer Display */
     .timer-label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px; }
     .timer-display { 
       font-family: 'Fredoka', cursive, sans-serif; 
@@ -341,7 +332,6 @@
       transition: width 1s linear; 
     }
 
-    /* Action Buttons */
     .btn-action-row { display: flex; gap: 8px; margin-bottom: 10px; }
     .btn { 
       display: block; 
@@ -393,7 +383,7 @@
       background: var(--surface-white); 
       border-radius: 22px; 
       padding: 24px; 
-      max-width: 400px; 
+      max-width: 420px; 
       width: 100%; 
       text-align: center; 
       box-shadow: 0 20px 30px rgba(10, 51, 35, 0.15); 
@@ -407,7 +397,7 @@
       margin-bottom: 8px; 
     }
     .modal-desc { 
-      font-size: 14.5px; 
+      font-size: 14px; 
       color: var(--text-muted); 
       line-height: 1.55; 
       margin-bottom: 18px; 
@@ -490,18 +480,25 @@
           <button class="pill" onclick="setLevel('hard')">🔴 Hard (60s)</button>
         </div>
 
-        <span class="control-label">Category</span>
+        <span class="control-label">Category (10 Modes)</span>
         <div class="pill-group" id="modeGroup">
-          <button class="pill active" onclick="setMode('picture')">Picture / Scene</button>
-          <button class="pill" onclick="setMode('wyr')">Would You Rather</button>
-          <button class="pill" onclick="setMode('opinions')">Big Opinions</button>
-          <button class="pill locked" onclick="openLockedModal('Solo Role Play')">🔒 Role Play</button>
-          <button class="pill locked" onclick="openLockedModal('Shark Tank')">🔒 Pitch</button>
+          <!-- 3 Free Modes -->
+          <button class="pill active" onclick="setMode('picture')">🖼️ Picture Talk</button>
+          <button class="pill" onclick="setMode('wyr')">⚖️ Pick a Side</button>
+          <button class="pill" onclick="setMode('opinions')">💬 Hot Takes</button>
+          <!-- 7 Locked Pro Modes -->
+          <button class="pill locked" onclick="openLockedModal('Finish It')">🔒 Finish It</button>
+          <button class="pill locked" onclick="openLockedModal('Echo Story')">🔒 Echo Story</button>
+          <button class="pill locked" onclick="openLockedModal('Act It Out')">🔒 Act It Out</button>
+          <button class="pill locked" onclick="openLockedModal('The Big Pitch')">🔒 The Big Pitch</button>
+          <button class="pill locked" onclick="openLockedModal('Sell This!')">🔒 Sell This!</button>
+          <button class="pill locked" onclick="openLockedModal('Yap Machine')">🔒 Yap Machine</button>
+          <button class="pill locked" onclick="openLockedModal('What If?')">🔒 What If?</button>
         </div>
       </div>
 
       <div class="card">
-        <span class="badge" id="categoryBadge">PICTURE / SCENE</span>
+        <span class="badge" id="categoryBadge">PICTURE TALK</span>
         <div class="prompt-text" id="promptDisplay">Tap 'New Topic' to begin!</div>
         
         <div class="twist-banner" id="twistBanner"></div>
@@ -551,10 +548,8 @@
     <div class="modal-content">
       <div class="modal-icon" id="modalIcon">🎉</div>
       <div class="modal-title" id="modalTitle">Practice Complete!</div>
-      <div class="modal-desc" id="modalDesc">
-        Every time you practice speaking out loud, your brain gets stronger!
-      </div>
-      <a href="https://wa.me/?text=Hi!%20I%20was%20trying%20PopTalk%20and%20would%20love%20to%20learn%20more%20about%20your%20speaking%20batches." target="_blank" class="btn-wa" id="modalWaBtn">
+      <div class="modal-desc" id="modalDesc"></div>
+      <a href="https://wa.me/?text=Hi!%20I%20want%20to%20learn%20more." target="_blank" class="btn-wa" id="modalWaBtn">
         💬 Inquire on WhatsApp
       </a>
       <button class="btn-close" onclick="closeModal()">Close</button>
@@ -595,7 +590,7 @@
         tip: 'Tell if his skates make a loud rumbling sound or a quiet sound.'
       },
 
-      // JUNIOR (5-8) - WOULD YOU RATHER
+      // JUNIOR (5-8) - WOULD YOU RATHER (PICK A SIDE)
       {
         age: 'junior', mode: 'wyr',
         text: 'Would you rather have a pet penguin that eats ice cream or a monkey that cleans your room?',
@@ -617,7 +612,7 @@
         tip: 'Tell what color your shoes or jacket would be.'
       },
 
-      // JUNIOR (5-8) - BIG OPINIONS
+      // JUNIOR (5-8) - BIG OPINIONS (HOT TAKES)
       {
         age: 'junior', mode: 'opinions',
         text: 'Ice cream should be allowed as a normal breakfast food every day.',
@@ -648,13 +643,6 @@
         words: ['Relaxing', 'No School'],
         tip: 'Tell what game or movie you love on holidays.'
       }
-    ];
-
-    const affirmations = [
-      "Showing up and giving it a go makes a great speaker!",
-      "Every time you practice speaking out loud, your brain gets stronger!",
-      "Great courage taking on the impromptu challenge today!",
-      "Putting raw thoughts into sentences is a superpower that grows with practice!"
     ];
 
     let currentAge = 'junior';
@@ -709,7 +697,7 @@
       document.querySelectorAll('#modeGroup .pill:not(.locked)').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
       
-      const labels = { picture: 'PICTURE / SCENE', wyr: 'WOULD YOU RATHER', opinions: 'BIG OPINIONS' };
+      const labels = { picture: 'PICTURE TALK', wyr: 'PICK A SIDE', opinions: 'HOT TAKES' };
       document.getElementById('categoryBadge').innerText = labels[mode] || 'PRACTICE';
       spinPrompt();
     }
@@ -864,31 +852,59 @@
       document.getElementById('progressBar').style.width = pct + '%';
     }
 
+    /* 1. Post-Speech Screen: Promotes Live Small-Group Coaching */
     function openCelebrationModal(seconds) {
       const modalDesc = document.getElementById('modalDesc');
       const modalTitle = document.getElementById('modalTitle');
       const modalIcon = document.getElementById('modalIcon');
+      const waBtn = document.getElementById('modalWaBtn');
 
-      if (seconds < 15) {
-        modalIcon.innerText = '🌱';
-        modalTitle.innerText = 'Good Quick Effort!';
-        modalDesc.innerHTML = `You spoke for <strong>${seconds} seconds</strong>.<br><br>💡 <strong>Tip for next time:</strong> You can build out your thought even more! Try naming one extra detail you see, giving a second reason, or explaining what happens next.`;
-      } else {
-        modalIcon.innerText = '🌟';
-        modalTitle.innerText = 'Practice Complete!';
-        const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
-        modalDesc.innerHTML = `Great effort putting thoughts into words!<br><strong>Total Speaking Time:</strong> ${seconds} seconds.<br><br><em>"${randomAffirmation}"</em>`;
-      }
+      modalIcon.innerText = seconds < 15 ? '🌱' : '🌟';
+      modalTitle.innerText = seconds < 15 ? 'Good Effort!' : 'Practice Complete!';
+      
+      let encouragement = seconds < 15 
+        ? `You spoke for <strong>${seconds} seconds</strong>. Keep practicing to build out your thoughts!` 
+        : `Great work speaking out loud for <strong>${seconds} seconds</strong> today!`;
 
-      document.getElementById('modalWaBtn').style.display = 'none';
+      modalDesc.innerHTML = `
+        ${encouragement}
+        <div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">
+          <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:15px; display:block; margin-bottom:6px;">
+            Finding it difficult to turn thoughts into words?
+          </strong>
+          <span style="font-size:13.5px; color:#52635B; line-height:1.5; display:block; margin-bottom:10px;">
+            If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.
+          </span>
+          <div style="font-size:12.5px; font-weight:600; color:#105666; line-height:1.45;">
+            • Small interactive batches (strictly 5–6 students)<br>
+            • Classes run 2 days a week<br>
+            • Pure practical techniques — zero grammar drills
+          </div>
+        </div>
+      `;
+
+      waBtn.style.display = 'block';
+      waBtn.innerText = '💬 Book a Free Demo on WhatsApp';
+      waBtn.href = 'https://wa.me/?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
+      
       document.getElementById('generalModal').style.display = 'flex';
     }
 
+    /* 2. Locked Categories Modal: Pure Digital App Pro Pass */
     function openLockedModal(categoryName) {
       document.getElementById('modalIcon').innerText = '🔒';
-      document.getElementById('modalTitle').innerText = categoryName;
-      document.getElementById('modalDesc').innerText = 'This mode is part of our full guided speaking program. We train speakers in small interactive batches to build confidence without freezing!';
-      document.getElementById('modalWaBtn').style.display = 'block';
+      document.getElementById('modalTitle').innerText = 'Unlock PopTalk Pro';
+      document.getElementById('modalDesc').innerHTML = `
+        <strong>${categoryName}</strong> is part of the PopTalk Pro Practice Pack.<br><br>
+        Unlock all 7 exclusive modes including <strong>Finish It, Echo Story, Act It Out, and The Big Pitch</strong>, with 200+ prompt cards across all age tracks.<br><br>
+        ✨ <em>New creative categories and weekly challenge packs are added regularly!</em>
+      `;
+      
+      const waBtn = document.getElementById('modalWaBtn');
+      waBtn.style.display = 'block';
+      waBtn.innerText = '⚡ Get PopTalk Pro Access';
+      waBtn.href = `https://wa.me/?text=Hi!%20I%20want%20to%20unlock%20PopTalk%20Pro%20access%20for%20all%20speaking%20categories.`;
+      
       document.getElementById('generalModal').style.display = 'flex';
     }
 
