@@ -34,37 +34,40 @@
 
     .container { width: 100%; max-width: 480px; }
     
-    header { text-align: center; margin-bottom: 24px; }
+    /* Header - Typographic Hierarchy */
+    header { text-align: center; margin-bottom: 26px; }
     h1 { 
       font-family: 'Fredoka', cursive, sans-serif; 
-      font-size: 34px; 
+      font-size: 40px; /* Bigger tool name */
       font-weight: 700; 
       color: var(--dark-green); 
       letter-spacing: 0.5px; 
+      line-height: 1.15;
     }
     p.tagline { 
-      font-size: 13.5px; 
-      font-weight: 600;
+      font-size: 15px; /* Subheading size */
+      font-weight: 500; /* Clean, not heavy */
       color: var(--midnight-green); 
-      margin-top: 4px; 
+      margin-top: 6px; 
+      letter-spacing: 0.2px;
     }
 
     /* SCREEN 1: LANDING */
     #landingScreen { display: block; }
     .landing-title { 
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 20px; 
+      font-size: 22px; /* Standard section heading size */
       font-weight: 600; 
       color: var(--dark-green); 
       text-align: center; 
-      margin-bottom: 18px; 
+      margin-bottom: 20px; 
     }
     .track-card { 
       background: var(--surface-white); 
       border: 2px solid var(--border-soft); 
       border-radius: 20px; 
-      padding: 18px; 
-      margin-bottom: 14px; 
+      padding: 20px 18px; 
+      margin-bottom: 16px; 
       cursor: pointer; 
       transition: all 0.2s ease; 
       box-shadow: 0 4px 12px rgba(10, 51, 35, 0.04); 
@@ -78,10 +81,10 @@
       transform: translateY(-2px); 
     }
     .track-icon { 
-      font-size: 30px; 
+      font-size: 32px; 
       background: #EDF3EF; 
-      width: 58px; 
-      height: 58px; 
+      width: 60px; 
+      height: 60px; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
@@ -90,22 +93,24 @@
     }
     .track-info h3 { 
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 17px; 
+      font-size: 19px; /* Standard card title */
       font-weight: 600; 
       color: var(--dark-green); 
-      margin-bottom: 4px; 
+      margin-bottom: 6px; 
+      line-height: 1.25;
     }
     .track-info p { 
-      font-size: 13.5px; 
+      font-size: 15px; /* Same size as subheading */
+      font-weight: 400; /* Regular, NOT bold */
       color: var(--text-muted); 
-      line-height: 1.45; 
-      margin-bottom: 8px;
+      line-height: 1.55; 
+      margin-bottom: 10px;
     }
     .track-tag {
       display: inline-block;
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 600;
-      padding: 3px 10px;
+      padding: 4px 12px;
       border-radius: 12px;
       background: #F3E4E1;
       color: #9E564C;
@@ -126,7 +131,7 @@
     }
     .active-track-name { 
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 14px; 
+      font-size: 15px; 
       font-weight: 600; 
       color: var(--dark-green); 
     }
@@ -135,7 +140,7 @@
       border: none; 
       color: var(--midnight-green); 
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 13px; 
+      font-size: 13.5px; 
       font-weight: 600; 
       cursor: pointer; 
       text-decoration: underline; 
@@ -150,7 +155,7 @@
       box-shadow: 0 2px 6px rgba(10, 51, 35, 0.03); 
     }
     .control-label { 
-      font-size: 11px; 
+      font-size: 11.5px; 
       font-weight: 700; 
       color: var(--text-muted); 
       text-transform: uppercase; 
@@ -264,7 +269,7 @@
     }
     .scaffold-box strong { font-family: 'Fredoka', cursive, sans-serif; color: var(--dark-green); }
     
-    /* Lifeboat Drawer (Clear & Consistent Font Sizes) */
+    /* Lifeboat Drawer */
     .lifeboat-drawer {
       margin-top: 14px;
       padding-top: 12px;
@@ -402,7 +407,7 @@
       margin-bottom: 8px; 
     }
     .modal-desc { 
-      font-size: 14px; 
+      font-size: 14.5px; 
       color: var(--text-muted); 
       line-height: 1.55; 
       margin-bottom: 18px; 
@@ -499,13 +504,10 @@
         <span class="badge" id="categoryBadge">PICTURE / SCENE</span>
         <div class="prompt-text" id="promptDisplay">Tap 'New Topic' to begin!</div>
         
-        <!-- Live Curveball Banner (Water-Lily Lotus Pink styling) -->
         <div class="twist-banner" id="twistBanner"></div>
 
-        <!-- Scaffolding Toggle Button -->
         <button class="btn-ideas" id="ideasBtn" onclick="toggleIdeas()">🗺️ Need Ideas? (Tap for Help)</button>
 
-        <!-- Hidden Scaffolding & Lifeboat -->
         <div class="scaffold-box" id="scaffoldBox">
           <div id="scaffoldContent"></div>
           <div class="lifeboat-drawer" id="lifeboatDrawer">
@@ -657,9 +659,9 @@
 
     let currentAge = 'junior';
     let currentMode = 'picture';
-    let currentLevel = 'easy'; // 'easy' (30s), 'medium' (45s), 'hard' (60s)
+    let currentLevel = 'easy';
     
-    let timerState = 'idle'; // 'idle', 'thinking', 'speaking', 'overtime'
+    let timerState = 'idle';
     let timerInterval = null;
     let timeRemaining = 30;
     let targetTime = 30;
@@ -739,7 +741,6 @@
       const words = document.getElementById('lifeboatWords');
       const tip = document.getElementById('lifeboatTip');
 
-      // Always clear any previous curveball banner state
       document.getElementById('twistBanner').style.display = 'none';
       document.getElementById('twistBanner').innerText = '';
 
@@ -760,7 +761,7 @@
     function startThinking() {
       resetAllTimers();
       timerState = 'thinking';
-      timeRemaining = 30; // 30s Standard Thinking Time
+      timeRemaining = 30;
       bufferUsed = false;
       document.getElementById('bufferBtn').style.display = 'block';
       document.getElementById('thinkBtn').style.display = 'none';
@@ -808,7 +809,6 @@
         if (timerState === 'speaking') {
           timeRemaining--;
 
-          // Trigger Hard Curveball at half-time
           if (currentLevel === 'hard' && !twistTriggered && timeRemaining <= (targetTime / 2)) {
             twistTriggered = true;
             const banner = document.getElementById('twistBanner');
@@ -820,7 +820,6 @@
             const pct = (timeRemaining / targetTime) * 100;
             updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🎙️ Speaking Time (' + targetTime + 's Goal)', pct);
           } else {
-            // Enter Overtime seamlessly
             timerState = 'overtime';
             updateTimerDisplay('00:00', '🌟 Goal Reached! Wrap up your thought', 0);
             document.getElementById('overtimeBadge').style.display = 'inline-block';
@@ -865,7 +864,6 @@
       document.getElementById('progressBar').style.width = pct + '%';
     }
 
-    /* Modals with Smart Affirmations and Under-Time Feedback */
     function openCelebrationModal(seconds) {
       const modalDesc = document.getElementById('modalDesc');
       const modalTitle = document.getElementById('modalTitle');
@@ -896,7 +894,7 @@
 
     function closeModal() {
       document.getElementById('generalModal').style.display = 'none';
-      spinPrompt(); // Clean reset for the next run
+      spinPrompt();
     }
   </script>
 </body>
