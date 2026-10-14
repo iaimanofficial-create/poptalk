@@ -212,6 +212,25 @@
       color: #9E564C; 
       margin-bottom: 14px; 
     }
+
+    /* Picture Container */
+    .picture-frame {
+      display: none;
+      width: 100%;
+      height: 210px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1.5px solid var(--border-soft);
+      background: #EDF3EF;
+    }
+    .picture-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .prompt-text { 
       font-size: 22px; 
       font-weight: 700; 
@@ -356,8 +375,8 @@
       font-weight: 600;
       padding: 10px; 
       border: 1px solid var(--border-soft); 
-      border-radius: 10px;
-      margin-bottom: 10px;
+      border-radius: 10px; 
+      margin-bottom: 10px; 
       display: none; 
     }
     .btn-spin { 
@@ -420,7 +439,7 @@
       color: var(--text-muted); 
       font-family: 'Fredoka', cursive, sans-serif;
       font-size: 13.5px; 
-      font-weight: 600;
+      font-weight: 600; 
       cursor: pointer; 
       text-decoration: underline; 
     }
@@ -499,6 +518,12 @@
 
       <div class="card">
         <span class="badge" id="categoryBadge">PICTURE TALK</span>
+        
+        <!-- Responsive Picture Frame -->
+        <div class="picture-frame" id="pictureFrame">
+          <img id="pictureImg" src="" alt="Scene Illustration">
+        </div>
+
         <div class="prompt-text" id="promptDisplay">Tap 'New Topic' to begin!</div>
         
         <div class="twist-banner" id="twistBanner"></div>
@@ -558,10 +583,11 @@
 
   <script>
     const promptBank = [
-      // JUNIOR (5-8) - PICTURE TALK
+      // JUNIOR (5-8) - PICTURE TALK (All 5 Prompts with Live Illustrations)
       {
         age: 'junior', mode: 'picture',
         text: 'A fluffy cat wearing a chef hat making pizza.',
+        image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=700&q=80',
         easy: '<strong>1. Who:</strong> A cat wearing a chef hat.<br><strong>2. Doing:</strong> Rolling out pizza dough with flour.<br><strong>3. Ending:</strong> Adding funny toppings for his friends!',
         medium: 'Start with the cat rolling the dough... then tell what happens when flour puffs into his face!',
         hardTwist: 'A little brown mouse runs across the table to grab the cheese!',
@@ -572,6 +598,7 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A giant rainbow treehouse with tire swings and a long slide.',
+        image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=700&q=80',
         easy: '<strong>1. Who:</strong> Tell who climbs the tall ladder.<br><strong>2. Inside:</strong> The games or snacks hidden in the treehouse.<br><strong>3. Slide:</strong> Zooming down the spiral slide to the grass!',
         medium: 'Tell a story about spotting a friendly squirrel peeking through the window!',
         hardTwist: 'A bird lands on the roof and drops a shiny golden key!',
@@ -582,12 +609,35 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A friendly elephant trying to balance on roller skates in the park.',
+        image: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=700&q=80',
         easy: '<strong>1. Who:</strong> An elephant with giant red roller skates.<br><strong>2. Action:</strong> Wobbling down the path as animals watch.<br><strong>3. Ending:</strong> Trying to stop before rolling into the pond!',
         medium: 'Tell a story about the elephant shouting "Whoa!" as he tries to turn a corner!',
         hardTwist: 'He almost bumps right into a shiny ice cream cart!',
         starter: 'On the park path, the big elephant is...',
         words: ['Wobbly', 'Heavy', 'Happy'],
         tip: 'Tell if his skates make a loud rumbling sound or a quiet sound.'
+      },
+      {
+        age: 'junior', mode: 'picture',
+        text: 'A tiny magical door hidden behind teddy bears on a shelf.',
+        image: 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=700&q=80',
+        easy: '<strong>1. Who:</strong> Tell who spots the tiny glowing door.<br><strong>2. Action:</strong> Turning the shiny golden key in the lock.<br><strong>3. Ending:</strong> What secret room is on the other side!',
+        medium: 'Tell a story about knocking on the door: "Knock knock! Anyone inside?"',
+        hardTwist: 'The tiny door slowly begins to close all by itself!',
+        starter: 'Tucked behind the bears on the shelf, I see...',
+        words: ['Tiny', 'Shiny', 'Secret'],
+        tip: 'Tell what color the magical glow looks like.'
+      },
+      {
+        age: 'junior', mode: 'picture',
+        text: 'A baby dinosaur having juice and cookies in the garden.',
+        image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=700&q=80',
+        easy: '<strong>1. Who:</strong> A baby dinosaur at a tiny garden table.<br><strong>2. Action:</strong> Sipping sweet juice through a curly straw.<br><strong>3. Ending:</strong> Who shares the plate of cookies with him!',
+        medium: 'Tell a story about his giant, happy slurps: "Gulp, gulp!"',
+        hardTwist: 'His long tail accidentally knocks over the cookie plate!',
+        starter: 'Out in the sunny garden, the little dinosaur is...',
+        words: ['Green', 'Sweet', 'Friendly'],
+        tip: 'Tell what flavor of juice he is drinking.'
       },
 
       // JUNIOR (5-8) - WOULD YOU RATHER (PICK A SIDE)
@@ -713,6 +763,17 @@
 
       const pool = promptBank.filter(p => p.age === currentAge && p.mode === currentMode);
       activePrompt = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : promptBank[0];
+
+      // Handle Picture Frame Display
+      const picFrame = document.getElementById('pictureFrame');
+      const picImg = document.getElementById('pictureImg');
+      if (currentMode === 'picture' && activePrompt.image) {
+        picImg.src = activePrompt.image;
+        picFrame.style.display = 'block';
+      } else {
+        picFrame.style.display = 'none';
+        picImg.src = '';
+      }
 
       targetTime = getTargetDuration(currentLevel);
       timeRemaining = targetTime;
@@ -852,7 +913,7 @@
       document.getElementById('progressBar').style.width = pct + '%';
     }
 
-    /* 1. Post-Speech Screen: Promotes Live Small-Group Coaching */
+    /* 1. Post-Speech Screen: Promotes Live Batches (2 Days a Week) ONLY for Kids/Teens */
     function openCelebrationModal(seconds) {
       const modalDesc = document.getElementById('modalDesc');
       const modalTitle = document.getElementById('modalTitle');
@@ -866,31 +927,52 @@
         ? `You spoke for <strong>${seconds} seconds</strong>. Keep practicing to build out your thoughts!` 
         : `Great work speaking out loud for <strong>${seconds} seconds</strong> today!`;
 
-      modalDesc.innerHTML = `
-        ${encouragement}
-        <div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">
-          <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:15px; display:block; margin-bottom:6px;">
-            Finding it difficult to turn thoughts into words?
-          </strong>
-          <span style="font-size:13.5px; color:#52635B; line-height:1.5; display:block; margin-bottom:10px;">
-            If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.
-          </span>
-          <div style="font-size:12.5px; font-weight:600; color:#105666; line-height:1.45;">
-            • Small interactive batches (strictly 5–6 students)<br>
-            • Classes run 2 days a week<br>
-            • Pure practical techniques — zero grammar drills
+      if (currentAge === 'junior' || currentAge === 'teen') {
+        modalDesc.innerHTML = `
+          ${encouragement}
+          <div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">
+            <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:15px; display:block; margin-bottom:6px;">
+              Finding it difficult to turn thoughts into words?
+            </strong>
+            <span style="font-size:13.5px; color:#52635B; line-height:1.5; display:block; margin-bottom:10px;">
+              If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.
+            </span>
+            <div style="font-size:12.5px; font-weight:600; color:#105666; line-height:1.45;">
+              • Small interactive batches (strictly 5–6 students)<br>
+              • Classes run 2 days a week<br>
+              • Pure practical techniques — zero grammar drills
+            </div>
           </div>
-        </div>
-      `;
+        `;
+        waBtn.style.display = 'block';
+        waBtn.innerText = '💬 Book a Free Demo on WhatsApp';
+        waBtn.href = 'https://wa.me/?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
+      } else {
+        const adultAffirmations = [
+          "Speaking spontaneously without translating in your head builds effortless fluency.",
+          "Consistency is key — spontaneous reps train your brain to structure thoughts faster.",
+          "Clear communication isn't about complex vocabulary; it's about clear structure."
+        ];
+        const randomAffirmation = adultAffirmations[Math.floor(Math.random() * adultAffirmations.length)];
 
-      waBtn.style.display = 'block';
-      waBtn.innerText = '💬 Book a Free Demo on WhatsApp';
-      waBtn.href = 'https://wa.me/?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
+        modalDesc.innerHTML = `
+          ${encouragement}
+          <div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">
+            <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14.5px; display:block; margin-bottom:6px;">
+              💡 Daily Fluency Thought:
+            </strong>
+            <span style="font-size:13.5px; color:#52635B; line-height:1.5; font-style:italic; display:block;">
+              "${randomAffirmation}"
+            </span>
+          </div>
+        `;
+        waBtn.style.display = 'none';
+      }
       
       document.getElementById('generalModal').style.display = 'flex';
     }
 
-    /* 2. Locked Categories Modal: Pure Digital App Pro Pass */
+    /* 2. Locked Categories Modal: PopTalk Pro Pass */
     function openLockedModal(categoryName) {
       document.getElementById('modalIcon').innerText = '🔒';
       document.getElementById('modalTitle').innerText = 'Unlock PopTalk Pro';
