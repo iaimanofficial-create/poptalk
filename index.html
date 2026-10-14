@@ -365,30 +365,33 @@
     <div id="landingScreen">
       <div class="landing-title">Choose Your Track to Begin</div>
 
-      <div class="track-card" onclick="selectTrack('junior', '🧒 Junior (Ages 5–8)')">
-        <div class="track-icon">🧒</div>
+      <!-- Junior Card -->
+      <div class="track-card" onclick="selectTrack('junior', '💬 Junior (Ages 5–8)')">
+        <div class="track-icon">💬</div>
         <div class="track-info">
           <h3>Junior Explorers (Ages 5–8)</h3>
-          <p>Spark imagination, express thoughts in sentences, and describe fun picture cards without freezing.</p>
-          <span class="track-tag">Visual & Story</span>
+          <p>Designed for young minds building sentence flow. Uses step-by-step visual handrails to turn ideas into lively, uninterrupted speech.</p>
+          <span class="track-tag">Expression & Fluency</span>
         </div>
       </div>
 
-      <div class="track-card" onclick="selectTrack('teen', '🎒 Teen (Ages 9–17)')">
-        <div class="track-icon">🎒</div>
+      <!-- Teen Card -->
+      <div class="track-card" onclick="selectTrack('teen', '🧩 Teen (Ages 9–17)')">
+        <div class="track-icon">🧩</div>
         <div class="track-info">
           <h3>Rising Speakers (Ages 9–17)</h3>
-          <p>Defend opinions, handle fun dilemmas, sharpen storytelling, and build logical speech flow.</p>
-          <span class="track-tag tag-teen">Opinions & Debates</span>
+          <p>Designed for tweens and teens finding their voice. Connects reasoning, examples, and counter-perspectives into structured self-expression.</p>
+          <span class="track-tag tag-teen">Structure & Critical Thinking</span>
         </div>
       </div>
 
-      <div class="track-card" onclick="selectTrack('adult', '🎙️ Adult Fluency (18+)')">
-        <div class="track-icon">🎙️</div>
+      <!-- Adult Card -->
+      <div class="track-card" onclick="selectTrack('adult', '💡 Adult Fluency (18+)')">
+        <div class="track-icon">💡</div>
         <div class="track-info">
           <h3>Adult Fluency (18+ Non-Native)</h3>
-          <p>Eliminate mid-sentence hesitation, stop over-translating in your head, and structure spontaneous thoughts.</p>
-          <span class="track-tag tag-adult">Fluency & Frameworks</span>
+          <p>Designed for non-native adults seeking natural fluency. Replaces mental freezing with practical thinking formulas for everyday spontaneous talk.</p>
+          <span class="track-tag tag-adult">Clarity & P.R.E.P. Frameworks</span>
         </div>
       </div>
     </div>
@@ -396,7 +399,7 @@
     <!-- 2. PRACTICE ARENA SCREEN -->
     <div id="arenaScreen">
       <div class="top-bar">
-        <span class="active-track-name" id="currentTrackLabel">🧒 Junior (Ages 5–8)</span>
+        <span class="active-track-name" id="currentTrackLabel">💬 Junior (Ages 5–8)</span>
         <button class="btn-change" onclick="returnToLanding()">Change ↺</button>
       </div>
 
@@ -613,3 +616,4 @@
   </script>
 </body>
 </html>
+ 
