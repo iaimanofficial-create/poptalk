@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PopTalk - Impromptu Speaking</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #f7f9fc; color: #1e293b; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+    .container { width: 100%; max-width: 480px; }
+    h1 { text-align: center; font-size: 28px; margin-bottom: 8px; color: #2563eb; }
+    p.tagline { text-align: center; font-size: 14px; color: #64748b; margin-bottom: 20px; }
+    .filters { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .filter-label { font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 6px; display: block; }
+    .pill-group { display: flex; gap: 8px; margin-bottom: 12px; }
+    .pill { flex: 1; padding: 8px; font-size: 13px; font-weight: 600; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; cursor: pointer; text-align: center; }
+    .pill.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .card { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 16px; text-align: center; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: #eff6ff; color: #2563eb; margin-bottom: 12px; }
+    .prompt-text { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 16px; min-height: 55px; }
+    .scaffold-box { background: #f8fafc; border-left: 3px solid #3b82f6; border-radius: 8px; padding: 12px; text-align: left; font-size: 13px; color: #334155; margin-bottom: 16px; }
+    .timer-display { font-size: 40px; font-weight: 800; color: #0f172a; margin: 12px 0; }
+    .btn { display: block; width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; }
+    .btn-spin { background: #2563eb; color: #fff; margin-bottom: 10px; }
+    .btn-timer { background: #10b981; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PopTalk</h1>
+    <p class="tagline">Think. Organize. Express.</p>
+
+    <div class="filters">
+      <span class="filter-label">Level</span>
+      <div class="pill-group">
+        <button class="pill active" onclick="setLevel('easy')">Easy</button>
+        <button class="pill" onclick="setLevel('medium')">Medium</button>
+        <button class="pill" onclick="setLevel('hard')">Hard</button>
+      </div>
+
+      <span class="filter-label">Mode</span>
+      <div class="pill-group">
+        <button class="pill active" onclick="setMode('picture')">Picture Talk</button>
+        <button class="pill" onclick="setMode('wyr')">Would You Rather</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="badge" id="categoryBadge">PICTURE TALK</span>
+      <div class="prompt-text" id="promptDisplay">Tap 'New Topic' to begin!</div>
+      
+      <div class="scaffold-box" id="scaffoldBox">
+        <strong>Thinking Steps:</strong><br>
+        1. What is the first thing you notice?<br>
+        2. What details are around it?<br>
+        3. What happened right before this?
+      </div>
+
+      <div class="timer-display" id="timerText">00:45</div>
+      <button class="btn btn-timer" id="timerBtn" onclick="toggleTimer()">Start Speaking</button>
+    </div>
+
+    <button class="btn btn-spin" onclick="spinPrompt()">🎲 New Topic</button>
+  </div>
+
+  <script>
+    const prompts = [
+      { mode: 'picture', text: 'A golden retriever wearing scuba goggles underwater.', q: '1. What is the dog doing? \n2. What is he looking for? \n3. Where did he get goggles?' },
+      { mode: 'picture', text: 'A giant pancake tree in the middle of a school playground.', q: '1. Who discovered it first? \n2. What kind of syrup drips down? \n3. How do kids climb it?' },
+      { mode: 'wyr', text: 'Would you rather have a pet dinosaur or a flying skateboard?', q: '1. Which did you pick? \n2. What is the best part about it? \n3. What is the biggest danger?' },
+      { mode: 'wyr', text: 'Would you rather it always rained chocolate milk or bubble bath?', q: '1. Which one and why? \n2. What happens to the streets? \n3. How do people dress outside?' }
+    ];
+
+    let currentMode = 'picture';
+    let countdown;
+    let timeLeft = 45;
+    let isRunning = false;
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.filters .pill-group:nth-child(4) .pill').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('categoryBadge').innerText = mode === 'picture' ? 'PICTURE TALK' : 'WOULD YOU RATHER';
+      spinPrompt();
+    }
+
+    function setLevel(lvl) {
+      document.querySelectorAll('.filters .pill-group:nth-child(2) .pill').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function spinPrompt() {
+      clearInterval(countdown);
+      isRunning = false;
+      document.getElementById('timerBtn').innerText = 'Start Speaking';
+      document.getElementById('timerBtn').style.backgroundColor = '#10b981';
+      timeLeft = 45;
+      document.getElementById('timerText').innerText = '00:45';
+
+      const pool = prompts.filter(p => p.mode === currentMode);
+      const chosen = pool[Math.floor(Math.random() * pool.length)];
+      document.getElementById('promptDisplay').innerText = chosen.text;
+      document.getElementById('scaffoldBox').innerText = chosen.q;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('timerBtn');
+      if (isRunning) {
+        clearInterval(countdown);
+        isRunning = false;
+        btn.innerText = 'Resume';
+        btn.style.backgroundColor = '#2563eb';
+      } else {
+        isRunning = true;
+        btn.innerText = 'Pause';
+        btn.style.backgroundColor = '#ef4444';
+        countdown = setInterval(() => {
+          timeLeft--;
+          document.getElementById('timerText').innerText = '00:' + (timeLeft < 10 ? '0' : '') + timeLeft;
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+            isRunning = false;
+            btn.innerText = 'Time Up! 🎉';
+            btn.style.backgroundColor = '#64748b';
+          }
+        }, 1000);
+      }
+    }
+  </script>
+</body>
+</html>
