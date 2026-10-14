@@ -26,4 +26,300 @@
     /* SCREEN 2: PRACTICE ARENA */
     #arenaScreen { display: none; }
     .top-bar { display: flex; justify-content: space-between; align-items: center; background: #eff6ff; border-radius: 10px; padding: 8px 12px; margin-bottom: 14px; }
-    .active-track-name { font-size: 13px; font-weight: 700; color: #1e40af;
+    .active-track-name { font-size: 13px; font-weight: 700; color: #1e40af; }
+    .btn-change { background: none; border: none; color: #2563eb; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: underline; }
+
+    .control-panel { background: #fff; border-radius: 14px; padding: 12px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .control-label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+    
+    .pill-group { display: flex; gap: 6px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 2px; }
+    .pill-group:last-child { margin-bottom: 0; }
+    .pill { flex: 1; padding: 8px 6px; font-size: 12px; font-weight: 600; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s; }
+    .pill.active { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+    .pill.locked { background: #f8fafc; color: #94a3b8; border-color: #e2e8f0; }
+
+    /* Prompt Display Card */
+    .card { background: #fff; border-radius: 18px; padding: 22px 18px; box-shadow: 0 4px 10px -2px rgba(0,0,0,0.07); margin-bottom: 14px; text-align: center; border: 1px solid #e2e8f0; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: #dbeafe; color: #1e40af; margin-bottom: 12px; }
+    .prompt-text { font-size: 19px; font-weight: 700; color: #0f172a; margin-bottom: 16px; line-height: 1.4; min-height: 52px; }
+
+    /* Scaffolding Panel */
+    .scaffold-box { background: #f8fafc; border-left: 3px solid #2563eb; border-radius: 8px; padding: 12px; text-align: left; font-size: 13px; color: #334155; margin-bottom: 16px; line-height: 1.5; white-space: pre-line; }
+    .scaffold-hint { display: none; margin-top: 8px; font-style: italic; color: #475569; }
+    .btn-hint { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 600; cursor: pointer; color: #475569; }
+
+    /* Timer */
+    .timer-display { font-size: 42px; font-weight: 800; color: #0f172a; margin: 8px 0; font-variant-numeric: tabular-nums; }
+    .progress-bar-bg { width: 100%; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; margin-bottom: 16px; }
+    .progress-bar { width: 100%; height: 100%; background: #10b981; transition: width 1s linear; }
+
+    .btn { display: block; width: 100%; padding: 13px; font-size: 15px; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; }
+    .btn-spin { background: #1d4ed8; color: #fff; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(29, 78, 216, 0.2); }
+    .btn-timer { background: #10b981; color: #fff; }
+
+    /* Modal for Locked Categories */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
+    .modal-content { background: #fff; border-radius: 18px; padding: 22px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+    .modal-icon { font-size: 38px; margin-bottom: 10px; }
+    .modal-title { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+    .modal-desc { font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 18px; }
+    .btn-wa { background: #25d366; color: #fff; text-decoration: none; display: block; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+    .btn-close { background: none; border: none; color: #64748b; font-size: 13px; cursor: pointer; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>PopTalk</h1>
+      <p class="tagline">Think. Organize. Express.</p>
+    </header>
+
+    <!-- 1. LANDING AGE SELECTOR SCREEN -->
+    <div id="landingScreen">
+      <div class="landing-title">Choose Your Track to Begin</div>
+
+      <div class="track-card" onclick="selectTrack('junior', '🧒 Junior (Ages 5–8)')">
+        <div class="track-icon">🧒</div>
+        <div class="track-info">
+          <h3>Junior Explorers (Ages 5–8)</h3>
+          <p>Spark imagination, express thoughts in sentences, and describe fun picture cards without freezing.</p>
+        </div>
+      </div>
+
+      <div class="track-card" onclick="selectTrack('teen', '🎒 Teen (Ages 9–17)')">
+        <div class="track-icon">🎒</div>
+        <div class="track-info">
+          <h3>Rising Speakers (Ages 9–17)</h3>
+          <p>Defend opinions, handle fun dilemmas, sharpen storytelling, and build logical speech flow.</p>
+        </div>
+      </div>
+
+      <div class="track-card" onclick="selectTrack('adult', '🎙️ Adult Fluency (18+)')">
+        <div class="track-icon">🎙️</div>
+        <div class="track-info">
+          <h3>Adult Fluency (18+ Non-Native)</h3>
+          <p>Eliminate mid-sentence hesitation, stop over-translating in your head, and structure spontaneous thoughts.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. PRACTICE ARENA SCREEN -->
+    <div id="arenaScreen">
+      <div class="top-bar">
+        <span class="active-track-name" id="currentTrackLabel">🧒 Junior (Ages 5–8)</span>
+        <button class="btn-change" onclick="returnToLanding()">Change ↺</button>
+      </div>
+
+      <div class="control-panel">
+        <span class="control-label">Difficulty</span>
+        <div class="pill-group" id="levelGroup">
+          <button class="pill active" onclick="setLevel('easy')">🟢 Easy (Guides)</button>
+          <button class="pill" onclick="setLevel('medium')">🟡 Medium (Hints)</button>
+          <button class="pill" onclick="setLevel('hard')">🔴 Hard (Twist)</button>
+        </div>
+
+        <span class="control-label">Category</span>
+        <div class="pill-group" id="modeGroup">
+          <button class="pill active" onclick="setMode('picture')">Picture / Scene</button>
+          <button class="pill" onclick="setMode('wyr')">Would You Rather</button>
+          <button class="pill locked" onclick="openLockedModal('Solo Role Play')">🔒 Role Play</button>
+          <button class="pill locked" onclick="openLockedModal('Story Retelling')">🔒 Retell</button>
+          <button class="pill locked" onclick="openLockedModal('Shark Tank')">🔒 Pitch</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge" id="categoryBadge">PICTURE / SCENE</span>
+        <div class="prompt-text" id="promptDisplay">Tap 'New Topic' to begin!</div>
+        
+        <div class="scaffold-box" id="scaffoldBox">
+          <div id="scaffoldContent">
+            <strong>Thinking Steps:</strong><br>
+            1. What is the main subject doing?<br>
+            2. What interesting detail is in the scene?<br>
+            3. What happens next?
+          </div>
+          <button class="btn-hint" id="hintToggleBtn" style="display:none;" onclick="toggleHint()">💡 Show Thinking Hint</button>
+          <div class="scaffold-hint" id="hintText"></div>
+        </div>
+
+        <div class="timer-display" id="timerText">00:45</div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <button class="btn btn-timer" id="timerBtn" onclick="toggleTimer()">Start Speaking</button>
+      </div>
+
+      <button class="btn btn-spin" onclick="spinPrompt()">🎲 New Topic</button>
+    </div>
+  </div>
+
+  <!-- Locked Category Modal -->
+  <div class="modal-overlay" id="lockedModal">
+    <div class="modal-content">
+      <div class="modal-icon">🔒</div>
+      <div class="modal-title" id="modalCategoryTitle">Exclusive Mode</div>
+      <div class="modal-desc">
+        This category is part of our full guided speaking program. We train speakers in small interactive groups to build spontaneous confidence and organize thoughts without freezing!
+      </div>
+      <a href="https://wa.me/?text=Hi!%20I%20was%20trying%20PopTalk%20and%20would%20love%20to%20learn%20more%20about%20your%20speaking%20batches." target="_blank" class="btn-wa">
+        💬 Inquire on WhatsApp
+      </a>
+      <button class="btn-close" onclick="closeLockedModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const promptBank = [
+      // JUNIOR (5-8)
+      { age: 'junior', mode: 'picture', text: 'A golden retriever wearing scuba goggles underwater.', easy: '1. What is the dog doing?\n2. What is he looking for?\n3. Where did he get goggles?', medium: 'Hint: Describe what the dog is chasing and who taught him to swim.', hardTwist: 'Mid-way challenge: Mention what kind of fish swam past!', time: 45 },
+      { age: 'junior', mode: 'picture', text: 'A giant pancake tree in the middle of a school playground.', easy: '1. Who discovered it first?\n2. What syrup drips from the leaves?\n3. How do kids climb it?', medium: 'Hint: Focus on the smell and how kids share the pancakes.', hardTwist: 'Mid-way challenge: A squirrel starts eating the butter!', time: 45 },
+      { age: 'junior', mode: 'wyr', text: 'Would you rather have a pet baby dinosaur or a flying skateboard?', easy: '1. Which did you choose and why?\n2. What is the coolest thing about it?\n3. What rule must you follow with it?', medium: 'Hint: Give 2 clear reasons why your pick is safer or more fun.', hardTwist: 'Mid-way challenge: Defend why the other option is dangerous!', time: 45 },
+
+      // TEEN (9-17)
+      { age: 'teen', mode: 'picture', text: 'An abandoned subway station turned into a secret neon skatepark.', easy: '1. Describe the atmosphere and lighting.\n2. Who created this space and why?\n3. What happens if outsiders discover it?', medium: 'Hint: Contrast the old trains with the new energy and art.', hardTwist: 'Mid-way challenge: Must weave the word "SECURITY" into your talk.', time: 60 },
+      { age: 'teen', mode: 'wyr', text: 'Would you rather never have homework again or never have to take exams?', easy: '1. State your clear choice.\n2. What is your #1 reason?\n3. What is the biggest hidden catch of your choice?', medium: 'Hint: Address how your choice affects your daily stress vs. long-term grades.', hardTwist: 'Mid-way challenge: Convince a skeptical school principal to agree.', time: 60 },
+
+      // ADULT (18+)
+      { age: 'adult', mode: 'picture', text: 'An office desk with 4 empty coffee cups, a closed laptop, and a one-way plane ticket.', easy: 'Framework (P.R.E.P.):\n1. Point: What story does this scene tell?\n2. Reason: What caused this moment?\n3. Example/Story: What was the breaking point?\n4. Point: What is the key takeaway?', medium: 'Hint: Focus on the emotional shift from burnout to taking action.', hardTwist: 'Mid-way challenge: Speak from the first-person perspective as the person who left.', time: 60 },
+      { age: 'adult', mode: 'wyr', text: 'Would you rather work 4 long days with 3 days off, or 5 short days with 2 days off?', easy: 'Framework (P.R.E.P.):\n1. Point: State your direct preference.\n2. Reason: Why does this fit your lifestyle/energy?\n3. Example: Walk through a typical Tuesday.\n4. Point: Reiterate why it improves output.', medium: 'Hint: Compare mental recovery time vs. daily fatigue.', hardTwist: 'Mid-way challenge: Propose this directly to your manager as a win-win.', time: 60 }
+    ];
+
+    let currentAge = 'junior';
+    let currentMode = 'picture';
+    let currentLevel = 'easy';
+    let countdown;
+    let timeLeft = 45;
+    let totalTime = 45;
+    let isRunning = false;
+    let activePrompt = null;
+
+    function selectTrack(ageKey, displayLabel) {
+      currentAge = ageKey;
+      document.getElementById('currentTrackLabel').innerText = displayLabel;
+      document.getElementById('landingScreen').style.display = 'none';
+      document.getElementById('arenaScreen').style.display = 'block';
+      spinPrompt();
+    }
+
+    function returnToLanding() {
+      clearInterval(countdown);
+      isRunning = false;
+      document.getElementById('arenaScreen').style.display = 'none';
+      document.getElementById('landingScreen').style.display = 'block';
+    }
+
+    function setLevel(lvl) {
+      currentLevel = lvl;
+      document.querySelectorAll('#levelGroup .pill').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      renderScaffold();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('#modeGroup .pill:not(.locked)').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('categoryBadge').innerText = mode === 'picture' ? 'PICTURE / SCENE' : 'WOULD YOU RATHER';
+      spinPrompt();
+    }
+
+    function spinPrompt() {
+      resetTimer();
+      const pool = promptBank.filter(p => p.age === currentAge && p.mode === currentMode);
+      activePrompt = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : {
+        text: 'New prompts being added shortly for this category!',
+        easy: '1. Take a breath.\n2. State your first thought.\n3. Wrap up with why it matters.',
+        medium: 'Hint: Keep your sentences short and focused.',
+        hardTwist: 'Challenge: Do not pause for more than 2 seconds.',
+        time: 45
+      };
+
+      totalTime = activePrompt.time;
+      timeLeft = totalTime;
+      updateTimerDisplay();
+
+      document.getElementById('promptDisplay').innerText = activePrompt.text;
+      renderScaffold();
+    }
+
+    function renderScaffold() {
+      if (!activePrompt) return;
+      const content = document.getElementById('scaffoldContent');
+      const hintBtn = document.getElementById('hintToggleBtn');
+      const hintText = document.getElementById('hintText');
+
+      hintBtn.style.display = 'none';
+      hintText.style.display = 'none';
+
+      if (currentLevel === 'easy') {
+        content.innerHTML = '<strong>Thinking Steps:</strong><br>' + activePrompt.easy;
+      } else if (currentLevel === 'medium') {
+        content.innerHTML = '<strong>Medium Mode:</strong> Structure your thoughts independently.';
+        hintBtn.style.display = 'inline-block';
+        hintText.innerText = activePrompt.medium;
+      } else {
+        content.innerHTML = '<strong>Hard Mode:</strong> Zero handrails.<br><span style="color:#dc2626;font-weight:700;">' + activePrompt.hardTwist + '</span>';
+      }
+    }
+
+    function toggleHint() {
+      const hintText = document.getElementById('hintText');
+      hintText.style.display = hintText.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function updateTimerDisplay() {
+      document.getElementById('timerText').innerText = '00:' + (timeLeft < 10 ? '0' : '') + timeLeft;
+      const pct = (timeLeft / totalTime) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+    }
+
+    function resetTimer() {
+      clearInterval(countdown);
+      isRunning = false;
+      const btn = document.getElementById('timerBtn');
+      btn.innerText = 'Start Speaking';
+      btn.style.backgroundColor = '#10b981';
+      document.getElementById('progressBar').style.backgroundColor = '#10b981';
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('timerBtn');
+      if (isRunning) {
+        clearInterval(countdown);
+        isRunning = false;
+        btn.innerText = 'Resume';
+        btn.style.backgroundColor = '#1d4ed8';
+      } else {
+        isRunning = true;
+        btn.innerText = 'Pause';
+        btn.style.backgroundColor = '#ef4444';
+        countdown = setInterval(() => {
+          timeLeft--;
+          updateTimerDisplay();
+
+          if (timeLeft <= 10) {
+            document.getElementById('progressBar').style.backgroundColor = '#ef4444';
+          }
+
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+            isRunning = false;
+            btn.innerText = 'Time Up! 🎉';
+            btn.style.backgroundColor = '#64748b';
+          }
+        }, 1000);
+      }
+    }
+
+    function openLockedModal(categoryName) {
+      document.getElementById('modalCategoryTitle').innerText = '🔒 ' + categoryName;
+      document.getElementById('lockedModal').style.display = 'flex';
+    }
+
+    function closeLockedModal() {
+      document.getElementById('lockedModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
