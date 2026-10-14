@@ -213,46 +213,23 @@
       margin-bottom: 14px; 
     }
 
-    /* Illustrated Scene Frame */
-    .scene-frame {
+    /* Dedicated 16:9 Picture Frame for Uploaded Illustrations */
+    .picture-frame {
       display: none;
       width: 100%;
-      min-height: 190px;
-      border-radius: 18px;
-      padding: 20px 16px;
+      height: 220px;
+      border-radius: 16px;
+      overflow: hidden;
       margin-bottom: 16px;
       border: 2px solid var(--border-soft);
-      position: relative;
-      box-sizing: border-box;
-      transition: all 0.2s ease;
+      background: #EDF3EF;
+      box-shadow: 0 4px 10px rgba(10, 51, 35, 0.05);
     }
-    .scene-art-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .scene-hero-art {
-      font-size: 64px;
-      line-height: 1.1;
-      filter: drop-shadow(0 6px 12px rgba(10,51,35,0.12));
-    }
-    .scene-props-row {
-      display: flex;
-      gap: 12px;
-      font-size: 26px;
-      background: rgba(255,255,255,0.7);
-      padding: 4px 14px;
-      border-radius: 20px;
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-    .scene-caption-label {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 13.5px;
-      font-weight: 600;
-      color: var(--dark-green);
-      margin-top: 4px;
+    .picture-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .prompt-text { 
@@ -399,8 +376,8 @@
       font-weight: 600;
       padding: 10px; 
       border: 1px solid var(--border-soft); 
-      border-radius: 10px;
-      margin-bottom: 10px;
+      border-radius: 10px; 
+      margin-bottom: 10px; 
       display: none; 
     }
     .btn-spin { 
@@ -543,17 +520,9 @@
       <div class="card">
         <span class="badge" id="categoryBadge">PICTURE TALK</span>
         
-        <!-- Built-in Illustrated Story Scene Frame -->
-        <div class="scene-frame" id="sceneFrame">
-          <div class="scene-art-center">
-            <div class="scene-hero-art" id="sceneHero">🐱‍🍳</div>
-            <div class="scene-props-row" id="sceneProps">
-              <span>🍕</span>
-              <span>🧑‍🍳</span>
-              <span>🧀</span>
-            </div>
-            <div class="scene-caption-label" id="sceneLabel">The Kitchen Bakery</div>
-          </div>
+        <!-- Dedicated Image Container -->
+        <div class="picture-frame" id="pictureFrame">
+          <img id="pictureImg" src="" alt="Story Scene">
         </div>
 
         <div class="prompt-text" id="promptDisplay">Tap 'New Topic' to begin!</div>
@@ -615,17 +584,11 @@
 
   <script>
     const promptBank = [
-      // JUNIOR (5-8) - PICTURE TALK (All 5 with Custom Illustrated Scene Layouts)
+      // JUNIOR (5-8) - PICTURE TALK (Connected directly to your uploaded images)
       {
         age: 'junior', mode: 'picture',
         text: 'A fluffy cat wearing a chef hat making pizza.',
-        scene: {
-          bg: '#FFF6E9',
-          border: '#F8D8B0',
-          hero: '🐱‍🍳',
-          props: ['🍕', '🧑‍🍳', '🧀', '🌾'],
-          label: 'The Messy Bakery Table'
-        },
+        image: 'cat.png',
         easy: '<strong>1. Who:</strong> A cat wearing a tall white chef hat.<br><strong>2. Doing:</strong> Rolling out pizza dough with flour.<br><strong>3. Ending:</strong> Adding funny toppings for his friends!',
         medium: 'Start with the cat rolling the dough... then tell what happens when flour puffs into his face!',
         hardTwist: 'A little brown mouse runs across the table to grab the cheese!',
@@ -636,13 +599,7 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A giant rainbow treehouse with tire swings and a long slide.',
-        scene: {
-          bg: '#EAF5EC',
-          border: '#C0E2C8',
-          hero: '🌳🏡',
-          props: ['🛝', '🌈', '🪜', '🐿️'],
-          label: 'The Secret Forest Treehouse'
-        },
+        image: 'treehouse.png',
         easy: '<strong>1. Who:</strong> Tell who climbs the tall ladder.<br><strong>2. Inside:</strong> The games or snacks hidden in the treehouse.<br><strong>3. Slide:</strong> Zooming down the spiral slide to the grass!',
         medium: 'Tell a story about spotting a friendly squirrel peeking through the window!',
         hardTwist: 'A bird lands on the roof and drops a shiny golden key!',
@@ -653,13 +610,7 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A friendly elephant trying to balance on roller skates in the park.',
-        scene: {
-          bg: '#EDF5F7',
-          border: '#C3E1E8',
-          hero: '🐘🛼',
-          props: ['🌳', '🍦', '🛤️', '🎈'],
-          label: 'The Park Skating Trail'
-        },
+        image: 'elephant.png',
         easy: '<strong>1. Who:</strong> An elephant with giant red roller skates.<br><strong>2. Action:</strong> Wobbling down the path as animals watch.<br><strong>3. Ending:</strong> Trying to stop before rolling into the pond!',
         medium: 'Tell a story about the elephant shouting "Whoa!" as he tries to turn a corner!',
         hardTwist: 'He almost bumps right into a shiny ice cream cart!',
@@ -670,13 +621,7 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A tiny magical door hidden behind teddy bears on a shelf.',
-        scene: {
-          bg: '#FBF0F5',
-          border: '#ECD0DE',
-          hero: '🚪✨',
-          props: ['🧸', '🗝️', '📚', '🕯️'],
-          label: 'The Glowing Toy Shelf Door'
-        },
+        image: 'door.png',
         easy: '<strong>1. Who:</strong> Tell who spots the tiny glowing door.<br><strong>2. Action:</strong> Turning the shiny golden key in the lock.<br><strong>3. Ending:</strong> What secret room is on the other side!',
         medium: 'Tell a story about knocking on the door: "Knock knock! Anyone inside?"',
         hardTwist: 'The tiny door slowly begins to close all by itself!',
@@ -687,13 +632,7 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A baby dinosaur having juice and cookies in the garden.',
-        scene: {
-          bg: '#F9F7E8',
-          border: '#EBE4B6',
-          hero: '🦖🧃',
-          props: ['🍪', '🌻', '🪑', '☀️'],
-          label: 'The Sunny Garden Picnic'
-        },
+        image: 'dino.png',
         easy: '<strong>1. Who:</strong> A baby dinosaur at a tiny garden table.<br><strong>2. Action:</strong> Sipping sweet juice through a curly straw.<br><strong>3. Ending:</strong> Who shares the plate of cookies with him!',
         medium: 'Tell a story about his giant, happy slurps: "Gulp, gulp!"',
         hardTwist: 'His long tail accidentally knocks over the cookie plate!',
@@ -826,21 +765,16 @@
       const pool = promptBank.filter(p => p.age === currentAge && p.mode === currentMode);
       activePrompt = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : promptBank[0];
 
-      // Handle Built-in Visual Scene Frame
-      const sceneFrame = document.getElementById('sceneFrame');
-      const sceneHero = document.getElementById('sceneHero');
-      const sceneProps = document.getElementById('sceneProps');
-      const sceneLabel = document.getElementById('sceneLabel');
+      // Handle Uploaded Picture Display
+      const picFrame = document.getElementById('pictureFrame');
+      const picImg = document.getElementById('pictureImg');
 
-      if (currentMode === 'picture' && activePrompt.scene) {
-        sceneFrame.style.display = 'block';
-        sceneFrame.style.backgroundColor = activePrompt.scene.bg;
-        sceneFrame.style.borderColor = activePrompt.scene.border;
-        sceneHero.innerText = activePrompt.scene.hero;
-        sceneProps.innerHTML = activePrompt.scene.props.map(p => `<span>${p}</span>`).join('');
-        sceneLabel.innerText = activePrompt.scene.label;
+      if (currentMode === 'picture' && activePrompt.image) {
+        picImg.src = activePrompt.image;
+        picFrame.style.display = 'block';
       } else {
-        sceneFrame.style.display = 'none';
+        picFrame.style.display = 'none';
+        picImg.src = '';
       }
 
       targetTime = getTargetDuration(currentLevel);
