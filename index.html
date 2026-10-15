@@ -213,7 +213,7 @@
       margin-bottom: 14px; 
     }
 
-    /* Picture Frame for Uploaded Illustrations */
+    /* Dedicated 16:9 Picture Frame for Uploaded Illustrations */
     .picture-frame {
       display: none;
       width: 100%;
@@ -407,6 +407,8 @@
       width: 100%; 
       text-align: center; 
       box-shadow: 0 20px 30px rgba(10, 51, 35, 0.15); 
+      max-height: 90vh;
+      overflow-y: auto;
     }
     .modal-icon { font-size: 40px; margin-bottom: 10px; }
     .modal-title { 
@@ -569,7 +571,7 @@
     </div>
   </div>
 
-  <!-- Locked / Celebration Modal with Self-Audit Checklist -->
+  <!-- Modal with Delivery Breakdown (Speech Analyzer) & Smart Promotion -->
   <div class="modal-overlay" id="generalModal">
     <div class="modal-content">
       <div class="modal-icon" id="modalIcon">🎉</div>
@@ -644,7 +646,7 @@
       },
 
       // ==========================================
-      // TEEN (9-17) - PICTURE TALK / SITUATIONS (10 Complete Scenarios)
+      // TEEN (9-17) - PICTURE TALK / SITUATIONS (10 Scenarios)
       // ==========================================
       {
         age: 'teen', mode: 'picture',
@@ -815,6 +817,34 @@
     let twistTriggered = false;
     let activePrompt = null;
 
+    // Web Speech API Variables (Teens & Adults Only)
+    let recognition = null;
+    let finalTranscript = '';
+    let speechStartTime = 0;
+
+    function initSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+
+        recognition.onresult = (event) => {
+          let currentSessionText = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            currentSessionText += event.results[i][0].transcript;
+          }
+          finalTranscript = currentSessionText;
+        };
+
+        recognition.onerror = (event) => {
+          console.log('Speech recognition note:', event.error);
+        };
+      }
+    }
+    initSpeechRecognition();
+
     function getTargetDuration(level) {
       if (level === 'easy') return 30;
       if (level === 'medium') return 45;
@@ -871,7 +901,7 @@
       const pool = promptBank.filter(p => p.age === currentAge && p.mode === currentMode);
       activePrompt = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : promptBank[0];
 
-      // Handle Picture Display: ONLY show if an image file exists (Junior)
+      // Handle Picture Display: ONLY show if image exists (Junior)
       const picFrame = document.getElementById('pictureFrame');
       const picImg = document.getElementById('pictureImg');
 
@@ -914,7 +944,7 @@
       tip.innerText = activePrompt.tip || 'Take a breath and describe what you see.';
     }
 
-    /* Timer Controls */
+    /* Timer & Speech Recognition Controls */
     function startThinking() {
       resetAllTimers();
       timerState = 'thinking';
@@ -952,6 +982,13 @@
       targetTime = getTargetDuration(currentLevel);
       timeRemaining = targetTime;
       overtimeSeconds = 0;
+
+      // Reset Transcript & Start Speech Engine ONLY for Teens/Adults
+      finalTranscript = '';
+      speechStartTime = Date.now();
+      if ((currentAge === 'teen' || currentAge === 'adult') && recognition) {
+        try { recognition.start(); } catch(e) {}
+      }
 
       document.getElementById('bufferBtn').style.display = 'none';
       document.getElementById('thinkBtn').style.display = 'none';
@@ -992,10 +1029,17 @@
 
     function finishSpeech() {
       clearInterval(timerInterval);
+      if (recognition) {
+        try { recognition.stop(); } catch(e) {}
+      }
+
       const totalSpoken = (targetTime - Math.max(0, timeRemaining)) + overtimeSeconds;
       
-      openCelebrationModal(totalSpoken);
-      resetAllTimers();
+      // Allow speech recognizer 300ms to finalize last phrase
+      setTimeout(() => {
+        openCelebrationModal(totalSpoken, finalTranscript.trim());
+        resetAllTimers();
+      }, 300);
     }
 
     function resetAllTimers() {
@@ -1021,8 +1065,8 @@
       document.getElementById('progressBar').style.width = pct + '%';
     }
 
-    /* Track-Aware Modal with 3-Point Self-Audit Checklist */
-    function openCelebrationModal(seconds) {
+    /* Modal with Speech Breakdown for Teens & Adults */
+    function openCelebrationModal(seconds, transcript) {
       const modalDesc = document.getElementById('modalDesc');
       const modalTitle = document.getElementById('modalTitle');
       const modalIcon = document.getElementById('modalIcon');
@@ -1035,55 +1079,119 @@
         ? `You spoke for <strong>${seconds} seconds</strong>. Keep practicing to build out your thoughts!` 
         : `Great work speaking out loud for <strong>${seconds} seconds</strong> today!`;
 
-      // 3-Point Self-Audit Box (Clean Reflection)
-      const auditBox = `
-        <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:12px; padding:12px 14px; margin:14px 0; text-align:left;">
-          <strong style="font-family:'Fredoka',cursive; font-size:13.5px; color:#105666; display:block; margin-bottom:6px;">
-            📊 Quick Self-Check:
-          </strong>
-          <div style="font-size:12.5px; color:#293830; line-height:1.6;">
-            • Did you speak until the timer finished?<br>
-            • Did you share at least 1 clear reason or detail?<br>
-            • Did you handle any pauses without giving up?
-          </div>
-        </div>
-      `;
-
-      if (currentAge === 'junior' || currentAge === 'teen') {
+      // JUNIOR SCREEN: Pure encouragement and live batch invitation (NO analyzer)
+      if (currentAge === 'junior') {
         modalDesc.innerHTML = `
           ${encouragement}
-          ${auditBox}
-          <div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">
-            <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14.5px; display:block; margin-bottom:4px;">
+          <div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">
+            <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:15px; display:block; margin-bottom:6px;">
               Finding it difficult to turn thoughts into words?
             </strong>
-            <span style="font-size:13px; color:#52635B; line-height:1.45; display:block; margin-bottom:8px;">
-              Our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, organize thoughts, and speak with natural flow.
+            <span style="font-size:13.5px; color:#52635B; line-height:1.5; display:block; margin-bottom:10px;">
+              If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.
             </span>
-            <div style="font-size:12px; font-weight:600; color:#105666; line-height:1.4;">
+            <div style="font-size:12.5px; font-weight:600; color:#105666; line-height:1.45;">
               • Small interactive batches (strictly 5–6 students)<br>
               • Classes run 2 days a week<br>
-              • Real-time coaching and feedback
+              • Pure practical techniques — zero grammar drills
             </div>
           </div>
         `;
         waBtn.style.display = 'block';
         waBtn.innerText = '💬 Book a Free Demo on WhatsApp';
         waBtn.href = 'https://wa.me/?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
-      } else {
-        modalDesc.innerHTML = `
-          ${encouragement}
-          ${auditBox}
-          <div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">
-            <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">
-              💡 Daily Fluency Thought:
+      } 
+      // TEEN & ADULT SCREEN: Delivery Metrics + "What did you speak" transcript
+      else {
+        // Calculate Metrics
+        const wordsArray = transcript ? transcript.split(/\s+/).filter(w => w.length > 0) : [];
+        const wordCount = wordsArray.length;
+        const wpm = seconds > 0 ? Math.round((wordCount / seconds) * 60) : 0;
+
+        // Count filler words
+        const fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
+        let fillerCount = 0;
+        wordsArray.forEach(w => {
+          const cleanWord = w.toLowerCase().replace(/[^a-z]/g, '');
+          if (fillerList.includes(cleanWord)) fillerCount++;
+        });
+
+        // Safe Pace Label
+        let paceLabel = 'Conversational & Balanced';
+        let paceColor = 'var(--moss-green)';
+        if (wpm < 110 && wpm > 0) {
+          paceLabel = 'Thoughtful / Deliberate';
+          paceColor = 'var(--midnight-green)';
+        } else if (wpm > 165) {
+          paceLabel = 'Energetic / Fast';
+          paceColor = '#D97706';
+        }
+
+        const metricsCard = wordCount > 0 ? `
+          <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:14px; margin:14px 0; text-align:left;">
+            <strong style="font-family:'Fredoka',cursive; font-size:14px; color:#105666; display:block; margin-bottom:8px;">
+              🎙️ Your Delivery Breakdown:
             </strong>
-            <span style="font-size:13px; color:#52635B; line-height:1.5; font-style:italic; display:block;">
-              "Speaking spontaneously without translating in your head builds effortless fluency. Consistency in short reps is the secret."
-            </span>
+            <div style="font-size:13px; color:#293830; line-height:1.6; margin-bottom:10px;">
+              • <strong>Pace:</strong> ${wpm} WPM <span style="font-weight:600; color:${paceColor};">(${paceLabel})</span><br>
+              • <strong>Words Spoken:</strong> ${wordCount} words in ${seconds}s<br>
+              • <strong>Filler Words Detected:</strong> ${fillerCount}
+            </div>
+            <strong style="font-family:'Fredoka',cursive; font-size:13px; color:#52635B; display:block; margin-bottom:4px;">
+              💬 What did you speak:
+            </strong>
+            <div style="font-size:12.5px; color:#52635B; font-style:italic; background:#F8FAF9; padding:8px 10px; border-radius:8px; border:1px solid #E2E8E5; max-height:80px; overflow-y:auto; line-height:1.45;">
+              "${transcript}"
+            </div>
+          </div>
+        ` : `
+          <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:14px 0; text-align:left;">
+            <strong style="font-family:'Fredoka',cursive; font-size:13px; color:#105666; display:block; margin-bottom:4px;">
+              📊 Quick Self-Check:
+            </strong>
+            <div style="font-size:12.5px; color:#293830; line-height:1.55;">
+              • Did you complete your thought before time ran out?<br>
+              • Did you structure your reason and example clearly?<br>
+              • (Allow mic access on your browser for automatic pace & word analysis!)
+            </div>
           </div>
         `;
-        waBtn.style.display = 'none';
+
+        if (currentAge === 'teen') {
+          modalDesc.innerHTML = `
+            ${encouragement}
+            ${metricsCard}
+            <div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">
+              <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">
+                Want to speak up with natural confidence?
+              </strong>
+              <span style="font-size:12.5px; color:#52635B; line-height:1.45; display:block; margin-bottom:8px;">
+                Our live <strong>Communication & Confidence Program</strong> trains tweens and teens how to structure spontaneous arguments, debate dilemmas, and eliminate hesitations.
+              </span>
+              <div style="font-size:12px; font-weight:600; color:#105666;">
+                • Strictly 5–6 students per batch • Classes run 2 days a week
+              </div>
+            </div>
+          `;
+          waBtn.style.display = 'block';
+          waBtn.innerText = '💬 Inquire About Teen Batches';
+          waBtn.href = 'https://wa.me/?text=Hi!%20I%20practiced%20on%20PopTalk%20and%20would%20like%20to%20learn%20more%20about%20your%20teen%20speaking%20batches.';
+        } else {
+          // ADULT (18+)
+          modalDesc.innerHTML = `
+            ${encouragement}
+            ${metricsCard}
+            <div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">
+              <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">
+                💡 Spontaneous Fluency Tip:
+              </strong>
+              <span style="font-size:13px; color:#52635B; line-height:1.5; font-style:italic; display:block;">
+                "Natural fluency comes from trusting your structure rather than searching for perfect vocabulary. Keep practicing short, daily reps."
+              </span>
+            </div>
+          `;
+          waBtn.style.display = 'none';
+        }
       }
       
       document.getElementById('generalModal').style.display = 'flex';
