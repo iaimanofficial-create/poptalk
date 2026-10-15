@@ -1,28 +1,30 @@
 // ============================================================================
 // POPTALK MASTER PROMPT BANK
-// (This is the ONLY file you need to edit to add or change prompts!)
+// (This is the ONLY file you ever edit to add, remove, or tweak prompts!)
 // ============================================================================
 
-const promptBank = [
+window.promptBank = [
   // ==========================================
-  // JUNIOR (5-8) - PICTURE TALK (Uploaded Images)
+  // JUNIOR (5-8) - PICTURE TALK (5 Prompts)
   // ==========================================
   {
     age: 'junior', mode: 'picture',
     text: 'A fluffy cat wearing a chef hat making pizza.',
     image: 'cat.jpg',
-    easy: '<strong>1. Who:</strong> A cat wearing a tall white chef hat.<br><strong>2. Doing:</strong> Rolling out pizza dough with flour.<br><strong>3. Ending:</strong> Adding funny toppings for his friends!',
-    medium: 'Start with the cat rolling the dough... then tell what happens when flour puffs into his face!',
+    fallbackImage: 'cat.png',
+    easy: '<strong>1. Who:</strong> A cat wearing a tall white chef hat.<br><strong>2. Doing:</strong> Rolling out pizza dough on the kitchen counter.<br><strong>3. Ending:</strong> Putting funny toppings on top for his friends!',
+    medium: 'Start with the cat rolling the dough, then tell what happens when flour puffs into his face!',
     hardTwist: 'A little brown mouse runs across the table to grab the cheese!',
     starter: 'In the kitchen, the chef cat is...',
     words: ['Giant', 'Messy', 'Yummy'],
-    tip: 'Tell what toppings are sitting in bowls on the counter.'
+    tip: 'Describe what toppings are sitting on the counter.'
   },
   {
     age: 'junior', mode: 'picture',
     text: 'A giant rainbow treehouse with tire swings and a long slide.',
     image: 'treehouse.jpg',
-    easy: '<strong>1. Who:</strong> Tell who climbs the tall ladder.<br><strong>2. Inside:</strong> The games or snacks hidden in the treehouse.<br><strong>3. Slide:</strong> Zooming down the spiral slide to the grass!',
+    fallbackImage: 'treehouse.png',
+    easy: '<strong>1. Who:</strong> Tell who climbs the wooden ladder to the top.<br><strong>2. Doing:</strong> Playing games and sharing snacks in the secret clubhouse.<br><strong>3. Ending:</strong> Zooming down the green slide back to the soft grass!',
     medium: 'Tell a story about spotting a friendly squirrel peeking through the window!',
     hardTwist: 'A bird lands on the roof and drops a shiny golden key!',
     starter: 'When I climb to the top of the treehouse, I see...',
@@ -33,7 +35,8 @@ const promptBank = [
     age: 'junior', mode: 'picture',
     text: 'A friendly elephant trying to balance on roller skates in the park.',
     image: 'elephant.jpg',
-    easy: '<strong>1. Who:</strong> An elephant with giant red roller skates.<br><strong>2. Action:</strong> Wobbling down the path as animals watch.<br><strong>3. Ending:</strong> Trying to stop before rolling into the pond!',
+    fallbackImage: 'elephant.png',
+    easy: '<strong>1. Who:</strong> An elephant putting on four big red roller skates.<br><strong>2. Doing:</strong> Wobbling down the park path while other animals watch.<br><strong>3. Ending:</strong> Trying to brake before rolling right into the duck pond!',
     medium: 'Tell a story about the elephant shouting "Whoa!" as he tries to turn a corner!',
     hardTwist: 'He almost bumps right into a shiny ice cream cart!',
     starter: 'On the park path, the big elephant is...',
@@ -44,18 +47,20 @@ const promptBank = [
     age: 'junior', mode: 'picture',
     text: 'A tiny magical door hidden behind teddy bears on a shelf.',
     image: 'door.jpg',
-    easy: '<strong>1. Who:</strong> Tell who spots the tiny glowing door.<br><strong>2. Action:</strong> Turning the shiny golden key in the lock.<br><strong>3. Ending:</strong> What secret room is on the other side!',
+    fallbackImage: 'door.png',
+    easy: '<strong>1. Who:</strong> Tell who discovers the tiny glowing door behind the bears.<br><strong>2. Doing:</strong> Turning the shiny golden key in the lock.<br><strong>3. Ending:</strong> Stepping inside to see what room is on the other side!',
     medium: 'Tell a story about knocking on the door: "Knock knock! Anyone inside?"',
     hardTwist: 'The tiny door slowly begins to close all by itself!',
     starter: 'Tucked behind the bears on the shelf, I see...',
     words: ['Tiny', 'Shiny', 'Secret'],
-    tip: 'Tell what color the magical glow looks like.'
+    tip: 'Tell what color the glowing light looks like.'
   },
   {
     age: 'junior', mode: 'picture',
     text: 'A baby dinosaur having juice and cookies in the garden.',
     image: 'dino.jpg',
-    easy: '<strong>1. Who:</strong> A baby dinosaur at a tiny garden table.<br><strong>2. Action:</strong> Sipping sweet juice through a curly straw.<br><strong>3. Ending:</strong> Who shares the plate of cookies with him!',
+    fallbackImage: 'dino.png',
+    easy: '<strong>1. Who:</strong> A baby dinosaur sitting at a tiny garden table.<br><strong>2. Doing:</strong> Sipping sweet juice through a curly loop-de-loop straw.<br><strong>3. Ending:</strong> Sharing the plate of cookies with a garden friend!',
     medium: 'Tell a story about his giant, happy slurps: "Gulp, gulp!"',
     hardTwist: 'His long tail accidentally knocks over the cookie plate!',
     starter: 'Out in the sunny garden, the little dinosaur is...',
@@ -64,14 +69,14 @@ const promptBank = [
   },
 
   // ==========================================
-  // JUNIOR (5-8) - PICK A SIDE
+  // JUNIOR (5-8) - PICK A SIDE (5 Prompts)
   // ==========================================
   {
     age: 'junior', mode: 'wyr',
     text: 'Would you rather have a pet penguin that eats ice cream or a monkey that cleans your room?',
-    easy: '<strong>1. Pick:</strong> Choose your pet and give it a fun name.<br><strong>2. Trick:</strong> Describe the funniest trick they do in your house.<br><strong>3. Rule:</strong> What is one house rule your new pet must obey?',
-    medium: 'Pick your pet and explain why they make your home much more fun than a normal pet!',
-    hardTwist: 'Explain why the other pet makes a giant mess in the kitchen!',
+    easy: '<strong>1. Pick:</strong> Choose the penguin or the monkey.<br><strong>2. Fun Part:</strong> What is the funniest trick they do in your house?<br><strong>3. Big Plan:</strong> What is the first thing you two do together?',
+    medium: 'Pick your pet and explain what makes them fun to have at home!',
+    hardTwist: 'Tell one funny reason why a friend might pick the other pet!',
     starter: 'I would definitely choose the... because...',
     words: ['Silly', 'Clean', 'Cute'],
     tip: 'Tell where your new pet would sleep at night.'
@@ -79,9 +84,9 @@ const promptBank = [
   {
     age: 'junior', mode: 'wyr',
     text: 'Would you rather have shoes that jump over houses or a jacket that makes you invisible?',
-    easy: '<strong>1. Pick:</strong> Choose the jump shoes or the invisibility jacket.<br><strong>2. Adventure:</strong> Where is the very first place you travel using your power?<br><strong>3. Surprise:</strong> Who do you surprise first, and what do they say?',
-    medium: 'Tell how your special power helps you go on an adventure or help a friend in trouble!',
-    hardTwist: 'Your special item suddenly stops working for 10 seconds!',
+    easy: '<strong>1. Pick:</strong> Choose the jumping shoes or the invisibility jacket.<br><strong>2. Fun Part:</strong> What is the coolest thing your item can do?<br><strong>3. Big Plan:</strong> Where is the very first place you travel using it?',
+    medium: 'Pick your item and explain how you would use it on an adventure!',
+    hardTwist: 'Tell one tricky problem that could happen while using your item!',
     starter: 'Between the two, I choose the... because...',
     words: ['Magic', 'Sneaky', 'Super'],
     tip: 'Tell what color your shoes or jacket would be.'
@@ -89,19 +94,19 @@ const promptBank = [
   {
     age: 'junior', mode: 'wyr',
     text: 'Would you rather have it rain warm chocolate milk or shiny rainbow glitter from the sky?',
-    easy: '<strong>1. Pick:</strong> Choose which magical rain falls outside your window.<br><strong>2. Getting Ready:</strong> What boots or clothes do you put on before running outside?<br><strong>3. Street View:</strong> What do the trees and streets look like when the storm stops?',
-    medium: 'Describe what you and your friends do when you look out the window and see the sky!',
-    hardTwist: 'Tell how everyone works together to wash the cars and sidewalks afterward!',
+    easy: '<strong>1. Pick:</strong> Choose chocolate milk rain or glitter rain.<br><strong>2. Fun Part:</strong> What does your street look like when it falls?<br><strong>3. Big Plan:</strong> What boots or gear do you put on before running outside?',
+    medium: 'Pick your choice and describe what you do when you see the sky change!',
+    hardTwist: 'Tell how everyone works together to clean up after the storm ends!',
     starter: 'If it could rain anything outside today, I want...',
     words: ['Sweet', 'Sparkly', 'Messy'],
-    tip: 'Tell if you catch it in a cup or jump in the puddles.'
+    tip: 'Tell if you catch it in a cup or jump in puddles.'
   },
   {
     age: 'junior', mode: 'wyr',
     text: 'Would you rather be able to talk to all animals or be able to fly anywhere like a bird?',
-    easy: '<strong>1. Pick:</strong> Choose animal talk or soaring in the sky.<br><strong>2. Mission:</strong> Who is the first creature you chat with, or where do you fly first?<br><strong>3. Secret:</strong> What cool secret do you discover using your gift?',
-    medium: 'Explain why having your chosen power makes every single day an adventure!',
-    hardTwist: 'Tell the funniest reason why a friend would pick the opposite superpower!',
+    easy: '<strong>1. Pick:</strong> Choose talking to animals or soaring in the sky.<br><strong>2. Fun Part:</strong> What is the best thing about having that power?<br><strong>3. Big Plan:</strong> Who is the first creature you chat with, or where do you fly first?',
+    medium: 'Pick your power and explain why it makes every day an adventure!',
+    hardTwist: 'Tell one funny reason why someone might pick the other power!',
     starter: 'I would much rather... because...',
     words: ['Brave', 'High', 'Fun'],
     tip: 'Name your favorite animal or a landmark you would look down on.'
@@ -109,70 +114,70 @@ const promptBank = [
   {
     age: 'junior', mode: 'wyr',
     text: 'Would you rather eat cake for dinner every night or play at recess all day at school?',
-    easy: '<strong>1. Pick:</strong> Choose cake for dinner or endless recess.<br><strong>2. Best Part:</strong> What favorite dessert or playground game fills your day?<br><strong>3. The Catch:</strong> What is one small problem that might happen after a whole week?',
-    medium: 'Give 1 reason why your choice sounds amazing and 1 reason it might be tricky!',
-    hardTwist: 'Tell what one healthy food or boring chore you still have to do!',
+    easy: '<strong>1. Pick:</strong> Choose cake for dinner or endless recess.<br><strong>2. Fun Part:</strong> What favorite flavor or playground game fills your day?<br><strong>3. Big Plan:</strong> What is the first thing you do when you get to start?',
+    medium: 'Pick your choice and describe the best part of your new daily routine!',
+    hardTwist: 'Tell what someone who disagrees with you would say!',
     starter: 'My top choice is definitely... because...',
     words: ['Sweet', 'Tired', 'Excited'],
-    tip: 'Name your favorite dessert flavor or favorite tag game.'
+    tip: 'Name your favorite dessert or playground tag game.'
   },
 
   // ==========================================
-  // JUNIOR (5-8) - HOT TAKES
+  // JUNIOR (5-8) - HOT TAKES (5 Prompts)
   // ==========================================
   {
     age: 'junior', mode: 'opinions',
     text: 'Ice cream should be allowed as a normal breakfast food every single day.',
-    easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell how your stomach feels after eating cold scoops in the morning.<br><strong>3. Better Food:</strong> What morning food gives you the best energy to run and play?',
-    medium: 'Give your answer and explain whether breakfast should be warm and healthy or sweet and cold!',
-    hardTwist: 'Explain what your parent would say if you asked for ice cream at 7:00 AM!',
+    easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what you usually eat in the morning to start your day.',
+    medium: 'Give your answer and explain whether you like cold treats or warm food in the morning!',
+    hardTwist: 'Tell what a parent or doctor would say about this idea!',
     starter: 'I think this idea is... because...',
     words: ['Yummy', 'Healthy'],
     tip: 'Tell what you ate for breakfast this morning.'
   },
   {
     age: 'junior', mode: 'opinions',
-    text: 'Dogs are much better pets to have at home than cats.',
-    easy: '<strong>1. Pick:</strong> Choose whether dogs or cats make a better pet.<br><strong>2. Best Thing:</strong> Describe the most fun thing your chosen pet does with you.<br><strong>3. The Other Side:</strong> What is one tricky thing about the other animal?',
-    medium: 'Pick your side and explain why your pet is the best buddy to hang out with at home!',
-    hardTwist: 'Give one nice compliment to the other pet you did not pick!',
+    text: 'Dogs make better pets at home than cats.',
+    easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Share a fun memory of playing with or seeing a pet.',
+    medium: 'Pick your side and explain what makes a great pet to have at home!',
+    hardTwist: 'Give one nice compliment to the other animal!',
     starter: 'In my opinion, I believe...',
     words: ['Playful', 'Quiet'],
-    tip: 'Tell if you like running outside or sitting quietly indoors.'
+    tip: 'Tell if you prefer energetic pets or calm pets.'
   },
   {
     age: 'junior', mode: 'opinions',
     text: 'Kids should stay up one hour later on the night before a school holiday.',
-    easy: '<strong>1. Stance:</strong> Say "I agree" or "I disagree".<br><strong>2. Why:</strong> Explain why there is no rush to wake up early the next morning.<br><strong>3. The Plan:</strong> What special game, movie, or book would you enjoy with that hour?',
-    medium: 'Give your answer and explain why sleeping late does not hurt when you have a day off tomorrow!',
-    hardTwist: 'Explain what would happen if a friend tried calling you at midnight!',
+    easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what game, movie, or book you would enjoy with that extra hour.',
+    medium: 'Give your answer and explain how you like to spend the night before a day off!',
+    hardTwist: 'Tell what a tired parent would say to this idea!',
     starter: 'On the night before a holiday, I think...',
     words: ['Relaxing', 'No School'],
-    tip: 'Tell what bedtime routine you usually follow.'
+    tip: 'Think about what time you usually turn off your light.'
   },
   {
     age: 'junior', mode: 'opinions',
     text: 'Rainy days indoors are more fun than sunny days outside.',
-    easy: '<strong>1. Stance:</strong> Pick whether you prefer rainy days inside or sunny days outside.<br><strong>2. Best Activity:</strong> Describe what you love doing most in that weather.<br><strong>3. Downside:</strong> Tell what gets annoying or boring about the other weather!',
-    medium: 'Choose your side and compare running in the fresh air versus staying cozy indoors!',
-    hardTwist: 'Tell what you would do if the rain suddenly stopped after just 2 minutes!',
+    easy: '<strong>1. Stance:</strong> Pick whether you prefer rainy days inside or sunny days outside.<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Describe your favorite thing to do on that kind of day.',
+    medium: 'Choose your side and describe how you spend your favorite weather!',
+    hardTwist: 'Tell what you do if the weather suddenly changes in the middle of your game!',
     starter: 'Between rain and sunshine, I prefer... because...',
     words: ['Cozy', 'Outdoor'],
-    tip: 'Tell what you wear when you go out in your favorite weather.'
+    tip: 'Think about whether you like running in fresh air or staying inside.'
   },
   {
     age: 'junior', mode: 'opinions',
     text: 'Kids should be allowed to watch cartoons in the morning before school.',
-    easy: '<strong>1. Stance:</strong> Say "Yes, allowed" or "No, not allowed".<br><strong>2. Why:</strong> Does watching a show help you wake up happy, or does it make you late?<br><strong>3. The Rule:</strong> If yes, when should you turn it off? If no, what should you do instead?',
-    medium: 'Share your opinion and balance having a cheerful morning with getting ready on time!',
-    hardTwist: 'Tell what you would say to someone who thinks morning cartoons are a waste of time!',
+    easy: '<strong>1. Stance:</strong> Say "Yes, allowed" or "No, not allowed".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what your morning routine looks like before you leave for school.',
+    medium: 'Share your opinion on how you like to get ready in the morning!',
+    hardTwist: 'Tell what you would say to someone who thinks morning shows cause delays!',
     starter: 'In the morning before school, I think...',
     words: ['Ready', 'Distracted'],
-    tip: 'Tell what is the first thing you do right after getting out of bed.'
+    tip: 'Tell what is the first thing you do after getting out of bed.'
   },
 
   // ==========================================
-  // JUNIOR (5-8) - VOCAB YAP
+  // JUNIOR (5-8) - VOCAB YAP (3 Prompts)
   // ==========================================
   {
     age: 'junior', mode: 'vocab',
@@ -209,7 +214,7 @@ const promptBank = [
   },
 
   // ==========================================
-  // TEEN (9-17) - PICTURE TALK / SITUATIONS
+  // TEEN (9-17) - PICTURE TALK / SITUATIONS (10 Prompts)
   // ==========================================
   {
     age: 'teen', mode: 'picture',
@@ -313,24 +318,24 @@ const promptBank = [
   },
 
   // ==========================================
-  // TEEN (9-17) - PICK A SIDE
+  // TEEN (9-17) - PICK A SIDE (5 Prompts)
   // ==========================================
   {
     age: 'teen', mode: 'wyr',
     text: 'Would you rather have your phone taken away every night at 8:00 PM, or keep it 24/7 with a location tracking app installed by your parents?',
-    easy: '<strong>1. Position:</strong> State clearly which option you pick.<br><strong>2. Primary Reason:</strong> Why does your choice feel easier to live with?<br><strong>3. Trade-off:</strong> What is the one thing that will annoy you about your choice?',
-    medium: 'Pick your side and explain which one gives you more peace of mind!',
-    hardTwist: 'Address a parent who claims having a smartphone in your bedroom ruins sleep quality!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Share how this rule would affect your typical evening.',
+    medium: 'State your choice clearly and explain why it feels easier for you to manage.',
+    hardTwist: 'Address a parent who claims having a smartphone in the bedroom ruins sleep quality!',
     starter: 'Between the two options, I would choose... because...',
-    words: ['Privacy', 'Freedom'],
-    tip: 'Think about what time you usually turn off your screen at night.'
+    words: ['Privacy', 'Boundary'],
+    tip: 'Think about what you usually do on your phone late in the evening.'
   },
   {
     age: 'teen', mode: 'wyr',
     text: 'Would you rather lead a 4-person group project where everyone shares the same grade, or do the entire assignment completely by yourself?',
-    easy: '<strong>1. Position:</strong> Pick leading the team or working completely solo.<br><strong>2. Benefit:</strong> What headache do you avoid by making this choice?<br><strong>3. Downside:</strong> What is the hardest part about your choice when the deadline gets close?',
-    medium: 'Pick your side and weigh dividing the work against having total control yourself!',
-    hardTwist: 'Explain how you would handle an unfair situation if someone complains about your decision!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Share a past project experience that illustrates your point.',
+    medium: 'State your choice clearly and explain why it protects your grade better.',
+    hardTwist: 'Defend your choice against someone who claims you are either controlling or uncooperative!',
     starter: 'When it comes to school projects, I prefer to... because...',
     words: ['Teamwork', 'Control'],
     tip: 'Think about whether you prefer sharing work or working at your own speed.'
@@ -338,90 +343,90 @@ const promptBank = [
   {
     age: 'teen', mode: 'wyr',
     text: 'Would you rather have a 2-month summer break with zero responsibilities, or attend a demanding summer program that helps your future career?',
-    easy: '<strong>1. Position:</strong> Pick complete relaxation or the productive summer program.<br><strong>2. Benefit:</strong> Why is your choice the best way to spend those two months?<br><strong>3. The Catch:</strong> What will you miss most about the other option?',
-    medium: 'Pick your side and balance taking a break to recharge against getting ahead for the future!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Describe what a typical week in your chosen summer looks like.',
+    medium: 'State your choice clearly and explain what makes it the smarter use of your time.',
     hardTwist: 'Defend your choice to a critic who says you are either being lazy or taking life too seriously!',
     starter: 'If I had to plan my summer right now, I would choose...',
     words: ['Recharge', 'Future'],
-    tip: 'Think about whether you get bored easily during long holidays.'
+    tip: 'Think about whether you get bored easily during long school holidays.'
   },
   {
     age: 'teen', mode: 'wyr',
     text: 'Would you rather have friends who always tell you the brutal truth, or friends who tell polite white lies to protect your feelings?',
-    easy: '<strong>1. Position:</strong> Pick brutal honesty or polite white lies.<br><strong>2. Why:</strong> How does your choice help protect the friendship in the long run?<br><strong>3. The Limit:</strong> In what situation could your choice cause a misunderstanding?',
-    medium: 'Pick your side and explain what kind of communication makes you trust a friend more!',
-    hardTwist: 'Explain how your choice actually preserves trust when things get difficult!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Describe a situation where your chosen approach builds stronger trust.',
+    medium: 'State your choice clearly and explain what kind of communication you value most.',
+    hardTwist: 'Address someone who argues that your chosen communication style causes unnecessary friction!',
     starter: 'In my friendships, I value... because...',
     words: ['Honest', 'Feelings'],
-    tip: 'Think about a time a friend feedback either helped you or hurt your feelings.'
+    tip: 'Think about how you react when someone gives you direct feedback.'
   },
   {
     age: 'teen', mode: 'wyr',
     text: 'Would you rather finish high school ranked at the very top of your class with zero close friends, or be an average student surrounded by great friends?',
-    easy: '<strong>1. Position:</strong> Pick the top academic rank or the great group of friends.<br><strong>2. Value:</strong> Why does your choice matter more for your happiness and success?<br><strong>3. Sacrifice:</strong> How do you deal with missing out on the other side?',
-    medium: 'Pick your side and compare achieving high marks against having people you can rely on!',
-    hardTwist: 'Refute the argument that your chosen path leaves you completely unprepared for adulthood!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Share which asset you believe matters more for your long-term success.',
+    medium: 'State your choice clearly and explain why that outcome is harder to achieve.',
+    hardTwist: 'Refute the argument that your chosen path leaves you unprepared for real-world adulthood!',
     starter: 'Looking at high school life, I would rather have... because...',
     words: ['Grades', 'Friends'],
-    tip: 'Think about whether memories or marks matter more to you five years from now.'
+    tip: 'Think about whether academic marks or relationships matter more five years later.'
   },
 
   // ==========================================
-  // TEEN (9-17) - HOT TAKES
+  // TEEN (9-17) - HOT TAKES (5 Prompts)
   // ==========================================
   {
     age: 'teen', mode: 'opinions',
     text: 'Traditional daily homework does more harm to students than good.',
-    easy: '<strong>1. Stance:</strong> State clearly whether you agree or disagree.<br><strong>2. Main Reason:</strong> Does homework reinforce lessons, or take away from rest and family time?<br><strong>3. Counterpoint:</strong> If you agree, how should practice work? If you disagree, what is a fair limit?',
-    medium: 'Pick your side and explain what a healthy school-life balance should look like!',
-    hardTwist: 'Answer an objection from a teacher who says homework is the only way students pass exams!',
+    easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share how homework affects your evenings and schedule.',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Answer an objection from a teacher who says homework is necessary to pass exams!',
     starter: 'When it comes to daily homework, I believe... because...',
     words: ['Practice', 'Balance'],
-    tip: 'Mention how much time you usually spend studying after school.'
+    tip: 'Think about how much time you spend studying after class ends.'
   },
   {
     age: 'teen', mode: 'opinions',
     text: 'Nobody under the age of 16 should be allowed to have personal social media accounts.',
     easy: '<strong>1. Stance:</strong> State whether you agree or disagree with setting the age at 16.<br><strong>2. Key Point:</strong> Does early access cause stress, or help teens stay connected and learn?<br><strong>3. Counterpoint:</strong> Is an age limit realistic to enforce, or should parents set the rules?',
-    medium: 'Pick your side and balance online safety against letting teens express themselves!',
-    hardTwist: 'Address the counter-argument that restricting teens from social media leaves them socially isolated!',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Address the argument that restricting teens leaves them socially isolated!',
     starter: 'On the topic of social media age limits, I think...',
     words: ['Safety', 'Connected'],
-    tip: 'Think about how you or people you know communicate with friends online.'
+    tip: 'Think about how you and your peers stay in touch outside of school.'
   },
   {
     age: 'teen', mode: 'opinions',
     text: 'School uniforms are better than letting students wear whatever they want.',
-    easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Main Point:</strong> Does a uniform keep everyone equal and save time, or stop personal expression?<br><strong>3. Counterpoint:</strong> What is the biggest advantage of the side you chose?',
-    medium: 'Pick your side and compare morning convenience against personal style!',
-    hardTwist: 'Address a principal who argues that your stance creates unnecessary discipline problems!',
-    starter: 'When looking at school uniforms, I agree/disagree because...',
+    easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe what getting ready for school looks like under both systems.',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Address an administrator who argues that your stance creates discipline or equality issues!',
+    starter: 'When looking at school uniforms, I believe...',
     words: ['Uniform', 'Style'],
-    tip: 'Think about how long it takes to choose an outfit in the morning.'
+    tip: 'Think about how clothing affects focus and peer dynamics at school.'
   },
   {
     age: 'teen', mode: 'opinions',
     text: 'Using AI tools to help with schoolwork is smart studying, not cheating.',
-    easy: '<strong>1. Stance:</strong> State whether you agree or disagree with using AI for assignments.<br><strong>2. The Line:</strong> Where does smart assistance cross into cheating and copying answers?<br><strong>3. Counterpoint:</strong> Does using AI prepare students for modern jobs, or weaken problem-solving?',
-    medium: 'Pick your side and explain how technology should be used responsibly in learning!',
-    hardTwist: 'Address the serious risk that overusing AI tools might weaken human problem-solving skills!',
+    easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share a practical example of how AI can be used for learning.',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Address the concern that relying on AI tools weakens independent problem-solving skills!',
     starter: 'Regarding AI in the classroom, I think...',
     words: ['Tool', 'Honesty'],
-    tip: 'Think about how a calculator is used in math class compared to an AI tool.'
+    tip: 'Compare using AI tools to using calculators in math.'
   },
   {
     age: 'teen', mode: 'opinions',
     text: 'Timed exams only test how much you can memorize, not how smart you are.',
-    easy: '<strong>1. Stance:</strong> Say whether you agree or disagree with this statement.<br><strong>2. Why:</strong> Do exams reward revision and discipline, or put too much pressure on memory?<br><strong>3. Counterpoint:</strong> What other abilities (teamwork, speaking, projects) should be graded alongside tests?',
-    medium: 'Pick your side and discuss what makes an evaluation system truly fair for all students!',
-    hardTwist: 'Explain how universities could evaluate thousands of applicants fairly without standardized scores!',
+    easy: '<strong>1. Stance:</strong> Say whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share which assessment format best reflects your true capabilities.',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Explain how schools or universities could evaluate applicants fairly without standardized scores!',
     starter: 'Looking at how students are tested, I believe...',
     words: ['Memory', 'Skills'],
     tip: 'Think about whether you perform better on written tests or hands-on projects.'
   },
 
   // ==========================================
-  // TEEN (9-17) - VOCAB YAP
+  // TEEN (9-17) - VOCAB YAP (3 Prompts)
   // ==========================================
   {
     age: 'teen', mode: 'vocab',
@@ -458,7 +463,7 @@ const promptBank = [
   },
 
   // ==========================================
-  // ADULT (18+) - PICTURE TALK
+  // ADULT (18+) - PICTURE TALK (5 Prompts)
   // ==========================================
   {
     age: 'adult', mode: 'picture',
@@ -512,115 +517,115 @@ const promptBank = [
   },
 
   // ==========================================
-  // ADULT (18+) - PICK A SIDE
+  // ADULT (18+) - PICK A SIDE (5 Prompts)
   // ==========================================
   {
     age: 'adult', mode: 'wyr',
     text: 'Would you rather be an early settler on Mars, or explore the deepest uncharted oceans on Earth?',
-    easy: '<strong>1. Position:</strong> State your choice clearly.<br><strong>2. Primary Reason:</strong> What makes your choice more worthwhile?<br><strong>3. The Trade-off:</strong> What is the biggest drawback of your choice?',
-    medium: 'Pick your side and compare the challenges of living in space versus surviving underwater.',
-    hardTwist: 'Address a skeptic who says exploring either one is an irresponsible waste of tax money!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Name one specific challenge or environment that influences your decision.',
+    medium: 'State your choice clearly and explain what makes it the more compelling frontier.',
+    hardTwist: 'Address a skeptic who says exploring either one is an irresponsible use of resources!',
     starter: 'Between space and the deep sea, I choose...',
     words: ['Exploration', 'Isolation'],
-    tip: 'Focus on the physical environment of your choice.'
+    tip: 'Focus on whether extreme heights or deep waters feel more daunting to you.'
   },
   {
     age: 'adult', mode: 'wyr',
     text: 'Would you rather remember every single detail of your life, or be able to erase memories at will?',
-    easy: '<strong>1. Position:</strong> State your choice clearly.<br><strong>2. Primary Reason:</strong> How does this choice benefit your life?<br><strong>3. The Trade-off:</strong> What problem could this ability create over time?',
-    medium: 'Pick your side and evaluate the impact of memory control on personal growth.',
-    hardTwist: 'Explain how your choice could actually cause serious friction in your personal relationships!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Describe a situation where that ability would provide the most value.',
+    medium: 'State your choice clearly and explain how it shapes long-term mental clarity.',
+    hardTwist: 'Explain how your choice could create complications in your personal relationships!',
     starter: 'Looking at how memory affects us, I would rather...',
     words: ['Recall', 'Perspective'],
-    tip: 'Think about whether having total control over memory is genuinely useful.'
+    tip: 'Consider whether having total control over memory helps or hinders growth.'
   },
   {
     age: 'adult', mode: 'wyr',
     text: 'Would you rather upload your consciousness into a computer to exist indefinitely, or live a natural 80-year lifespan?',
-    easy: '<strong>1. Position:</strong> State your choice clearly.<br><strong>2. Primary Reason:</strong> What makes your choice the better way to exist?<br><strong>3. The Trade-off:</strong> What do you give up by making this choice?',
-    medium: 'Pick your side and compare digital continuity against biological life.',
-    hardTwist: 'Convince someone who completely disagrees with you that your choice is the truly human one!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Describe how this choice influences your everyday priorities.',
+    medium: 'State your choice clearly and contrast digital continuity against biological life.',
+    hardTwist: 'Defend your choice to someone who argues that your option takes away what makes us human!',
     starter: 'When considering the nature of life, I choose...',
     words: ['Continuity', 'Existence'],
-    tip: 'Consider how time limits shape daily priorities.'
+    tip: 'Think about how finite time limits shape human meaning.'
   },
   {
     age: 'adult', mode: 'wyr',
     text: 'Would you rather see a clear snapshot of your life 10 years from now, or re-live one full day from your past?',
-    easy: '<strong>1. Position:</strong> State your choice clearly.<br><strong>2. Primary Reason:</strong> Why is that information or experience more valuable to you?<br><strong>3. The Trade-off:</strong> How might this knowledge affect how you live today?',
-    medium: 'Pick your side and contrast knowing what lies ahead with revisiting what has already happened.',
-    hardTwist: 'Explain why the option you rejected is far more dangerous than people realize!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Share what specific detail or moment you would look for.',
+    medium: 'State your choice clearly and compare certainty about the future with revisiting a memory.',
+    hardTwist: 'Address someone who argues that your choice would make you miss out on living in the present moment!',
     starter: 'Given this choice, I would decide to...',
     words: ['Foresight', 'Reflection'],
-    tip: 'Think about how certainty affects motivation.'
+    tip: 'Consider how knowing what lies ahead impacts day-to-day motivation.'
   },
   {
     age: 'adult', mode: 'wyr',
     text: 'Would you rather live in a society where work happens from 4:00 AM to 12:00 PM, or one that runs from 8:00 PM to 4:00 AM?',
-    easy: '<strong>1. Position:</strong> State your choice clearly.<br><strong>2. Primary Reason:</strong> Why does this schedule suit human activity better?<br><strong>3. The Trade-off:</strong> What is the biggest friction of living on this schedule?',
-    medium: 'Pick your side and compare daylight routines against nighttime operations.',
-    hardTwist: 'Refute the argument that your chosen schedule would ruin a person physical health!',
+    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Describe your typical energy levels during the morning versus late in the evening.',
+    medium: 'State your choice clearly and explain how it aligns with your lifestyle.',
+    hardTwist: 'Address the argument that your chosen schedule makes maintaining relationships difficult!',
     starter: 'In terms of schedule preference, I lean toward...',
-    words: ['Productivity', 'Routine'],
-    tip: 'Think about your typical energy levels during different parts of the day.'
+    words: ['Routine', 'Schedule'],
+    tip: 'Think about when during a 24-hour cycle you feel most alert.'
   },
 
   // ==========================================
-  // ADULT (18+) - HOT TAKES
+  // ADULT (18+) - HOT TAKES (5 Prompts)
   // ==========================================
   {
     age: 'adult', mode: 'opinions',
-    text: 'Recommendation algorithms on digital platforms limit independent thinking.',
-    easy: '<strong>1. Position:</strong> State whether you agree or disagree.<br><strong>2. Primary Reason:</strong> What evidence supports your view on algorithmic feeds?<br><strong>3. Counterpoint:</strong> In what situation is the opposing argument valid?',
-    medium: 'Take a stance and evaluate how automated curation influences how people form viewpoints.',
-    hardTwist: 'Weave in a real example of an algorithm showing someone something truly life-changing!',
-    starter: 'On the question of content algorithms, I argue that...',
-    words: ['Curation', 'Influence'],
-    tip: 'Consider how feeds determine what information reaches users.'
+    text: 'Renting a home gives you much more freedom in life than buying one.',
+    easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share an observation from your own living situation or friends.',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+    starter: 'On this topic, I agree / disagree because...',
+    words: ['Flexibility', 'Investment'],
+    tip: 'Consider how flexibility compares to long-term ownership for you.'
   },
   {
     age: 'adult', mode: 'opinions',
-    text: 'A cautious, defensive outlook produces better life outcomes than a strictly positive one.',
-    easy: '<strong>1. Position:</strong> State whether you agree or disagree.<br><strong>2. Primary Reason:</strong> Why does your chosen mindset lead to better outcomes?<br><strong>3. Counterpoint:</strong> Where does your chosen mindset fall short?',
-    medium: 'Take a stance and compare risk management against positive expectation.',
-    hardTwist: 'Answer an objection that your chosen mindset makes a person either cowardly or reckless!',
-    starter: 'Regarding personal outlook and decision-making, I believe...',
-    words: ['Risk', 'Expectation'],
-    tip: 'Think about how planning for worst-case scenarios compares to aiming for best-case ones.'
+    text: 'Large family or community group chats create more stress than real connection.',
+    easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe how you manage your notifications and messages day-to-day.',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+    starter: 'Looking at large group chats, I think...',
+    words: ['Messages', 'Connection'],
+    tip: 'Think about how you react when group threads get very active.'
   },
   {
     age: 'adult', mode: 'opinions',
-    text: 'Genetic enhancements for health and cognitive performance should be legally accessible to the public.',
-    easy: '<strong>1. Position:</strong> State whether you agree or disagree.<br><strong>2. Primary Reason:</strong> What is the strongest justification for your position?<br><strong>3. Counterpoint:</strong> What valid concern does the opposing side raise?',
-    medium: 'Take a stance and weigh technological capability against regulatory limits.',
-    hardTwist: 'Address the ethical dilemma of who actually gets to afford this technology first!',
-    starter: 'When it comes to genetic enhancement policy, I hold that...',
-    words: ['Regulation', 'Capability'],
-    tip: 'Think about how previous medical innovations were regulated.'
+    text: 'Cooking meals at home every day is not worth the time and effort for busy adults.',
+    easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share how you typically handle meals after a tiring day.',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+    starter: 'When it comes to cooking daily, I agree / disagree because...',
+    words: ['Effort', 'Routine'],
+    tip: 'Consider how you balance time preparation with food choices.'
   },
   {
     age: 'adult', mode: 'opinions',
-    text: 'Regular periods of boredom and non-stimulation are necessary for healthy cognitive function.',
-    easy: '<strong>1. Position:</strong> State whether you agree or disagree.<br><strong>2. Primary Reason:</strong> What happens to the mind with or without constant stimulation?<br><strong>3. Counterpoint:</strong> What is the benefit of keeping the mind continuously engaged?',
-    medium: 'Take a stance and evaluate the role of idle downtime versus active mental engagement.',
-    hardTwist: 'Argue against someone who claims that calling boredom useful is just an excuse for laziness!',
-    starter: 'On the subject of mental downtime, my position is...',
-    words: ['Stimulation', 'Downtime'],
-    tip: 'Consider how mental rest compares to active problem-solving.'
+    text: 'Calling someone on the phone without sending a text first has become rude.',
+    easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe how you react when an unscheduled call rings your phone.',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+    starter: 'Regarding unexpected phone calls, I believe...',
+    words: ['Habit', 'Communication'],
+    tip: 'Think about whether you prefer answering live or replying via message.'
   },
   {
     age: 'adult', mode: 'opinions',
-    text: 'Creative works generated by artificial intelligence lack authentic artistic value.',
-    easy: '<strong>1. Position:</strong> State whether you agree or disagree.<br><strong>2. Primary Reason:</strong> Does artistic value depend on human origin or on audience reception?<br><strong>3. Counterpoint:</strong> Under what circumstances could the opposite view hold merit?',
-    medium: 'Take a stance and define what determines value in a creative work.',
-    hardTwist: 'Explain what you would do if a computer-generated song genuinely brought you to tears!',
-    starter: 'In assessing AI-generated creative work, I consider that...',
-    words: ['Intent', 'Interpretation'],
-    tip: 'Think about whether art is defined by the process or by the end product.'
+    text: 'A completely cashless society does more harm than good.',
+    easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Give a quick example of how you pay for items day-to-day.',
+    medium: 'State your view clearly and explain why you feel that way.',
+    hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+    starter: 'On the question of going cashless, I agree / disagree because...',
+    words: ['Payment', 'Daily life'],
+    tip: 'Think about how you handle routine transactions.'
   },
 
   // ==========================================
-  // ADULT (18+) - VOCAB YAP
+  // ADULT (18+) - VOCAB YAP (3 Prompts)
   // ==========================================
   {
     age: 'adult', mode: 'vocab',
