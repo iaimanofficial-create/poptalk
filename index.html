@@ -34,7 +34,18 @@
 
     .container { width: 100%; max-width: 480px; }
     
-    header { text-align: center; margin-bottom: 26px; }
+    header { 
+      text-align: center; 
+      margin-bottom: 22px; 
+      position: relative;
+    }
+    .header-top {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
     h1 { 
       font-family: 'Fredoka', cursive, sans-serif; 
       font-size: 40px; 
@@ -42,6 +53,20 @@
       color: var(--dark-green); 
       letter-spacing: 0.5px; 
       line-height: 1.15;
+    }
+    .streak-pill {
+      background: #FFF3E6;
+      border: 1.5px solid #FBD0A7;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #B45309;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 6px rgba(180, 83, 9, 0.08);
     }
     p.tagline { 
       font-size: 15px; 
@@ -213,7 +238,7 @@
       margin-bottom: 14px; 
     }
 
-    /* Dedicated 16:9 Picture Frame for Uploaded Illustrations */
+    /* 16:9 Picture Frame for Uploaded Illustrations */
     .picture-frame {
       display: none;
       width: 100%;
@@ -232,6 +257,49 @@
       display: block;
     }
 
+    /* Vocab Spotlight Card Structure */
+    .vocab-card {
+      display: none;
+      background: #F8FAF9;
+      border: 1.5px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 14px 16px;
+      text-align: left;
+      margin-bottom: 16px;
+    }
+    .vocab-word-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+    .vocab-word {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--midnight-green);
+    }
+    .vocab-pos {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .vocab-meaning {
+      font-size: 14px;
+      color: var(--dark-green);
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+    .vocab-example {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--text-muted);
+      border-left: 3px solid var(--moss-green);
+      padding-left: 8px;
+      line-height: 1.4;
+    }
+
     .prompt-text { 
       font-size: 22px; 
       font-weight: 700; 
@@ -241,7 +309,6 @@
       min-height: 56px; 
     }
 
-    /* Unified Water-Lily Lotus Pink Banner for Plot Twists / Debate Challenges */
     .twist-banner {
       display: none;
       background: #F3E4E1;
@@ -452,7 +519,12 @@
 <body>
   <div class="container">
     <header>
-      <h1>PopTalk</h1>
+      <div class="header-top">
+        <h1>PopTalk</h1>
+        <div class="streak-pill" id="streakBadge" title="Practice every day to keep your streak alive!">
+          🔥 <span id="streakCount">0</span> Days
+        </div>
+      </div>
       <p class="tagline">Think. Organize. Express.</p>
     </header>
 
@@ -503,19 +575,19 @@
           <button class="pill" onclick="setLevel('hard')">🔴 Hard (60s)</button>
         </div>
 
-        <span class="control-label">Category (10 Modes)</span>
+        <span class="control-label">Category</span>
         <div class="pill-group" id="modeGroup">
-          <!-- 3 Free Modes -->
+          <!-- 4 Active Modes (Including Vocab Yap) -->
           <button class="pill active" onclick="setMode('picture')">🖼️ Picture Talk</button>
           <button class="pill" onclick="setMode('wyr')">⚖️ Pick a Side</button>
           <button class="pill" onclick="setMode('opinions')">💬 Hot Takes</button>
-          <!-- 7 Locked Pro Modes -->
+          <button class="pill" onclick="setMode('vocab')">📚 Vocab Yap</button>
+          <!-- Locked Pro Modes -->
           <button class="pill locked" onclick="openLockedModal('Finish It')">🔒 Finish It</button>
           <button class="pill locked" onclick="openLockedModal('Echo Story')">🔒 Echo Story</button>
           <button class="pill locked" onclick="openLockedModal('Act It Out')">🔒 Act It Out</button>
           <button class="pill locked" onclick="openLockedModal('The Big Pitch')">🔒 The Big Pitch</button>
           <button class="pill locked" onclick="openLockedModal('Sell This!')">🔒 Sell This!</button>
-          <button class="pill locked" onclick="openLockedModal('Yap Machine')">🔒 Yap Machine</button>
           <button class="pill locked" onclick="openLockedModal('What If?')">🔒 What If?</button>
         </div>
       </div>
@@ -526,6 +598,16 @@
         <!-- Image Container for Junior -->
         <div class="picture-frame" id="pictureFrame">
           <img id="pictureImg" src="" alt="Story Scene">
+        </div>
+
+        <!-- Vocab Focus Box -->
+        <div class="vocab-card" id="vocabCard">
+          <div class="vocab-word-row">
+            <span class="vocab-word" id="vocabWord"></span>
+            <span class="vocab-pos" id="vocabPos"></span>
+          </div>
+          <div class="vocab-meaning" id="vocabMeaning"></div>
+          <div class="vocab-example" id="vocabExample"></div>
         </div>
 
         <div class="prompt-text" id="promptDisplay">Tap 'New Topic' to begin!</div>
@@ -588,7 +670,7 @@
   <script>
     const promptBank = [
       // ==========================================
-      // JUNIOR (5-8) - PICTURE TALK (Uploaded Images)
+      // JUNIOR (5-8) - PICTURE TALK
       // ==========================================
       {
         age: 'junior', mode: 'picture',
@@ -647,7 +729,7 @@
       },
 
       // ==========================================
-      // JUNIOR (5-8) - PICK A SIDE (All 5 Prompts)
+      // JUNIOR (5-8) - PICK A SIDE
       // ==========================================
       {
         age: 'junior', mode: 'wyr',
@@ -701,7 +783,7 @@
       },
 
       // ==========================================
-      // JUNIOR (5-8) - HOT TAKES (All 5 Prompts)
+      // JUNIOR (5-8) - HOT TAKES
       // ==========================================
       {
         age: 'junior', mode: 'opinions',
@@ -755,7 +837,44 @@
       },
 
       // ==========================================
-      // TEEN (9-17) - PICTURE TALK / SITUATIONS (10 Scenarios)
+      // JUNIOR (5-8) - VOCAB YAP (Expressive Words)
+      // ==========================================
+      {
+        age: 'junior', mode: 'vocab',
+        vocab: { word: 'CURIOUS', pos: 'adjective', meaning: 'Wanting to know or learn about something new.', example: 'The curious kitten peeked inside the open box.' },
+        text: 'Tell a story about a very curious puppy or person who went exploring somewhere new!',
+        easy: '<strong>1. Who:</strong> Tell who was feeling very curious today.<br><strong>2. Explore:</strong> What strange door, box, or sound did they find?<br><strong>3. Surprise:</strong> Use the word CURIOUS as you tell what they discovered!',
+        medium: 'Tell a story using the word CURIOUS to describe someone finding a secret treasure!',
+        hardTwist: 'Someone taps their shoulder and asks what they are doing!',
+        starter: 'One morning, a very curious little...',
+        words: ['Curious', 'Explore', 'Secret'],
+        tip: 'Make sure to say the word CURIOUS out loud in your story!'
+      },
+      {
+        age: 'junior', mode: 'vocab',
+        vocab: { word: 'GIGANTIC', pos: 'adjective', meaning: 'Incredibly huge, much bigger than normal.', example: 'We baked a gigantic chocolate chip cookie.' },
+        text: 'Tell a story about finding a gigantic object in your backyard or living room!',
+        easy: '<strong>1. What:</strong> What gigantic thing did you wake up and see?<br><strong>2. Reaction:</strong> How did you climb it or look at it?<br><strong>3. Ending:</strong> Use the word GIGANTIC to tell who helped you move it!',
+        medium: 'Describe trying to hide a gigantic watermelon or stuffed bear from your family!',
+        hardTwist: 'The gigantic object suddenly begins to wobble!',
+        starter: 'When I looked outside the window, I saw a gigantic...',
+        words: ['Gigantic', 'Huge', 'Heavy'],
+        tip: 'Say GIGANTIC in a loud, expressive voice!'
+      },
+      {
+        age: 'junior', mode: 'vocab',
+        vocab: { word: 'COURAGEOUS', pos: 'adjective', meaning: 'Brave; not afraid to try something difficult.', example: 'The courageous girl climbed to the top of the tall ladder.' },
+        text: 'Tell a story about someone who was courageous and tried something scary!',
+        easy: '<strong>1. The Fear:</strong> What was hard or scary to do (like swimming or a dark room)?<br><strong>2. The Brave Step:</strong> How did they take a deep breath and do it anyway?<br><strong>3. Celebration:</strong> Use COURAGEOUS to describe how proud they felt!',
+        medium: 'Tell a story about a courageous little bird learning to fly from a high branch!',
+        hardTwist: 'A sudden gust of wind blows past them!',
+        starter: 'Even though my hands were shaking, I decided to be courageous and...',
+        words: ['Courageous', 'Brave', 'Strong'],
+        tip: 'Describe what it feels like right before you do something brave.'
+      },
+
+      // ==========================================
+      // TEEN (9-17) - PICTURE TALK / SITUATIONS
       // ==========================================
       {
         age: 'teen', mode: 'picture',
@@ -806,56 +925,6 @@
         starter: 'I took off my headphones and realized this was definitely not my neighborhood...',
         words: ['Unfamiliar', 'Route'],
         tip: 'Describe what unfamiliar buildings or signs you see.'
-      },
-      {
-        age: 'teen', mode: 'picture',
-        text: 'An underground subway platform that local kids turned into a secret DIY skatepark.',
-        easy: '<strong>1. The Space:</strong> Describe the smooth concrete platform and ramps between the tracks.<br><strong>2. The Crew:</strong> Who hangs out here after school and what music is playing?<br><strong>3. The Catch:</strong> What do people do when someone unfamiliar walks down the stairs?',
-        medium: 'Describe the sound of wheels rolling on concrete and the one rule everyone follows!',
-        hardTwist: 'Someone spots a security flashlight turning the corner at the stairs!',
-        starter: 'Walking down the old station stairs, the first thing you hear is...',
-        words: ['Underground', 'Echo'],
-        tip: 'Describe the colorful graffiti art on the brick walls.'
-      },
-      {
-        age: 'teen', mode: 'picture',
-        text: 'An empty school hallway at 6:00 PM with one locker showing a bright light through its vents.',
-        easy: '<strong>1. The Setting:</strong> Why are you still in the building after hours?<br><strong>2. The Locker:</strong> What color is the light, and whose locker is it?<br><strong>3. Opening It:</strong> What normal item was left inside that was making the glow?',
-        medium: 'Explain whether you walk over to check it or just head straight for the exit!',
-        hardTwist: 'The locker door suddenly pops open all by itself!',
-        starter: 'The hallway was completely empty, but as I passed locker 42...',
-        words: ['Quiet', 'Curious'],
-        tip: 'Mention the squeak of your shoes on the polished floor.'
-      },
-      {
-        age: 'teen', mode: 'picture',
-        text: 'An unexpected garden with lush plants and benches on top of an ordinary office building.',
-        easy: '<strong>1. Finding It:</strong> How did you discover the door leading to this quiet rooftop?<br><strong>2. The View:</strong> Contrast looking down at traffic while standing in quiet greenery.<br><strong>3. Your Routine:</strong> Why is this your favorite place to study or think?',
-        medium: 'Describe sitting on the bench watching the sunset over the city buildings!',
-        hardTwist: 'The heavy rooftop door clicks shut and locks from the inside!',
-        starter: 'Most people take the elevator down to the lobby, but if you go up to the roof...',
-        words: ['Peaceful', 'Skyline'],
-        tip: 'Describe the cool breeze or the view of cars below.'
-      },
-      {
-        age: 'teen', mode: 'picture',
-        text: 'A package left on your porch with a label that says: "Do Not Open Until Next Year".',
-        easy: '<strong>1. The Box:</strong> What size is the box, and is there a return address?<br><strong>2. The Curiosity:</strong> Do you keep it hidden in your room, or ask your family?<br><strong>3. The Guess:</strong> What harmless thing do you think is actually inside?',
-        medium: 'Explain how hard it is to walk past that box every day without tearing off the tape!',
-        hardTwist: 'You hear a faint ticking or buzzing sound coming from inside the box!',
-        starter: 'Sitting right by the door was a box with no return address...',
-        words: ['Curious', 'Patience'],
-        tip: 'Describe the thick packing tape or the heavy cardboard.'
-      },
-      {
-        age: 'teen', mode: 'picture',
-        text: 'An old, forgotten table on the top floor of a library with books stacked high.',
-        easy: '<strong>1. The Spot:</strong> Describe finding a hidden desk between tall wooden shelves.<br><strong>2. The Stack:</strong> What interesting topic or old map is in the book you pick up?<br><strong>3. Time Flying:</strong> Why is it so easy to sit there for hours without checking your phone?',
-        medium: 'Explain why old paper books and quiet rooms feel so rare compared to scrolling online!',
-        hardTwist: 'The overhead lights flicker off as the intercom announces closing time in 5 minutes!',
-        starter: 'Tucked in the back corner of the third floor, there is a desk where...',
-        words: ['Quiet', 'Focus'],
-        tip: 'Describe the smell of old paper or the dust floating in the window light.'
       },
 
       // ==========================================
@@ -967,7 +1036,44 @@
       },
 
       // ==========================================
-      // ADULT (18+) - PICTURE TALK (Everyday Scenarios)
+      // TEEN (9-17) - VOCAB YAP (Sharp Vocabulary)
+      // ==========================================
+      {
+        age: 'teen', mode: 'vocab',
+        vocab: { word: 'RELUCTANT', pos: 'adjective', meaning: 'Hesitant, unwilling, or holding back from doing something.', example: 'He was reluctant to lend his favorite jacket to his younger brother.' },
+        text: 'Weave the word RELUCTANT into a story about someone hesitating to make a big decision!',
+        easy: '<strong>1. The Situation:</strong> What was someone invited or asked to do?<br><strong>2. The Hesitation:</strong> Why were they so reluctant to say yes?<br><strong>3. What Happened:</strong> Did they finally do it, and was it worth it?',
+        medium: 'Use RELUCTANT to describe a person who refused to join a competition or try something new!',
+        hardTwist: 'Their best friend tries to peer-pressure them into changing their mind!',
+        starter: 'At first, everyone was excited, but Mark was extremely reluctant because...',
+        words: ['Reluctant', 'Hesitant', 'Choice'],
+        tip: 'Use the word RELUCTANT at least once in your first two sentences.'
+      },
+      {
+        age: 'teen', mode: 'vocab',
+        vocab: { word: 'SKEPTICAL', pos: 'adjective', meaning: 'Doubtful; not easily convinced having reservations.', example: 'The class was skeptical when the teacher promised zero homework for a month.' },
+        text: 'Weave the word SKEPTICAL into an argument or story about a rumor or wild promise!',
+        easy: '<strong>1. The Claim:</strong> What crazy story, rumor, or deal did someone pitch?<br><strong>2. The Doubt:</strong> Why were you immediately skeptical of their words?<br><strong>3. The Proof:</strong> How did the truth finally come out in the end?',
+        medium: 'Use SKEPTICAL to explain why you should never trust viral life hacks online!',
+        hardTwist: 'The person claiming the story shows you a photoshopped image as proof!',
+        starter: 'When I first heard the announcement, I was deeply skeptical because...',
+        words: ['Skeptical', 'Doubt', 'Evidence'],
+        tip: 'Contrast what sounded believable against what sounded fake.'
+      },
+      {
+        age: 'teen', mode: 'vocab',
+        vocab: { word: 'AUTHENTIC', pos: 'adjective', meaning: 'Genuine, real, and true to one\'s own personality rather than copied.', example: 'People respected her because she was always authentic on camera.' },
+        text: 'Weave the word AUTHENTIC into a speech about online trends vs. staying true to yourself!',
+        easy: '<strong>1. The Trend:</strong> What popular style or trend did everyone suddenly start copying?<br><strong>2. The Contrast:</strong> Why does being authentic stand out so much more?<br><strong>3. The Conclusion:</strong> Why is keeping an authentic voice harder than copying others?',
+        medium: 'Use AUTHENTIC to defend why honest flaws are better than fake perfection online!',
+        hardTwist: 'Someone accuses an influencer of being completely staged!',
+        starter: 'In a world where everyone copies viral trends, being truly authentic means...',
+        words: ['Authentic', 'Genuine', 'Original'],
+        tip: 'Emphasize the word AUTHENTIC when you reach your main conclusion.'
+      },
+
+      // ==========================================
+      // ADULT (18+) - PICTURE TALK
       // ==========================================
       {
         age: 'adult', mode: 'picture',
@@ -1126,6 +1232,43 @@
         starter: 'In assessing AI-generated creative work, I consider that...',
         words: ['Intent', 'Interpretation'],
         tip: 'Think about whether art is defined by the process or by the end product.'
+      },
+
+      // ==========================================
+      // ADULT (18+) - VOCAB YAP (Nuanced Vocabulary)
+      // ==========================================
+      {
+        age: 'adult', mode: 'vocab',
+        vocab: { word: 'NUANCED', pos: 'adjective', meaning: 'Characterized by subtle distinctions or complexity, not simple black-and-white.', example: 'The debate around remote work requires a nuanced perspective.' },
+        text: 'Weave the word NUANCED into a speech explaining why modern dilemmas cannot be solved with simple answers!',
+        easy: '<strong>1. The Issue:</strong> Pick a topic people argue about in black-and-white terms.<br><strong>2. The Layers:</strong> Explain why the reality is actually much more nuanced.<br><strong>3. The Balance:</strong> Conclude by stating what compromise works best.',
+        medium: 'Use NUANCED to challenge someone who gives an oversimplified opinion on a complex topic!',
+        hardTwist: 'A listener demands a simple YES or NO answer from you!',
+        starter: 'People love simple slogans, but the truth is far more nuanced because...',
+        words: ['Nuanced', 'Complexity', 'Balance'],
+        tip: 'Use NUANCED when pointing out the grey areas between extremes.'
+      },
+      {
+        age: 'adult', mode: 'vocab',
+        vocab: { word: 'PRAGMATIC', pos: 'adjective', meaning: 'Dealing with things sensibly and realistically based on practical results.', example: 'She took a pragmatic approach by prioritizing budget over perfection.' },
+        text: 'Weave the word PRAGMATIC into a story or reflection about choosing what works over an impossible ideal!',
+        easy: '<strong>1. The Goal:</strong> What project or plan was getting too complicated or idealistic?<br><strong>2. The Shift:</strong> Why was taking a pragmatic approach the only way forward?<br><strong>3. The Outcome:</strong> How did focusing on practical results save time or money?',
+        medium: 'Use PRAGMATIC to defend why an imperfect solution delivered on time beats a perfect dream!',
+        hardTwist: 'Someone accuses you of settling for less and abandoning the original dream!',
+        starter: 'While others argued about perfection, we had to be pragmatic and...',
+        words: ['Pragmatic', 'Realistic', 'Execution'],
+        tip: 'Contrast theoretical ideals with pragmatic reality.'
+      },
+      {
+        age: 'adult', mode: 'vocab',
+        vocab: { word: 'BOTTLENECK', pos: 'noun', meaning: 'A point of congestion that slows down an entire process or workflow.', example: 'Slow approval times created a massive bottleneck in the project.' },
+        text: 'Weave the word BOTTLENECK into an analysis of what slows down productivity in daily routines!',
+        easy: '<strong>1. The Process:</strong> What daily routine or workflow always takes too long?<br><strong>2. The Bottleneck:</strong> What is the single bottleneck slowing everything down?<br><strong>3. The Fix:</strong> What simple change would instantly clear the delay?',
+        medium: 'Use BOTTLENECK to explain why working longer hours does not fix a broken system!',
+        hardTwist: 'A colleague argues that hiring more people is the only solution!',
+        starter: 'The problem was never the team effort; the real bottleneck was...',
+        words: ['Bottleneck', 'Delay', 'Efficiency'],
+        tip: 'Identify the exact pinch-point that causes the backlog.'
       }
     ];
 
@@ -1149,6 +1292,52 @@
     let accumulatedTranscript = '';
     let isSpeakingActive = false;
     let speechStartTime = 0;
+
+    // Daily Practice Streak Engine
+    function initStreak() {
+      const today = new Date().toISOString().slice(0, 10);
+      const lastPractice = localStorage.getItem('poptalk_last_date');
+      let count = parseInt(localStorage.getItem('poptalk_streak_count') || '0', 10);
+
+      if (lastPractice) {
+        const lastDate = new Date(lastPractice);
+        const currDate = new Date(today);
+        const diffDays = Math.floor((currDate - lastDate) / (1000 * 60 * 60 * 24));
+
+        if (diffDays > 1) {
+          // More than 1 day missed: reset to 0 until practice completed today
+          count = 0;
+          localStorage.setItem('poptalk_streak_count', '0');
+        }
+      }
+      document.getElementById('streakCount').innerText = count;
+    }
+
+    function recordStreakCompletion() {
+      const today = new Date().toISOString().slice(0, 10);
+      const lastPractice = localStorage.getItem('poptalk_last_date');
+      let count = parseInt(localStorage.getItem('poptalk_streak_count') || '0', 10);
+
+      if (lastPractice !== today) {
+        if (!lastPractice) {
+          count = 1;
+        } else {
+          const lastDate = new Date(lastPractice);
+          const currDate = new Date(today);
+          const diffDays = Math.floor((currDate - lastDate) / (1000 * 60 * 60 * 24));
+          
+          if (diffDays === 1) {
+            count += 1;
+          } else {
+            count = 1; // Restart streak
+          }
+        }
+        localStorage.setItem('poptalk_last_date', today);
+        localStorage.setItem('poptalk_streak_count', count.toString());
+        document.getElementById('streakCount').innerText = count;
+      }
+      return count;
+    }
 
     function initSpeechRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1184,6 +1373,7 @@
       }
     }
     initSpeechRecognition();
+    initStreak();
 
     function getTargetDuration(level) {
       if (level === 'easy') return 30;
@@ -1224,7 +1414,12 @@
       document.querySelectorAll('#modeGroup .pill:not(.locked)').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
       
-      const labels = { picture: 'PICTURE TALK', wyr: 'PICK A SIDE', opinions: 'HOT TAKES' };
+      const labels = { 
+        picture: 'PICTURE TALK', 
+        wyr: 'PICK A SIDE', 
+        opinions: 'HOT TAKES',
+        vocab: 'VOCAB YAP'
+      };
       document.getElementById('categoryBadge').innerText = labels[mode] || 'PRACTICE';
       spinPrompt();
     }
@@ -1237,10 +1432,7 @@
     // Anti-Repeat Card Dealing Function
     function getNextPrompt(pool, key) {
       if (!categoryDecks[key] || categoryDecks[key].length === 0) {
-        // Create freshly shuffled deck when empty
         categoryDecks[key] = [...pool].sort(() => Math.random() - 0.5);
-        
-        // Prevent immediate duplicate on reshuffle if more than 1 card exists
         if (categoryDecks[key].length > 1 && categoryDecks[key][0] === activePrompt) {
           categoryDecks[key].push(categoryDecks[key].shift());
         }
@@ -1261,13 +1453,24 @@
       // Handle Picture Display: ONLY show if image exists (Junior)
       const picFrame = document.getElementById('pictureFrame');
       const picImg = document.getElementById('pictureImg');
-
       if (currentMode === 'picture' && activePrompt.image) {
         picImg.src = activePrompt.image;
         picFrame.style.display = 'block';
       } else {
         picFrame.style.display = 'none';
         picImg.src = '';
+      }
+
+      // Handle Vocab Yap Card Display
+      const vocabCard = document.getElementById('vocabCard');
+      if (currentMode === 'vocab' && activePrompt.vocab) {
+        document.getElementById('vocabWord').innerText = activePrompt.vocab.word;
+        document.getElementById('vocabPos').innerText = activePrompt.vocab.pos;
+        document.getElementById('vocabMeaning').innerText = activePrompt.vocab.meaning;
+        document.getElementById('vocabExample').innerText = `"${activePrompt.vocab.example}"`;
+        vocabCard.style.display = 'block';
+      } else {
+        vocabCard.style.display = 'none';
       }
 
       targetTime = getTargetDuration(currentLevel);
@@ -1293,7 +1496,6 @@
       } else if (currentLevel === 'medium') {
         content.innerHTML = '<strong>The Spark Hook:</strong> ' + activePrompt.medium;
       } else {
-        // Distinguish between Narrative Twist vs Debate Challenge
         const challengeType = (currentMode === 'picture') ? 'Plot Twist' : 'Debate Challenge';
         content.innerHTML = `<strong>Hard Challenge:</strong> Zero handrails! Speak for 60 seconds. A surprise ${challengeType.toLowerCase()} will unlock halfway through!`;
       }
@@ -1342,7 +1544,7 @@
       timeRemaining = targetTime;
       overtimeSeconds = 0;
 
-      // Reset and Start Speech Engine ONLY for Teens/Adults
+      // Reset Transcript & Start Speech Engine ONLY for Teens/Adults
       finalTranscript = '';
       accumulatedTranscript = '';
       speechStartTime = Date.now();
@@ -1368,7 +1570,6 @@
             twistTriggered = true;
             const banner = document.getElementById('twistBanner');
             
-            // Format challenge label appropriately based on category
             const isStoryMode = (currentMode === 'picture');
             const prefix = isStoryMode ? '⚡ PLOT TWIST:' : '⚡ DEBATE CHALLENGE:';
             const instruction = isStoryMode ? 'Fit this into your story now without stopping' : 'Answer this objection now without breaking your flow';
@@ -1403,8 +1604,11 @@
 
       const totalSpoken = (targetTime - Math.max(0, timeRemaining)) + overtimeSeconds;
       
+      // Update Daily Streak
+      const streak = recordStreakCompletion();
+
       setTimeout(() => {
-        openCelebrationModal(totalSpoken, finalTranscript.trim());
+        openCelebrationModal(totalSpoken, finalTranscript.trim(), streak);
         resetAllTimers();
       }, 350);
     }
@@ -1433,7 +1637,7 @@
     }
 
     /* Modal with Delivery Breakdown & Smart Promotion */
-    function openCelebrationModal(seconds, transcript) {
+    function openCelebrationModal(seconds, transcript, streak) {
       const modalDesc = document.getElementById('modalDesc');
       const modalTitle = document.getElementById('modalTitle');
       const modalIcon = document.getElementById('modalIcon');
@@ -1446,11 +1650,19 @@
         ? `You spoke for <strong>${seconds} seconds</strong>. Keep practicing to build out your thoughts!` 
         : `Great work speaking out loud for <strong>${seconds} seconds</strong> today!`;
 
-      // JUNIOR SCREEN: Pure encouragement and live batch invitation (NO analyzer)
+      // Streak celebration pill inside modal
+      const streakBanner = `
+        <div style="background:#FFF3E6; border:1.5px solid #FBD0A7; border-radius:12px; padding:10px; margin:12px 0 14px 0; color:#B45309; font-weight:700; font-family:'Fredoka',cursive; font-size:14px;">
+          🔥 ${streak} Day Practice Streak Kept!
+        </div>
+      `;
+
+      // JUNIOR SCREEN
       if (currentAge === 'junior') {
         modalDesc.innerHTML = `
           ${encouragement}
-          <div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">
+          ${streakBanner}
+          <div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:14px; text-align:left; border:1px solid #E2E8E5;">
             <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:15px; display:block; margin-bottom:6px;">
               Finding it difficult to turn thoughts into words?
             </strong>
@@ -1470,12 +1682,22 @@
       } 
       // TEEN & ADULT SCREEN: Delivery Metrics + "What did you speak" transcript
       else {
-        // Calculate Metrics
         const wordsArray = transcript ? transcript.split(/\s+/).filter(w => w.length > 0) : [];
         const wordCount = wordsArray.length;
         const wpm = seconds > 0 ? Math.round((wordCount / seconds) * 60) : 0;
 
-        // Count filler words
+        // Check if target Vocab word was included
+        let vocabCheck = '';
+        if (currentMode === 'vocab' && activePrompt && activePrompt.vocab) {
+          const target = activePrompt.vocab.word.toLowerCase();
+          const spokenClean = transcript.toLowerCase();
+          if (spokenClean.includes(target)) {
+            vocabCheck = `<div style="background:#EAF0E1; color:var(--moss-green); padding:4px 10px; border-radius:8px; font-weight:700; margin-top:6px; font-size:12px;">✅ Target Word Used: '${activePrompt.vocab.word}'</div>`;
+          } else {
+            vocabCheck = `<div style="background:#FFF1F0; color:#B91C1C; padding:4px 10px; border-radius:8px; font-weight:600; margin-top:6px; font-size:12px;">⚠️ Target word '${activePrompt.vocab.word}' wasn't spotted — try again!</div>`;
+          }
+        }
+
         const fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
         let fillerCount = 0;
         wordsArray.forEach(w => {
@@ -1483,7 +1705,6 @@
           if (fillerList.includes(cleanWord)) fillerCount++;
         });
 
-        // Safe Pace Label
         let paceLabel = 'Conversational & Balanced';
         let paceColor = 'var(--moss-green)';
         if (wpm < 110 && wpm > 0) {
@@ -1495,7 +1716,7 @@
         }
 
         const metricsCard = wordCount > 0 ? `
-          <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:14px; margin:14px 0; text-align:left;">
+          <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:14px; margin:12px 0; text-align:left;">
             <strong style="font-family:'Fredoka',cursive; font-size:14px; color:#105666; display:block; margin-bottom:8px;">
               🎙️ Your Delivery Breakdown:
             </strong>
@@ -1503,6 +1724,7 @@
               • <strong>Pace:</strong> ${wpm} WPM <span style="font-weight:600; color:${paceColor};">(${paceLabel})</span><br>
               • <strong>Words Spoken:</strong> ${wordCount} words in ${seconds}s<br>
               • <strong>Filler Words Detected:</strong> ${fillerCount}
+              ${vocabCheck}
             </div>
             <strong style="font-family:'Fredoka',cursive; font-size:13px; color:#52635B; display:block; margin-bottom:4px;">
               💬 What did you speak:
@@ -1512,7 +1734,7 @@
             </div>
           </div>
         ` : `
-          <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:14px 0; text-align:left;">
+          <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:12px 0; text-align:left;">
             <strong style="font-family:'Fredoka',cursive; font-size:13px; color:#105666; display:block; margin-bottom:4px;">
               📊 Quick Self-Check:
             </strong>
@@ -1527,6 +1749,7 @@
         if (currentAge === 'teen') {
           modalDesc.innerHTML = `
             ${encouragement}
+            ${streakBanner}
             ${metricsCard}
             <div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">
               <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">
@@ -1547,6 +1770,7 @@
           // ADULT (18+)
           modalDesc.innerHTML = `
             ${encouragement}
+            ${streakBanner}
             ${metricsCard}
             <div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">
               <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">
