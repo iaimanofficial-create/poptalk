@@ -401,6 +401,20 @@
       margin: 2px 4px 2px 0;
     }
 
+    /* Live Mic Status Pill */
+    .mic-live-pill {
+      display: none;
+      background: #FFF1F0;
+      border: 1px solid #FECACA;
+      color: #B91C1C;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      font-family: 'Fredoka', cursive, sans-serif;
+    }
+
     .timer-label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px; }
     .timer-display { 
       font-family: 'Fredoka', cursive, sans-serif; 
@@ -646,6 +660,9 @@
             </div>
           </div>
         </div>
+
+        <!-- Real-Time Mic Status Indicator for Teens & Adults -->
+        <div class="mic-live-pill" id="micLivePill">🔴 Mic Listening...</div>
 
         <div class="timer-label" id="timerPhaseLabel">Ready to begin</div>
         <div class="timer-display" id="timerText">00:30</div>
@@ -1280,13 +1297,14 @@
     var activePrompt = null;
     var categoryDecks = {};
 
-    // ==========================================
-    // SPEECH RECOGNITION (BULLETPROOF NO-LOOP ENGINE)
-    // ==========================================
+    // ========================================================
+    // PERMANENT VAULT SPEECH ENGINE (Android Pause-Proof)
+    // ========================================================
     var recognition = null;
-    var speechResultsMap = {}; // Stores unique final segments by index
+    var completedSentences = []; // Permanently stores finalized sentences across mic restarts
+    var currentInterim = '';     // Catches unfinalized words if user stops mid-sentence
+    var lastAddedSentence = '';  // Prevents duplicate sentence pushes
     var isSpeakingActive = false;
-    var speechStartTime = 0;
 
     var audioCtx = null;
 
@@ -1548,28 +1566,55 @@
       return count;
     }
 
-    // Single-pass Speech Recognition Listener
+    // Updated Speech Engine: Pushes finalized phrases into a permanent array so pauses never overwrite previous sentences
     function initSpeechRecognition() {
       try {
         var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
           recognition = new SpeechRecognition();
-          recognition.continuous = true;
-          recognition.interimResults = false;
+          recognition.continuous = false; // False on Android prevents internal buffer duplication bugs; auto-restarts via onend
+          recognition.interimResults = true;
           recognition.lang = 'en-US';
 
           recognition.onresult = function(event) {
+            var interimChunk = '';
             for (var i = event.resultIndex; i < event.results.length; ++i) {
+              var textPiece = event.results[i][0].transcript.trim();
               if (event.results[i].isFinal) {
-                var transcriptPiece = event.results[i][0].transcript.trim();
-                speechResultsMap[i] = transcriptPiece;
+                if (textPiece && textPiece !== lastAddedSentence) {
+                  completedSentences.push(textPiece);
+                  lastAddedSentence = textPiece;
+                }
+                currentInterim = '';
+              } else {
+                interimChunk += textPiece + ' ';
               }
+            }
+            currentInterim = interimChunk.trim();
+
+            // Update live on-screen word counter so user sees it working
+            var fullNow = (completedSentences.join(' ') + ' ' + currentInterim).trim();
+            var countNow = fullNow.length > 0 ? fullNow.split(/\s+/).length : 0;
+            var pill = document.getElementById('micLivePill');
+            if (pill && isSpeakingActive) {
+              pill.innerText = '🔴 Mic Listening... (' + countNow + ' words caught)';
             }
           };
 
           recognition.onend = function() {
+            // Save any lingering interim words if Android closed the mic mid-breath
+            if (currentInterim && currentInterim !== lastAddedSentence) {
+              completedSentences.push(currentInterim);
+              lastAddedSentence = currentInterim;
+              currentInterim = '';
+            }
+            // Restart smoothly after 200ms breather if user is still speaking
             if (isSpeakingActive) {
-              try { recognition.start(); } catch(e) {}
+              setTimeout(function() {
+                if (isSpeakingActive && recognition) {
+                  try { recognition.start(); } catch(e) {}
+                }
+              }, 200);
             }
           };
         }
@@ -1800,13 +1845,23 @@
       timeRemaining = targetTime;
       overtimeSeconds = 0;
 
-      // Clean Reset of Speech Buffer
-      speechResultsMap = {};
-      speechStartTime = Date.now();
+      // Clear Vault & Start Mic for Teens and Adults
+      completedSentences = [];
+      currentInterim = '';
+      lastAddedSentence = '';
       isSpeakingActive = true;
       
-      if ((currentAge === 'teen' || currentAge === 'adult') && recognition) {
-        try { recognition.start(); } catch(e) {}
+      var micPill = document.getElementById('micLivePill');
+      if (currentAge === 'teen' || currentAge === 'adult') {
+        if (micPill) {
+          micPill.innerText = '🔴 Mic Listening... (Speak clearly)';
+          micPill.style.display = 'inline-block';
+        }
+        if (recognition) {
+          try { recognition.start(); } catch(e) {}
+        }
+      } else {
+        if (micPill) micPill.style.display = 'none';
       }
 
       var bufferBtn = document.getElementById('bufferBtn');
@@ -1866,6 +1921,16 @@
       playFanfare();
       clearInterval(timerInterval);
       isSpeakingActive = false;
+
+      var micPill = document.getElementById('micLivePill');
+      if (micPill) micPill.style.display = 'none';
+
+      // Catch any unfinalized words still in the air before stopping
+      if (currentInterim && currentInterim !== lastAddedSentence) {
+        completedSentences.push(currentInterim);
+        currentInterim = '';
+      }
+
       if (recognition) {
         try { recognition.stop(); } catch(e) {}
       }
@@ -1873,19 +1938,16 @@
       var totalSpoken = (targetTime - Math.max(0, timeRemaining)) + overtimeSeconds;
       var streak = recordStreakCompletion();
 
-      // Assemble final transcript cleanly from unique indexed blocks
-      var assembledTranscript = Object.keys(speechResultsMap).map(function(k) {
-        return speechResultsMap[k];
-      }).join(' ').trim();
-
       setTimeout(function() {
-        openCelebrationModal(totalSpoken, assembledTranscript, streak);
+        var fullTranscript = completedSentences.join(' ').replace(/\s+/g, ' ').trim();
+        openCelebrationModal(totalSpoken, fullTranscript, streak);
         resetAllTimers();
       }, 350);
     }
 
     function resetAllTimers() {
       clearInterval(timerInterval);
+      isSpeakingActive = false;
       timerState = 'idle';
       targetTime = getTargetDuration(currentLevel);
       
@@ -1895,6 +1957,7 @@
       var overtimeBadge = document.getElementById('overtimeBadge');
       var twistBanner = document.getElementById('twistBanner');
       var progressBar = document.getElementById('progressBar');
+      var micPill = document.getElementById('micLivePill');
 
       if (thinkBtn) {
         thinkBtn.style.display = 'block';
@@ -1908,6 +1971,7 @@
       if (bufferBtn) bufferBtn.style.display = 'none';
       if (overtimeBadge) overtimeBadge.style.display = 'none';
       if (twistBanner) twistBanner.style.display = 'none';
+      if (micPill) micPill.style.display = 'none';
       if (progressBar) progressBar.style.width = '100%';
     }
 
@@ -1954,7 +2018,6 @@
         var wordsArray = cleanTranscript.length > 0 ? cleanTranscript.split(' ') : [];
         var wordCount = wordsArray.length;
         
-        // Accurate WPM formula (Actual Spoken Words / Exact Seconds)
         var safeSeconds = Math.max(1, seconds);
         var wpm = Math.round((wordCount / safeSeconds) * 60);
 
@@ -1997,12 +2060,12 @@
               vocabCheck +
             '</div>' +
             '<strong style="font-family:\'Fredoka\',cursive; font-size:13px; color:#52635B; display:block; margin-bottom:4px;">💬 What did you speak:</strong>' +
-            '<div style="font-size:12.5px; color:#52635B; font-style:italic; background:#F8FAF9; padding:8px 10px; border-radius:8px; border:1px solid #E2E8E5; max-height:80px; overflow-y:auto; line-height:1.45;">"' + cleanTranscript + '"</div>' +
+            '<div style="font-size:12.5px; color:#52635B; font-style:italic; background:#F8FAF9; padding:8px 10px; border-radius:8px; border:1px solid #E2E8E5; max-height:95px; overflow-y:auto; line-height:1.45;">"' + cleanTranscript + '"</div>' +
           '</div>';
         } else {
           metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:12px 0; text-align:left;">' +
             '<strong style="font-family:\'Fredoka\',cursive; font-size:13px; color:#105666; display:block; margin-bottom:4px;">📊 Quick Self-Check:</strong>' +
-            '<div style="font-size:12.5px; color:#293830; line-height:1.55;">• Did you complete your thought before time ran out?<br>• Did you structure your reason and example clearly?<br>• <em>(Allow microphone access in your browser to see pace & word metrics!)</em></div>' +
+            '<div style="font-size:12.5px; color:#293830; line-height:1.55;">• Did you complete your thought before time ran out?<br>• Did you structure your reason and example clearly?<br>• <em>(Tap the lock icon next to the website URL at the top of your browser and set Microphone to "Allow" to see your live word & pace analysis!)</em></div>' +
           '</div>';
         }
 
