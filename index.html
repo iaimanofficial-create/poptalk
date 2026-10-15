@@ -476,6 +476,12 @@
       margin-bottom: 10px; 
       display: none; 
     }
+    .btn-try-again {
+      background: #EDF3EF;
+      color: var(--dark-green);
+      border: 1.5px solid var(--border-soft);
+      margin-bottom: 10px;
+    }
     .btn-spin { 
       background: var(--midnight-green); 
       color: #fff; 
@@ -637,10 +643,10 @@
           <div class="vocab-example" id="vocabExample"></div>
         </div>
 
-        <div class="prompt-text" id="promptDisplay">Tap 'New Topic' to begin!</div>
+        <div class="prompt-text" id="promptDisplay">🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!</div>
         <div class="twist-banner" id="twistBanner"></div>
 
-        <button class="btn-ideas" id="ideasBtn" onclick="toggleIdeas()">🗺️ Need Ideas? (Tap for Help)</button>
+        <button class="btn-ideas" id="ideasBtn" onclick="toggleIdeas()" style="display:none;">🗺️ Need Ideas? (Tap for Help)</button>
 
         <div class="scaffold-box" id="scaffoldBox">
           <div id="scaffoldContent"></div>
@@ -660,7 +666,7 @@
           </div>
         </div>
 
-        <!-- Live Mic Status Indicator for Teens & Adults -->
+        <!-- Live Mic Status Indicator -->
         <div class="mic-live-pill" id="micLivePill">🔴 Mic Listening...</div>
 
         <div class="timer-label" id="timerPhaseLabel">Ready to begin</div>
@@ -673,13 +679,15 @@
 
         <button class="btn btn-buffer" id="bufferBtn" onclick="addBufferTime()">+15s More Thinking</button>
         
-        <div class="btn-action-row">
+        <div class="btn-action-row" id="actionBtnRow" style="display:none;">
           <button class="btn btn-think" id="thinkBtn" onclick="startThinking()">🧠 Start Thinking (30s)</button>
           <button class="btn btn-speak" id="speakBtn" onclick="startSpeaking()">🎙️ Start Speaking</button>
         </div>
       </div>
 
-      <button class="btn btn-spin" onclick="spinPrompt()">🎲 New Topic</button>
+      <!-- Action Row: Try Again & New Topic -->
+      <button class="btn btn-try-again" id="tryAgainBtn" onclick="tryAgainSameTopic()" style="display:none;">🔁 Try Again (Same Topic)</button>
+      <button class="btn btn-spin" id="spinBtn" onclick="spinPrompt()">🎲 Spin for Topic</button>
     </div>
   </div>
 
@@ -1450,19 +1458,30 @@
         var ctx = getAudioContext();
         if (!ctx) return;
         var now = ctx.currentTime;
-        [280, 420, 560].forEach(function(freq, idx) {
-          var osc = ctx.createOscillator();
-          var gain = ctx.createGain();
-          var startTime = now + (idx * 0.04);
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, startTime);
-          gain.gain.setValueAtTime(0.18, startTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.12);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(startTime);
-          osc.stop(startTime + 0.12);
-        });
+
+        var osc1 = ctx.createOscillator();
+        var gain1 = ctx.createGain();
+        osc1.type = 'triangle';
+        osc1.frequency.setValueAtTime(1200, now);
+        osc1.frequency.exponentialRampToValueAtTime(300, now + 0.04);
+        gain1.gain.setValueAtTime(0.3, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.04);
+
+        var osc2 = ctx.createOscillator();
+        var gain2 = ctx.createGain();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(1600, now + 0.06);
+        osc2.frequency.exponentialRampToValueAtTime(400, now + 0.1);
+        gain2.gain.setValueAtTime(0.35, now + 0.06);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(now + 0.06);
+        osc2.stop(now + 0.1);
       } catch(e) {}
     }
 
@@ -1632,7 +1651,30 @@
       if (landing) landing.style.display = 'none';
       if (arena) arena.style.display = 'block';
       
-      spinPrompt();
+      activePrompt = null;
+      var promptDisplay = document.getElementById('promptDisplay');
+      if (promptDisplay) {
+        promptDisplay.innerText = '🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!';
+      }
+      var ideasBtn = document.getElementById('ideasBtn');
+      if (ideasBtn) ideasBtn.style.display = 'none';
+      var scaffoldBox = document.getElementById('scaffoldBox');
+      if (scaffoldBox) scaffoldBox.style.display = 'none';
+      var actionBtnRow = document.getElementById('actionBtnRow');
+      if (actionBtnRow) actionBtnRow.style.display = 'none';
+      var tryAgainBtn = document.getElementById('tryAgainBtn');
+      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+      var spinBtn = document.getElementById('spinBtn');
+      if (spinBtn) spinBtn.innerText = '🎲 Spin for Topic';
+
+      var picFrame = document.getElementById('pictureFrame');
+      if (picFrame) picFrame.style.display = 'none';
+      var vocabCard = document.getElementById('vocabCard');
+      if (vocabCard) vocabCard.style.display = 'none';
+
+      targetTime = getTargetDuration(currentLevel);
+      timeRemaining = targetTime;
+      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
     }
 
     function returnToLanding() {
@@ -1680,7 +1722,27 @@
       };
       var badge = document.getElementById('categoryBadge');
       if (badge) badge.innerText = labels[mode] || 'PRACTICE';
-      spinPrompt();
+      
+      activePrompt = null;
+      var promptDisplay = document.getElementById('promptDisplay');
+      if (promptDisplay) {
+        promptDisplay.innerText = '🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!';
+      }
+      var ideasBtn = document.getElementById('ideasBtn');
+      if (ideasBtn) ideasBtn.style.display = 'none';
+      var scaffoldBox = document.getElementById('scaffoldBox');
+      if (scaffoldBox) scaffoldBox.style.display = 'none';
+      var actionBtnRow = document.getElementById('actionBtnRow');
+      if (actionBtnRow) actionBtnRow.style.display = 'none';
+      var tryAgainBtn = document.getElementById('tryAgainBtn');
+      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+      var spinBtn = document.getElementById('spinBtn');
+      if (spinBtn) spinBtn.innerText = '🎲 Spin for Topic';
+
+      var picFrame = document.getElementById('pictureFrame');
+      if (picFrame) picFrame.style.display = 'none';
+      var vocabCard = document.getElementById('vocabCard');
+      if (vocabCard) vocabCard.style.display = 'none';
     }
 
     function toggleIdeas() {
@@ -1714,6 +1776,15 @@
 
       var deckKey = currentAge + '_' + currentMode;
       activePrompt = getNextPrompt(pool, deckKey);
+
+      var ideasBtn = document.getElementById('ideasBtn');
+      if (ideasBtn) ideasBtn.style.display = 'inline-block';
+      var actionBtnRow = document.getElementById('actionBtnRow');
+      if (actionBtnRow) actionBtnRow.style.display = 'flex';
+      var tryAgainBtn = document.getElementById('tryAgainBtn');
+      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+      var spinBtn = document.getElementById('spinBtn');
+      if (spinBtn) spinBtn.innerText = '🎲 New Topic';
 
       var picFrame = document.getElementById('pictureFrame');
       var picImg = document.getElementById('pictureImg');
@@ -1754,6 +1825,23 @@
       var display = document.getElementById('promptDisplay');
       if (display) display.innerText = activePrompt.text;
       
+      renderScaffold();
+    }
+
+    function tryAgainSameTopic() {
+      playTapSound();
+      resetAllTimers();
+      
+      var scaffoldBox = document.getElementById('scaffoldBox');
+      if (scaffoldBox) scaffoldBox.style.display = 'none';
+      var actionBtnRow = document.getElementById('actionBtnRow');
+      if (actionBtnRow) actionBtnRow.style.display = 'flex';
+      var tryAgainBtn = document.getElementById('tryAgainBtn');
+      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+      
+      targetTime = getTargetDuration(currentLevel);
+      timeRemaining = targetTime;
+      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
       renderScaffold();
     }
 
@@ -1932,6 +2020,9 @@
         var fullTranscript = completedSentences.join(' ').replace(/\s+/g, ' ').trim();
         openCelebrationModal(totalSpoken, fullTranscript, streak);
         resetAllTimers();
+        
+        var tryAgainBtn = document.getElementById('tryAgainBtn');
+        if (tryAgainBtn) tryAgainBtn.style.display = 'block';
       }, 350);
     }
 
@@ -1974,7 +2065,6 @@
       if (p) p.style.width = pct + '%';
     }
 
-    // Modal with Dynamic 100-Point Scorecard & Disclaimer
     function openCelebrationModal(seconds, transcript, streak) {
       var modalDesc = document.getElementById('modalDesc');
       var modalTitle = document.getElementById('modalTitle');
@@ -2019,9 +2109,6 @@
           if (fillerList.indexOf(cleanWord) !== -1) fillerCount++;
         });
 
-        // ==========================================
-        // DYNAMIC 100-POINT SCORECARD LOGIC
-        // ==========================================
         var timeScore = Math.min(40, Math.round((seconds / targetTime) * 40));
         
         var paceScore = 15;
@@ -2125,7 +2212,6 @@
       playTapSound();
       var modal = document.getElementById('generalModal');
       if (modal) modal.style.display = 'none';
-      spinPrompt();
     }
 
     window.addEventListener('DOMContentLoaded', function() {
