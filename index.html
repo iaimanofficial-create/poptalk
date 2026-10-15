@@ -213,7 +213,7 @@
       margin-bottom: 14px; 
     }
 
-    /* Dedicated 16:9 Picture Frame for Uploaded Illustrations */
+    /* Picture Frame for Uploaded Illustrations */
     .picture-frame {
       display: none;
       width: 100%;
@@ -520,7 +520,7 @@
       <div class="card">
         <span class="badge" id="categoryBadge">PICTURE TALK</span>
         
-        <!-- Dedicated Image Container -->
+        <!-- Image Container for Junior -->
         <div class="picture-frame" id="pictureFrame">
           <img id="pictureImg" src="" alt="Story Scene">
         </div>
@@ -569,7 +569,7 @@
     </div>
   </div>
 
-  <!-- Locked / Celebration Modal -->
+  <!-- Locked / Celebration Modal with Self-Audit Checklist -->
   <div class="modal-overlay" id="generalModal">
     <div class="modal-content">
       <div class="modal-icon" id="modalIcon">🎉</div>
@@ -584,11 +584,13 @@
 
   <script>
     const promptBank = [
-      // JUNIOR (5-8) - PICTURE TALK (Connected directly to your uploaded images)
+      // ==========================================
+      // JUNIOR (5-8) - PICTURE TALK (Uploaded Images)
+      // ==========================================
       {
         age: 'junior', mode: 'picture',
         text: 'A fluffy cat wearing a chef hat making pizza.',
-        image: 'cat.png',
+        image: 'cat.jpg',
         easy: '<strong>1. Who:</strong> A cat wearing a tall white chef hat.<br><strong>2. Doing:</strong> Rolling out pizza dough with flour.<br><strong>3. Ending:</strong> Adding funny toppings for his friends!',
         medium: 'Start with the cat rolling the dough... then tell what happens when flour puffs into his face!',
         hardTwist: 'A little brown mouse runs across the table to grab the cheese!',
@@ -599,7 +601,7 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A giant rainbow treehouse with tire swings and a long slide.',
-        image: 'treehouse.png',
+        image: 'treehouse.jpg',
         easy: '<strong>1. Who:</strong> Tell who climbs the tall ladder.<br><strong>2. Inside:</strong> The games or snacks hidden in the treehouse.<br><strong>3. Slide:</strong> Zooming down the spiral slide to the grass!',
         medium: 'Tell a story about spotting a friendly squirrel peeking through the window!',
         hardTwist: 'A bird lands on the roof and drops a shiny golden key!',
@@ -610,7 +612,7 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A friendly elephant trying to balance on roller skates in the park.',
-        image: 'elephant.png',
+        image: 'elephant.jpg',
         easy: '<strong>1. Who:</strong> An elephant with giant red roller skates.<br><strong>2. Action:</strong> Wobbling down the path as animals watch.<br><strong>3. Ending:</strong> Trying to stop before rolling into the pond!',
         medium: 'Tell a story about the elephant shouting "Whoa!" as he tries to turn a corner!',
         hardTwist: 'He almost bumps right into a shiny ice cream cart!',
@@ -621,7 +623,7 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A tiny magical door hidden behind teddy bears on a shelf.',
-        image: 'door.png',
+        image: 'door.jpg',
         easy: '<strong>1. Who:</strong> Tell who spots the tiny glowing door.<br><strong>2. Action:</strong> Turning the shiny golden key in the lock.<br><strong>3. Ending:</strong> What secret room is on the other side!',
         medium: 'Tell a story about knocking on the door: "Knock knock! Anyone inside?"',
         hardTwist: 'The tiny door slowly begins to close all by itself!',
@@ -632,7 +634,7 @@
       {
         age: 'junior', mode: 'picture',
         text: 'A baby dinosaur having juice and cookies in the garden.',
-        image: 'dino.png',
+        image: 'dino.jpg',
         easy: '<strong>1. Who:</strong> A baby dinosaur at a tiny garden table.<br><strong>2. Action:</strong> Sipping sweet juice through a curly straw.<br><strong>3. Ending:</strong> Who shares the plate of cookies with him!',
         medium: 'Tell a story about his giant, happy slurps: "Gulp, gulp!"',
         hardTwist: 'His long tail accidentally knocks over the cookie plate!',
@@ -641,7 +643,113 @@
         tip: 'Tell what flavor of juice he is drinking.'
       },
 
-      // JUNIOR (5-8) - WOULD YOU RATHER (PICK A SIDE)
+      // ==========================================
+      // TEEN (9-17) - PICTURE TALK / SITUATIONS (10 Complete Scenarios)
+      // ==========================================
+      {
+        age: 'teen', mode: 'picture',
+        text: 'You find an unlocked phone buzzing on an empty cafeteria table after school.',
+        easy: '<strong>1. Pick-up:</strong> You pick it up and see 5 missed calls from "MOM".<br><strong>2. Choice:</strong> Do you answer it, search contacts, or hand it to lost-and-found?<br><strong>3. The Twist:</strong> A new text pops up: "Please don\'t move it."',
+        medium: 'Tell what you do in the next 30 seconds before anyone walks into the room!',
+        hardTwist: 'Footsteps are coming fast down the hallway!',
+        starter: 'The cafeteria was completely quiet when I spotted the phone buzzing...',
+        words: ['Panic', 'Suspicious'],
+        tip: 'Describe the buzzing vibration on the empty plastic table.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'It is 8:00 PM before a major presentation, and your project partner has not replied.',
+        easy: '<strong>1. Problem:</strong> You open the shared document and see only 1 blank slide.<br><strong>2. Choice:</strong> Do you stay up late finishing it alone, or report it tomorrow?<br><strong>3. The Talk:</strong> What do you say when they walk into class smiling?',
+        medium: 'Tell what text message you send them right now to get an answer!',
+        hardTwist: 'Your laptop battery drops to 2% and your charger is missing!',
+        starter: 'Looking at the clock at 8:00 PM, I had two clear choices...',
+        words: ['Deadline', 'Frustrated'],
+        tip: 'Tell how many slides were supposed to be done.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'You accidentally knock over and shatter an expensive glass display shelf in a busy store.',
+        easy: '<strong>1. Accident:</strong> What did your elbow or backpack bump into?<br><strong>2. Reaction:</strong> Do you freeze, or look around for an employee immediately?<br><strong>3. Conversation:</strong> What do you say to the manager when they walk over?',
+        medium: 'Explain how you stay calm, admit the mistake, and offer to help clean up!',
+        hardTwist: 'Another customer points at you and calls loudly for security!',
+        starter: 'The sound of glass breaking was loud enough that everyone stopped talking...',
+        words: ['Accident', 'Responsible'],
+        tip: 'Describe the broken items scattered on the floor.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'You type an honest complaint about a rule, but send it to the official group chat by accident.',
+        easy: '<strong>1. Mistake:</strong> The second you hit Send and notice the group name.<br><strong>2. Reaction:</strong> Do you try to delete it for everyone, or type an apology?<br><strong>3. Facing Class:</strong> How do you handle things the next morning?',
+        medium: 'Tell how you handle the first two minutes when you see "3 people are typing..."!',
+        hardTwist: 'The group admin replies: "Please see me first thing tomorrow."',
+        starter: 'My stomach dropped the second I saw the message go through...',
+        words: ['Instant', 'Apology'],
+        tip: 'Tell what the complaint was about.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'You were listening to music on the bus and realize you stayed on way past your stop.',
+        easy: '<strong>1. Realization:</strong> You look out the window and see streets you do not recognize.<br><strong>2. Plan:</strong> Do you get off at the next stop, or talk to the driver?<br><strong>3. Heading Back:</strong> How do you navigate back home before dark?',
+        medium: 'Tell what you check on your phone map to figure out where you are!',
+        hardTwist: 'Your phone screen flickers and shuts down with 0% battery!',
+        starter: 'I took off my headphones and realized this was definitely not my neighborhood...',
+        words: ['Unfamiliar', 'Route'],
+        tip: 'Describe what unfamiliar buildings or signs you see.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'An underground subway platform that local kids turned into a secret DIY skatepark.',
+        easy: '<strong>1. The Space:</strong> Describe the smooth concrete platform and ramps between the tracks.<br><strong>2. The Crew:</strong> Who hangs out here after school and what music is playing?<br><strong>3. The Catch:</strong> What do people do when someone unfamiliar walks down the stairs?',
+        medium: 'Describe the sound of wheels rolling on concrete and the one rule everyone follows!',
+        hardTwist: 'Someone spots a security flashlight turning the corner at the stairs!',
+        starter: 'Walking down the old station stairs, the first thing you hear is...',
+        words: ['Underground', 'Echo'],
+        tip: 'Describe the colorful graffiti art on the brick walls.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'An empty school hallway at 6:00 PM with one locker showing a bright light through its vents.',
+        easy: '<strong>1. The Setting:</strong> Why are you still in the building after hours?<br><strong>2. The Locker:</strong> What color is the light, and whose locker is it?<br><strong>3. Opening It:</strong> What normal item was left inside that was making the glow?',
+        medium: 'Explain whether you walk over to check it or just head straight for the exit!',
+        hardTwist: 'The locker door suddenly pops open all by itself!',
+        starter: 'The hallway was completely empty, but as I passed locker 42...',
+        words: ['Quiet', 'Curious'],
+        tip: 'Mention the squeak of your shoes on the polished floor.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'An unexpected garden with lush plants and benches on top of an ordinary office building.',
+        easy: '<strong>1. Finding It:</strong> How did you discover the door leading to this quiet rooftop?<br><strong>2. The View:</strong> Contrast looking down at traffic while standing in quiet greenery.<br><strong>3. Your Routine:</strong> Why is this your favorite place to study or think?',
+        medium: 'Describe sitting on the bench watching the sunset over the city buildings!',
+        hardTwist: 'The heavy rooftop door clicks shut and locks from the inside!',
+        starter: 'Most people take the elevator down to the lobby, but if you go up to the roof...',
+        words: ['Peaceful', 'Skyline'],
+        tip: 'Describe the cool breeze or the view of cars below.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'A package left on your porch with a label that says: "Do Not Open Until Next Year".',
+        easy: '<strong>1. The Box:</strong> What size is the box, and is there a return address?<br><strong>2. The Curiosity:</strong> Do you keep it hidden in your room, or ask your family?<br><strong>3. The Guess:</strong> What harmless thing do you think is actually inside?',
+        medium: 'Explain how hard it is to walk past that box every day without tearing off the tape!',
+        hardTwist: 'You hear a faint ticking or buzzing sound coming from inside the box!',
+        starter: 'Sitting right by the door was a box with no return address...',
+        words: ['Curious', 'Patience'],
+        tip: 'Describe the thick packing tape or the heavy cardboard.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'An old, forgotten table on the top floor of a library with books stacked high.',
+        easy: '<strong>1. The Spot:</strong> Describe finding a hidden desk between tall wooden shelves.<br><strong>2. The Stack:</strong> What interesting topic or old map is in the book you pick up?<br><strong>3. Time Flying:</strong> Why is it so easy to sit there for hours without checking your phone?',
+        medium: 'Explain why old paper books and quiet rooms feel so rare compared to scrolling online!',
+        hardTwist: 'The overhead lights flicker off as the intercom announces closing time in 5 minutes!',
+        starter: 'Tucked in the back corner of the third floor, there is a desk where...',
+        words: ['Quiet', 'Focus'],
+        tip: 'Describe the smell of old paper or the dust floating in the window light.'
+      },
+
+      // ==========================================
+      // JUNIOR (5-8) - WOULD YOU RATHER & OPINIONS
+      // ==========================================
       {
         age: 'junior', mode: 'wyr',
         text: 'Would you rather have a pet penguin that eats ice cream or a monkey that cleans your room?',
@@ -662,8 +770,6 @@
         words: ['Magic', 'Sneaky', 'Super'],
         tip: 'Tell what color your shoes or jacket would be.'
       },
-
-      // JUNIOR (5-8) - BIG OPINIONS (HOT TAKES)
       {
         age: 'junior', mode: 'opinions',
         text: 'Ice cream should be allowed as a normal breakfast food every day.',
@@ -765,7 +871,7 @@
       const pool = promptBank.filter(p => p.age === currentAge && p.mode === currentMode);
       activePrompt = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : promptBank[0];
 
-      // Handle Uploaded Picture Display
+      // Handle Picture Display: ONLY show if an image file exists (Junior)
       const picFrame = document.getElementById('pictureFrame');
       const picImg = document.getElementById('pictureImg');
 
@@ -915,7 +1021,7 @@
       document.getElementById('progressBar').style.width = pct + '%';
     }
 
-    /* 1. Post-Speech Screen: Promotes Live Batches (2 Days a Week) ONLY for Kids/Teens */
+    /* Track-Aware Modal with 3-Point Self-Audit Checklist */
     function openCelebrationModal(seconds) {
       const modalDesc = document.getElementById('modalDesc');
       const modalTitle = document.getElementById('modalTitle');
@@ -929,20 +1035,35 @@
         ? `You spoke for <strong>${seconds} seconds</strong>. Keep practicing to build out your thoughts!` 
         : `Great work speaking out loud for <strong>${seconds} seconds</strong> today!`;
 
+      // 3-Point Self-Audit Box (Clean Reflection)
+      const auditBox = `
+        <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:12px; padding:12px 14px; margin:14px 0; text-align:left;">
+          <strong style="font-family:'Fredoka',cursive; font-size:13.5px; color:#105666; display:block; margin-bottom:6px;">
+            📊 Quick Self-Check:
+          </strong>
+          <div style="font-size:12.5px; color:#293830; line-height:1.6;">
+            • Did you speak until the timer finished?<br>
+            • Did you share at least 1 clear reason or detail?<br>
+            • Did you handle any pauses without giving up?
+          </div>
+        </div>
+      `;
+
       if (currentAge === 'junior' || currentAge === 'teen') {
         modalDesc.innerHTML = `
           ${encouragement}
-          <div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">
-            <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:15px; display:block; margin-bottom:6px;">
+          ${auditBox}
+          <div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">
+            <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14.5px; display:block; margin-bottom:4px;">
               Finding it difficult to turn thoughts into words?
             </strong>
-            <span style="font-size:13.5px; color:#52635B; line-height:1.5; display:block; margin-bottom:10px;">
-              If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.
+            <span style="font-size:13px; color:#52635B; line-height:1.45; display:block; margin-bottom:8px;">
+              Our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, organize thoughts, and speak with natural flow.
             </span>
-            <div style="font-size:12.5px; font-weight:600; color:#105666; line-height:1.45;">
+            <div style="font-size:12px; font-weight:600; color:#105666; line-height:1.4;">
               • Small interactive batches (strictly 5–6 students)<br>
               • Classes run 2 days a week<br>
-              • Pure practical techniques — zero grammar drills
+              • Real-time coaching and feedback
             </div>
           </div>
         `;
@@ -950,21 +1071,15 @@
         waBtn.innerText = '💬 Book a Free Demo on WhatsApp';
         waBtn.href = 'https://wa.me/?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
       } else {
-        const adultAffirmations = [
-          "Speaking spontaneously without translating in your head builds effortless fluency.",
-          "Consistency is key — spontaneous reps train your brain to structure thoughts faster.",
-          "Clear communication isn't about complex vocabulary; it's about clear structure."
-        ];
-        const randomAffirmation = adultAffirmations[Math.floor(Math.random() * adultAffirmations.length)];
-
         modalDesc.innerHTML = `
           ${encouragement}
-          <div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">
-            <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14.5px; display:block; margin-bottom:6px;">
+          ${auditBox}
+          <div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">
+            <strong style="font-family:'Fredoka',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">
               💡 Daily Fluency Thought:
             </strong>
-            <span style="font-size:13.5px; color:#52635B; line-height:1.5; font-style:italic; display:block;">
-              "${randomAffirmation}"
+            <span style="font-size:13px; color:#52635B; line-height:1.5; font-style:italic; display:block;">
+              "Speaking spontaneously without translating in your head builds effortless fluency. Consistency in short reps is the secret."
             </span>
           </div>
         `;
@@ -974,7 +1089,7 @@
       document.getElementById('generalModal').style.display = 'flex';
     }
 
-    /* 2. Locked Categories Modal: PopTalk Pro Pass */
+    /* Locked Categories Modal */
     function openLockedModal(categoryName) {
       document.getElementById('modalIcon').innerText = '🔒';
       document.getElementById('modalTitle').innerText = 'Unlock PopTalk Pro';
