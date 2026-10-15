@@ -78,7 +78,6 @@
       box-shadow: 0 2px 6px rgba(180, 83, 9, 0.08);
     }
 
-    /* Daily Reminder Banner */
     .daily-reminder {
       background: #EDF3EF;
       border: 1.5px solid var(--border-soft);
@@ -97,7 +96,6 @@
       color: var(--dark-green);
     }
 
-    /* SCREEN 1: LANDING */
     #landingScreen { display: block; }
     .landing-title { 
       font-family: 'Fredoka', cursive, sans-serif;
@@ -163,7 +161,6 @@
     .tag-teen { background: #EAF0E1; color: var(--moss-green); }
     .tag-adult { background: #E1EFF2; color: var(--midnight-green); }
 
-    /* SCREEN 2: PRACTICE ARENA */
     #arenaScreen { display: none; }
     .top-bar { 
       display: flex; 
@@ -237,7 +234,6 @@
       border-color: #E2E8E5; 
     }
 
-    /* Prompt Display Card */
     .card { 
       background: var(--surface-white); 
       border-radius: 22px; 
@@ -259,7 +255,6 @@
       margin-bottom: 14px; 
     }
 
-    /* 16:9 Picture Frame */
     .picture-frame {
       display: none;
       width: 100%;
@@ -278,7 +273,6 @@
       display: block;
     }
 
-    /* Vocab Focus Box */
     .vocab-card {
       display: none;
       background: #F8FAF9;
@@ -476,7 +470,6 @@
       box-shadow: 0 4px 12px rgba(16, 86, 102, 0.25); 
     }
 
-    /* Modal */
     .modal-overlay { 
       display: none; 
       position: fixed; 
@@ -551,7 +544,6 @@
 
     <!-- SCREEN 1: LANDING AGE SELECTOR -->
     <div id="landingScreen">
-      <!-- Daily Practice Reminder Notification -->
       <div class="daily-reminder" id="dailyReminder">
         ⚡ You haven't practiced your speaking today! Pick a track below to begin.
       </div>
@@ -690,9 +682,7 @@
 
   <script>
     const promptBank = [
-      // ==========================================
-      // JUNIOR (5-8) - PICTURE TALK (With PNG/JPG Auto-Fallback)
-      // ==========================================
+      // JUNIOR (5-8) - PICTURE TALK
       {
         age: 'junior', mode: 'picture',
         text: 'A fluffy cat wearing a chef hat making pizza.',
@@ -754,9 +744,7 @@
         tip: 'Tell what flavor of juice he is drinking.'
       },
 
-      // ==========================================
       // JUNIOR (5-8) - PICK A SIDE
-      // ==========================================
       {
         age: 'junior', mode: 'wyr',
         text: 'Would you rather have a pet penguin that eats ice cream or a monkey that cleans your room?',
@@ -808,9 +796,7 @@
         tip: 'Name your favorite dessert flavor or favorite tag game.'
       },
 
-      // ==========================================
       // JUNIOR (5-8) - HOT TAKES
-      // ==========================================
       {
         age: 'junior', mode: 'opinions',
         text: 'Ice cream should be allowed as a normal breakfast food every single day.',
@@ -862,9 +848,7 @@
         tip: 'Tell what is the first thing you do right after getting out of bed.'
       },
 
-      // ==========================================
       // JUNIOR (5-8) - VOCAB YAP
-      // ==========================================
       {
         age: 'junior', mode: 'vocab',
         vocab: { word: 'CURIOUS', pos: 'adjective', meaning: 'Wanting to know or learn about something new.', example: 'The curious kitten peeked inside the open box.' },
@@ -899,9 +883,7 @@
         tip: 'Describe what it feels like right before you do something brave.'
       },
 
-      // ==========================================
       // TEEN (9-17) - PICTURE TALK / SITUATIONS
-      // ==========================================
       {
         age: 'teen', mode: 'picture',
         text: 'You find an unlocked phone buzzing on an empty cafeteria table after school.',
@@ -953,9 +935,7 @@
         tip: 'Describe what unfamiliar buildings or signs you see.'
       },
 
-      // ==========================================
       // TEEN (9-17) - PICK A SIDE
-      // ==========================================
       {
         age: 'teen', mode: 'wyr',
         text: 'Would you rather have your phone taken away every night at 8:00 PM, or keep it 24/7 with a location tracking app installed by your parents?',
@@ -1007,9 +987,7 @@
         tip: 'Think about whether memories or marks matter more to you five years from now.'
       },
 
-      // ==========================================
       // TEEN (9-17) - HOT TAKES
-      // ==========================================
       {
         age: 'teen', mode: 'opinions',
         text: 'Traditional daily homework does more harm to students than good.',
@@ -1061,9 +1039,7 @@
         tip: 'Think about whether you perform better on written tests or hands-on projects.'
       },
 
-      // ==========================================
       // TEEN (9-17) - VOCAB YAP
-      // ==========================================
       {
         age: 'teen', mode: 'vocab',
         vocab: { word: 'RELUCTANT', pos: 'adjective', meaning: 'Hesitant, unwilling, or holding back from doing something.', example: 'He was reluctant to lend his favorite jacket to his younger brother.' },
@@ -1098,9 +1074,7 @@
         tip: 'Emphasize the word AUTHENTIC when you reach your main conclusion.'
       },
 
-      // ==========================================
       // ADULT (18+) - PICTURE TALK
-      // ==========================================
       {
         age: 'adult', mode: 'picture',
         text: 'The night before a trip, your suitcase will not zip shut and is bursting open with clothes.',
@@ -1152,9 +1126,7 @@
         tip: 'Describe what street, café, or shop you are standing outside of.'
       },
 
-      // ==========================================
       // ADULT (18+) - PICK A SIDE
-      // ==========================================
       {
         age: 'adult', mode: 'wyr',
         text: 'Would you rather be an early settler on Mars, or explore the deepest uncharted oceans on Earth?',
@@ -1206,9 +1178,7 @@
         tip: 'Think about your typical energy levels during different parts of the day.'
       },
 
-      // ==========================================
       // ADULT (18+) - HOT TAKES
-      // ==========================================
       {
         age: 'adult', mode: 'opinions',
         text: 'Recommendation algorithms on digital platforms limit independent thinking.',
@@ -1260,9 +1230,7 @@
         tip: 'Think about whether art is defined by the process or by the end product.'
       },
 
-      // ==========================================
       // ADULT (18+) - VOCAB YAP
-      // ==========================================
       {
         age: 'adult', mode: 'vocab',
         vocab: { word: 'NUANCED', pos: 'adjective', meaning: 'Characterized by subtle distinctions or complexity, not simple black-and-white.', example: 'The debate around remote work requires a nuanced perspective.' },
@@ -1312,9 +1280,11 @@
     var activePrompt = null;
     var categoryDecks = {};
 
+    // ==========================================
+    // SPEECH RECOGNITION (BULLETPROOF NO-LOOP ENGINE)
+    // ==========================================
     var recognition = null;
-    var finalTranscript = '';
-    var accumulatedTranscript = '';
+    var speechResultsMap = {}; // Stores unique final segments by index
     var isSpeakingActive = false;
     var speechStartTime = 0;
 
@@ -1333,7 +1303,6 @@
       return audioCtx;
     }
 
-    // 1. Thinking Bell
     function playThinkingChime() {
       try {
         var ctx = getAudioContext();
@@ -1353,7 +1322,6 @@
       } catch(e) {}
     }
 
-    // 2. Launch Tone
     function playLaunchTone() {
       try {
         var ctx = getAudioContext();
@@ -1383,7 +1351,6 @@
       } catch(e) {}
     }
 
-    // 3. Curveball / Challenge Alert
     function playCurveballAlert() {
       try {
         var ctx = getAudioContext();
@@ -1403,7 +1370,6 @@
       } catch(e) {}
     }
 
-    // 4. Goal Reached Chime
     function playGoalChime() {
       try {
         var ctx = getAudioContext();
@@ -1425,7 +1391,6 @@
       } catch(e) {}
     }
 
-    // 5. Celebration Fanfare
     function playFanfare() {
       try {
         var ctx = getAudioContext();
@@ -1447,7 +1412,6 @@
       } catch(e) {}
     }
 
-    // 6. UI Tap Sound: For difficulty and category tabs
     function playTapSound() {
       try {
         var ctx = getAudioContext();
@@ -1467,7 +1431,6 @@
       } catch(e) {}
     }
 
-    // 7. Shuffle / Next Topic Sound: Card swoosh tone
     function playShuffleSound() {
       try {
         var ctx = getAudioContext();
@@ -1489,7 +1452,6 @@
       } catch(e) {}
     }
 
-    // 8. Add Time (+15s) Sound: Resonant two-note boost
     function playAddTimeSound() {
       try {
         var ctx = getAudioContext();
@@ -1519,7 +1481,6 @@
       } catch(e) {}
     }
 
-    // Daily Streak Engine
     function initStreak() {
       try {
         var today = new Date().toISOString().slice(0, 10);
@@ -1587,26 +1548,23 @@
       return count;
     }
 
+    // Single-pass Speech Recognition Listener
     function initSpeechRecognition() {
       try {
         var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
           recognition = new SpeechRecognition();
           recognition.continuous = true;
-          recognition.interimResults = true;
+          recognition.interimResults = false;
           recognition.lang = 'en-US';
 
           recognition.onresult = function(event) {
-            var interim = '';
             for (var i = event.resultIndex; i < event.results.length; ++i) {
-              var piece = event.results[i][0].transcript;
               if (event.results[i].isFinal) {
-                accumulatedTranscript += ' ' + piece;
-              } else {
-                interim += piece;
+                var transcriptPiece = event.results[i][0].transcript.trim();
+                speechResultsMap[i] = transcriptPiece;
               }
             }
-            finalTranscript = (accumulatedTranscript + ' ' + interim).trim();
           };
 
           recognition.onend = function() {
@@ -1707,7 +1665,7 @@
     }
 
     function spinPrompt() {
-      playShuffleSound(); // Sound FX: New Topic Shuffle
+      playShuffleSound();
       resetAllTimers();
       var scaffoldBox = document.getElementById('scaffoldBox');
       if (scaffoldBox) scaffoldBox.style.display = 'none';
@@ -1720,7 +1678,6 @@
       var deckKey = currentAge + '_' + currentMode;
       activePrompt = getNextPrompt(pool, deckKey);
 
-      // Handle Picture Display with Auto-Fallback (.jpg -> .png)
       var picFrame = document.getElementById('pictureFrame');
       var picImg = document.getElementById('pictureImg');
       if (picFrame && picImg) {
@@ -1825,7 +1782,7 @@
     }
 
     function addBufferTime() {
-      playAddTimeSound(); // Sound FX: +15s More Thinking
+      playAddTimeSound();
       if (bufferUsed) return;
       bufferUsed = true;
       timeRemaining += 15;
@@ -1843,8 +1800,8 @@
       timeRemaining = targetTime;
       overtimeSeconds = 0;
 
-      finalTranscript = '';
-      accumulatedTranscript = '';
+      // Clean Reset of Speech Buffer
+      speechResultsMap = {};
       speechStartTime = Date.now();
       isSpeakingActive = true;
       
@@ -1916,8 +1873,13 @@
       var totalSpoken = (targetTime - Math.max(0, timeRemaining)) + overtimeSeconds;
       var streak = recordStreakCompletion();
 
+      // Assemble final transcript cleanly from unique indexed blocks
+      var assembledTranscript = Object.keys(speechResultsMap).map(function(k) {
+        return speechResultsMap[k];
+      }).join(' ').trim();
+
       setTimeout(function() {
-        openCelebrationModal(totalSpoken, finalTranscript.trim(), streak);
+        openCelebrationModal(totalSpoken, assembledTranscript, streak);
         resetAllTimers();
       }, 350);
     }
@@ -1988,14 +1950,18 @@
           waBtn.href = 'https://wa.me/?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
         }
       } else {
-        var wordsArray = transcript ? transcript.split(/\s+/).filter(function(w) { return w.length > 0; }) : [];
+        var cleanTranscript = transcript.replace(/\s+/g, ' ').trim();
+        var wordsArray = cleanTranscript.length > 0 ? cleanTranscript.split(' ') : [];
         var wordCount = wordsArray.length;
-        var wpm = (seconds > 0) ? Math.round((wordCount / seconds) * 60) : 0;
+        
+        // Accurate WPM formula (Actual Spoken Words / Exact Seconds)
+        var safeSeconds = Math.max(1, seconds);
+        var wpm = Math.round((wordCount / safeSeconds) * 60);
 
         var vocabCheck = '';
         if (currentMode === 'vocab' && activePrompt && activePrompt.vocab) {
           var target = activePrompt.vocab.word.toLowerCase();
-          var spokenClean = transcript.toLowerCase();
+          var spokenClean = cleanTranscript.toLowerCase();
           if (spokenClean.indexOf(target) !== -1) {
             vocabCheck = '<div style="background:#EAF0E1; color:var(--moss-green); padding:4px 10px; border-radius:8px; font-weight:700; margin-top:6px; font-size:12px;">✅ Target Word Used: \'' + activePrompt.vocab.word + '\'</div>';
           } else {
@@ -2031,7 +1997,7 @@
               vocabCheck +
             '</div>' +
             '<strong style="font-family:\'Fredoka\',cursive; font-size:13px; color:#52635B; display:block; margin-bottom:4px;">💬 What did you speak:</strong>' +
-            '<div style="font-size:12.5px; color:#52635B; font-style:italic; background:#F8FAF9; padding:8px 10px; border-radius:8px; border:1px solid #E2E8E5; max-height:80px; overflow-y:auto; line-height:1.45;">"' + transcript + '"</div>' +
+            '<div style="font-size:12.5px; color:#52635B; font-style:italic; background:#F8FAF9; padding:8px 10px; border-radius:8px; border:1px solid #E2E8E5; max-height:80px; overflow-y:auto; line-height:1.45;">"' + cleanTranscript + '"</div>' +
           '</div>';
         } else {
           metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:12px 0; text-align:left;">' +
