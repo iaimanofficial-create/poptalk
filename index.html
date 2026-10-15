@@ -408,7 +408,7 @@
       text-align: center; 
       box-shadow: 0 20px 30px rgba(10, 51, 35, 0.15); 
       max-height: 90vh;
-      overflow-y: auto;
+      overflow-y: auto; 
     }
     .modal-icon { font-size: 40px; margin-bottom: 10px; }
     .modal-title { 
@@ -646,7 +646,7 @@
       },
 
       // ==========================================
-      // JUNIOR (5-8) - PICK A SIDE / WOULD YOU RATHER (All 5 Prompts)
+      // JUNIOR (5-8) - PICK A SIDE (All 5 Prompts)
       // ==========================================
       {
         age: 'junior', mode: 'wyr',
@@ -700,7 +700,7 @@
       },
 
       // ==========================================
-      // JUNIOR (5-8) - HOT TAKES / BIG OPINIONS (All 5 Prompts)
+      // JUNIOR (5-8) - HOT TAKES (All 5 Prompts)
       // ==========================================
       {
         age: 'junior', mode: 'opinions',
@@ -855,6 +855,114 @@
         starter: 'Tucked in the back corner of the third floor, there is a desk where...',
         words: ['Quiet', 'Focus'],
         tip: 'Describe the smell of old paper or the dust floating in the window light.'
+      },
+
+      // ==========================================
+      // TEEN (9-17) - PICK A SIDE (All 5 Neutral Prompts)
+      // ==========================================
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather have your phone taken away every night at 8:00 PM, or keep it 24/7 with a location tracking app installed by your parents?',
+        easy: '<strong>1. Choice:</strong> State clearly which option you pick.<br><strong>2. Big Reason:</strong> Why does your choice feel easier to live with?<br><strong>3. Trade-off:</strong> What is the one thing that will annoy you about your choice?',
+        medium: 'Pick your side and explain which one gives you more peace of mind!',
+        hardTwist: 'Your parents tell you the rule starts tonight—how do you respond?',
+        starter: 'Between the two options, I would choose... because...',
+        words: ['Privacy', 'Freedom'],
+        tip: 'Think about what time you usually turn off your screen at night.'
+      },
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather lead a 4-person group project where everyone shares the same grade, or do the entire assignment completely by yourself?',
+        easy: '<strong>1. Choice:</strong> Pick leading the team or working completely solo.<br><strong>2. Benefit:</strong> What headache do you avoid by making this choice?<br><strong>3. Downside:</strong> What is the hardest part about your choice when the deadline gets close?',
+        medium: 'Pick your side and weigh dividing the work against having total control yourself!',
+        hardTwist: 'Your teacher announces the final presentation date has been moved up by two days!',
+        starter: 'When it comes to school projects, I prefer to... because...',
+        words: ['Teamwork', 'Control'],
+        tip: 'Think about whether you prefer sharing work or working at your own speed.'
+      },
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather have a 2-month summer break with zero responsibilities, or attend a demanding summer program that helps your future career?',
+        easy: '<strong>1. Choice:</strong> Pick complete relaxation or the productive summer program.<br><strong>2. Benefit:</strong> Why is your choice the best way to spend those two months?<br><strong>3. The Catch:</strong> What will you miss most about the other option?',
+        medium: 'Pick your side and balance taking a break to recharge against getting ahead for the future!',
+        hardTwist: 'A close friend invites you on an exciting trip during the exact middle of summer!',
+        starter: 'If I had to plan my summer right now, I would choose...',
+        words: ['Recharge', 'Future'],
+        tip: 'Think about whether you get bored easily during long holidays.'
+      },
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather have friends who always tell you the brutal truth, or friends who tell polite white lies to protect your feelings?',
+        easy: '<strong>1. Choice:</strong> Pick brutal honesty or polite white lies.<br><strong>2. Why:</strong> How does your choice help protect the friendship in the long run?<br><strong>3. The Limit:</strong> In what situation could your choice cause a misunderstanding?',
+        medium: 'Pick your side and explain what kind of communication makes you trust a friend more!',
+        hardTwist: 'Your friend asks you an awkward personal question right now—how do you answer?',
+        starter: 'In my friendships, I value... because...',
+        words: ['Honest', 'Feelings'],
+        tip: 'Think about a time a friend feedback either helped you or hurt your feelings.'
+      },
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather finish high school ranked at the very top of your class with zero close friends, or be an average student surrounded by great friends?',
+        easy: '<strong>1. Choice:</strong> Pick the top academic rank or the great group of friends.<br><strong>2. The Value:</strong> Why does your choice matter more for your happiness and success?<br><strong>3. Sacrifice:</strong> How do you deal with missing out on the other side?',
+        medium: 'Pick your side and compare achieving high marks against having people you can rely on!',
+        hardTwist: 'You find out you have to move to a brand-new city right after graduation!',
+        starter: 'Looking at high school life, I would rather have... because...',
+        words: ['Grades', 'Friends'],
+        tip: 'Think about whether memories or marks matter more to you five years from now.'
+      },
+
+      // ==========================================
+      // TEEN (9-17) - HOT TAKES (All 5 Neutral Prompts)
+      // ==========================================
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'Traditional daily homework does more harm to students than good.',
+        easy: '<strong>1. Stance:</strong> State clearly whether you agree or disagree.<br><strong>2. Main Reason:</strong> Does homework reinforce lessons, or does it take away from rest and family time?<br><strong>3. The Better Way:</strong> If you agree, how should practice work? If you disagree, what is a fair limit?',
+        medium: 'Pick your side and explain what a healthy school-life balance should look like!',
+        hardTwist: 'Your teacher gives a surprise assignment due tomorrow morning!',
+        starter: 'When it comes to daily homework, I believe... because...',
+        words: ['Practice', 'Balance'],
+        tip: 'Mention how much time you usually spend studying after school.'
+      },
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'Nobody under the age of 16 should be allowed to have personal social media accounts.',
+        easy: '<strong>1. Stance:</strong> State whether you agree or disagree with setting the age at 16.<br><strong>2. Key Point:</strong> Does early access cause stress, or does it help teens stay connected and learn?<br><strong>3. Enforcement:</strong> Is an age limit realistic to enforce, or should parents set the rules?',
+        medium: 'Pick your side and balance online safety against letting teens express themselves!',
+        hardTwist: 'A school project requires you to research a trending topic online!',
+        starter: 'On the topic of social media age limits, I think...',
+        words: ['Safety', 'Connected'],
+        tip: 'Think about how you or people you know communicate with friends online.'
+      },
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'School uniforms are better than letting students wear whatever they want.',
+        easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Main Point:</strong> Does a uniform keep everyone equal and save time, or does it stop personal expression?<br><strong>3. The Reality:</strong> What is the biggest advantage of the side you chose?',
+        medium: 'Pick your side and compare morning convenience against personal style!',
+        hardTwist: 'The school holds a special free-dress day tomorrow!',
+        starter: 'When looking at school uniforms, I agree/disagree because...',
+        words: ['Uniform', 'Style'],
+        tip: 'Think about how long it takes to choose an outfit in the morning.'
+      },
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'Using AI tools to help with schoolwork is smart studying, not cheating.',
+        easy: '<strong>1. Stance:</strong> State whether you agree or disagree with using AI for assignments.<br><strong>2. The Line:</strong> Where does smart assistance cross into cheating and copying answers?<br><strong>3. Future Skills:</strong> Does using AI prepare students for modern jobs, or weaken problem-solving?',
+        medium: 'Pick your side and explain how technology should be used responsibly in learning!',
+        hardTwist: 'Your teacher asks you to explain the exact steps you used to solve the problem!',
+        starter: 'Regarding AI in the classroom, I think...',
+        words: ['Tool', 'Honesty'],
+        tip: 'Think about how a calculator is used in math class compared to an AI tool.'
+      },
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'Timed exams only test how much you can memorize, not how smart you are.',
+        easy: '<strong>1. Stance:</strong> Say whether you agree or disagree with this statement.<br><strong>2. Why:</strong> Do exams reward revision and discipline, or put too much pressure on memory?<br><strong>3. Other Skills:</strong> What other abilities (teamwork, speaking, creative projects) should be graded alongside tests?',
+        medium: 'Pick your side and discuss what makes an evaluation system truly fair for all students!',
+        hardTwist: 'The exam is announced to be an open-book test with practical questions!',
+        starter: 'Looking at how students are tested, I believe...',
+        words: ['Memory', 'Skills'],
+        tip: 'Think about whether you perform better on written tests or hands-on projects.'
       },
 
       // ==========================================
