@@ -587,7 +587,7 @@
   <script>
     const promptBank = [
       // ==========================================
-      // JUNIOR (5-8) - PICTURE TALK (Uploaded Images)
+      // JUNIOR (5-8) - PICTURE TALK (5 Prompts with Uploaded Images)
       // ==========================================
       {
         age: 'junior', mode: 'picture',
@@ -643,6 +643,114 @@
         starter: 'Out in the sunny garden, the little dinosaur is...',
         words: ['Green', 'Sweet', 'Friendly'],
         tip: 'Tell what flavor of juice he is drinking.'
+      },
+
+      // ==========================================
+      // JUNIOR (5-8) - PICK A SIDE / WOULD YOU RATHER (All 5 Prompts)
+      // ==========================================
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather have a pet penguin that eats ice cream or a monkey that cleans your room?',
+        easy: '<strong>1. Pick:</strong> Choose your pet and give it a fun name.<br><strong>2. Trick:</strong> Describe the funniest trick they do in your house.<br><strong>3. Rule:</strong> What is one house rule your new pet must obey?',
+        medium: 'Pick your pet and explain why they make your home much more fun than a normal pet!',
+        hardTwist: 'Explain why the other pet makes a giant mess in the kitchen!',
+        starter: 'I would definitely choose the... because...',
+        words: ['Silly', 'Clean', 'Cute'],
+        tip: 'Tell where your new pet would sleep at night.'
+      },
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather have shoes that jump over houses or a jacket that makes you invisible?',
+        easy: '<strong>1. Pick:</strong> Choose the jump shoes or the invisibility jacket.<br><strong>2. Adventure:</strong> Where is the very first place you travel using your power?<br><strong>3. Surprise:</strong> Who do you surprise first, and what do they say?',
+        medium: 'Tell how your special power helps you go on an adventure or help a friend in trouble!',
+        hardTwist: 'Your special item suddenly stops working for 10 seconds!',
+        starter: 'Between the two, I choose the... because...',
+        words: ['Magic', 'Sneaky', 'Super'],
+        tip: 'Tell what color your shoes or jacket would be.'
+      },
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather have it rain warm chocolate milk or shiny rainbow glitter from the sky?',
+        easy: '<strong>1. Pick:</strong> Choose which magical rain falls outside your window.<br><strong>2. Getting Ready:</strong> What boots or clothes do you put on before running outside?<br><strong>3. Street View:</strong> What do the trees and streets look like when the storm stops?',
+        medium: 'Describe what you and your friends do when you look out the window and see the sky!',
+        hardTwist: 'Tell how everyone works together to wash the cars and sidewalks afterward!',
+        starter: 'If it could rain anything outside today, I want...',
+        words: ['Sweet', 'Sparkly', 'Messy'],
+        tip: 'Tell if you catch it in a cup or jump in the puddles.'
+      },
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather be able to talk to all animals or be able to fly anywhere like a bird?',
+        easy: '<strong>1. Pick:</strong> Choose animal talk or soaring in the sky.<br><strong>2. Mission:</strong> Who is the first creature you chat with, or where do you fly first?<br><strong>3. Secret:</strong> What cool secret do you discover using your gift?',
+        medium: 'Explain why having your chosen power makes every single day an adventure!',
+        hardTwist: 'Convince a friend to try your superpower with you right now!',
+        starter: 'I would much rather... because...',
+        words: ['Brave', 'High', 'Fun'],
+        tip: 'Name your favorite animal or a landmark you would look down on.'
+      },
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather eat cake for dinner every night or play at recess all day at school?',
+        easy: '<strong>1. Pick:</strong> Choose cake for dinner or endless recess.<br><strong>2. Best Part:</strong> What favorite dessert or playground game fills your day?<br><strong>3. The Catch:</strong> What is one small problem that might happen after a whole week?',
+        medium: 'Give 1 reason why your choice sounds amazing and 1 reason it might be tricky!',
+        hardTwist: 'Your teacher asks where your homework is!',
+        starter: 'My top choice is definitely... because...',
+        words: ['Sweet', 'Tired', 'Excited'],
+        tip: 'Name your favorite dessert flavor or favorite tag game.'
+      },
+
+      // ==========================================
+      // JUNIOR (5-8) - HOT TAKES / BIG OPINIONS (All 5 Prompts)
+      // ==========================================
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Ice cream should be allowed as a normal breakfast food every single day.',
+        easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell how your stomach feels after eating cold scoops in the morning.<br><strong>3. Better Food:</strong> What morning food gives you the best energy to run and play?',
+        medium: 'Give your answer and explain whether breakfast should be warm and healthy or sweet and cold!',
+        hardTwist: 'Convince a grown-up to let you have one tiny spoonful tomorrow morning!',
+        starter: 'I think this idea is... because...',
+        words: ['Yummy', 'Healthy'],
+        tip: 'Tell what you ate for breakfast this morning.'
+      },
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Dogs are much better pets to have at home than cats.',
+        easy: '<strong>1. Pick:</strong> Choose whether dogs or cats make a better pet.<br><strong>2. Best Thing:</strong> Describe the most fun thing your chosen pet does with you.<br><strong>3. The Other Side:</strong> What is one tricky thing about the other animal?',
+        medium: 'Pick your side and explain why your pet is the best buddy to hang out with at home!',
+        hardTwist: 'Your pet suddenly jumps up and knocks over a water bowl!',
+        starter: 'In my opinion, I believe...',
+        words: ['Playful', 'Quiet'],
+        tip: 'Tell if you like running outside or sitting quietly indoors.'
+      },
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Kids should stay up one hour later on the night before a school holiday.',
+        easy: '<strong>1. Stance:</strong> Say "I agree" or "I disagree".<br><strong>2. Why:</strong> Explain why there is no rush to wake up early the next morning.<br><strong>3. The Plan:</strong> What special game, movie, or book would you enjoy with that hour?',
+        medium: 'Give your answer and explain why sleeping late does not hurt when you have a day off tomorrow!',
+        hardTwist: 'Your family tells you that you have an early morning trip tomorrow!',
+        starter: 'On the night before a holiday, I think...',
+        words: ['Relaxing', 'No School'],
+        tip: 'Tell what bedtime routine you usually follow.'
+      },
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Rainy days indoors are more fun than sunny days outside.',
+        easy: '<strong>1. Stance:</strong> Pick whether you prefer rainy days inside or sunny days outside.<br><strong>2. Best Activity:</strong> Describe what you love doing most in that weather.<br><strong>3. Downside:</strong> Tell what gets annoying or boring about the other weather!',
+        medium: 'Choose your side and compare running in the fresh air versus staying cozy indoors!',
+        hardTwist: 'The weather suddenly switches completely right in the middle of your day!',
+        starter: 'Between rain and sunshine, I prefer... because...',
+        words: ['Cozy', 'Outdoor'],
+        tip: 'Tell what you wear when you go out in your favorite weather.'
+      },
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Kids should be allowed to watch cartoons in the morning before school.',
+        easy: '<strong>1. Stance:</strong> Say "Yes, allowed" or "No, not allowed".<br><strong>2. Why:</strong> Does watching a show help you wake up happy, or does it make you late?<br><strong>3. The Rule:</strong> If yes, when should you turn it off? If no, what should you do instead?',
+        medium: 'Share your opinion and balance having a cheerful morning with getting ready on time!',
+        hardTwist: 'Your school ride or bus arrives 10 minutes earlier than usual!',
+        starter: 'In the morning before school, I think...',
+        words: ['Ready', 'Distracted'],
+        tip: 'Tell what is the first thing you do right after getting out of bed.'
       },
 
       // ==========================================
@@ -801,60 +909,6 @@
         starter: 'Out of nowhere, someone tapped my shoulder and called out my name...',
         words: ['Surprise', 'Familiar'],
         tip: 'Describe what street, café, or shop you are standing outside of.'
-      },
-
-      // ==========================================
-      // JUNIOR (5-8) - WOULD YOU RATHER & OPINIONS
-      // ==========================================
-      {
-        age: 'junior', mode: 'wyr',
-        text: 'Would you rather have a pet penguin that eats ice cream or a monkey that cleans your room?',
-        easy: '<strong>1. Pick:</strong> Choose your pet and give it a funny name.<br><strong>2. Best Part:</strong> The funniest trick they do in your house.<br><strong>3. Rule:</strong> One house rule they must follow!',
-        medium: 'Pick your pet and explain why they make your home much more fun!',
-        hardTwist: 'Explain why the other pet makes a giant mess in the kitchen!',
-        starter: 'I would definitely pick the... because...',
-        words: ['Silly', 'Clean', 'Cute'],
-        tip: 'Tell where your new pet would sleep at night.'
-      },
-      {
-        age: 'junior', mode: 'wyr',
-        text: 'Would you rather have shoes that jump over houses or a jacket that makes you invisible?',
-        easy: '<strong>1. Pick:</strong> Choose the shoes or the magic jacket.<br><strong>2. First Place:</strong> The first place you travel with it.<br><strong>3. Surprise:</strong> Who you surprise first and what they say!',
-        medium: 'Pick your item and tell how it helps you go on an adventure or help a friend!',
-        hardTwist: 'Your special item suddenly stops working for 10 seconds!',
-        starter: 'Between the two, I choose the... because...',
-        words: ['Magic', 'Sneaky', 'Super'],
-        tip: 'Tell what color your shoes or jacket would be.'
-      },
-      {
-        age: 'junior', mode: 'opinions',
-        text: 'Ice cream should be allowed as a normal breakfast food every day.',
-        easy: '<strong>1. Stance:</strong> Say "I agree" or "I disagree".<br><strong>2. Reason:</strong> How your tummy feels after eating cold scoops.<br><strong>3. Best Food:</strong> What breakfast gives you the best energy to play!',
-        medium: 'Give your answer and explain whether breakfast should be warm and healthy or sweet and cold!',
-        hardTwist: 'Convince a grown-up to let you have one tiny bite tomorrow morning!',
-        starter: 'I think this idea is... because...',
-        words: ['Yummy', 'Healthy'],
-        tip: 'Tell what you ate for breakfast today.'
-      },
-      {
-        age: 'junior', mode: 'opinions',
-        text: 'Dogs are much better pets to have at home than cats.',
-        easy: '<strong>1. Pick:</strong> Choose dogs or cats.<br><strong>2. Why:</strong> Tell the best thing your chosen pet does.<br><strong>3. The Other Side:</strong> What is one tricky thing about the other pet?',
-        medium: 'Pick your side and explain why your pet is more fun to hang out with at home!',
-        hardTwist: 'Your pet suddenly jumps up and knocks over a bowl of water!',
-        starter: 'In my opinion, I think...',
-        words: ['Playful', 'Quiet'],
-        tip: 'Tell if you like running around or sitting quietly with a pet.'
-      },
-      {
-        age: 'junior', mode: 'opinions',
-        text: 'Kids should stay up one hour later on the night before a holiday.',
-        easy: '<strong>1. Stance:</strong> Say "I agree" or "I disagree".<br><strong>2. Reason:</strong> Explain that there is no school the next morning.<br><strong>3. Plan:</strong> What game or movie you would enjoy with that hour.',
-        medium: 'Give your answer and explain why sleeping late does not hurt when you do not have to wake up early!',
-        hardTwist: 'Your parents tell you that you still have to wake up early tomorrow!',
-        starter: 'On the night before a holiday, I think...',
-        words: ['Relaxing', 'No School'],
-        tip: 'Tell what game or movie you love on holidays.'
       }
     ];
 
@@ -870,6 +924,7 @@
     let bufferUsed = false;
     let twistTriggered = false;
     let activePrompt = null;
+    let categoryDecks = {}; // Anti-Repeat Shuffle Deck Engine
 
     // Web Speech API Engine with Android Multi-Sentence Fix
     let recognition = null;
@@ -962,12 +1017,29 @@
       box.style.display = box.style.display === 'block' ? 'none' : 'block';
     }
 
+    // Anti-Repeat Card Dealing Function
+    function getNextPrompt(pool, key) {
+      if (!categoryDecks[key] || categoryDecks[key].length === 0) {
+        // Create freshly shuffled deck when empty
+        categoryDecks[key] = [...pool].sort(() => Math.random() - 0.5);
+        
+        // Prevent immediate duplicate on reshuffle if more than 1 card exists
+        if (categoryDecks[key].length > 1 && categoryDecks[key][0] === activePrompt) {
+          categoryDecks[key].push(categoryDecks[key].shift());
+        }
+      }
+      return categoryDecks[key].shift();
+    }
+
     function spinPrompt() {
       resetAllTimers();
       document.getElementById('scaffoldBox').style.display = 'none';
 
       const pool = promptBank.filter(p => p.age === currentAge && p.mode === currentMode);
-      activePrompt = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : promptBank[0];
+      if (pool.length === 0) return;
+
+      const deckKey = `${currentAge}_${currentMode}`;
+      activePrompt = getNextPrompt(pool, deckKey);
 
       // Handle Picture Display: ONLY show if image exists (Junior)
       const picFrame = document.getElementById('pictureFrame');
@@ -1135,7 +1207,7 @@
       document.getElementById('progressBar').style.width = pct + '%';
     }
 
-    /* Modal with Speech Breakdown for Teens & Adults */
+    /* Modal with Delivery Breakdown & Smart Promotion */
     function openCelebrationModal(seconds, transcript) {
       const modalDesc = document.getElementById('modalDesc');
       const modalTitle = document.getElementById('modalTitle');
