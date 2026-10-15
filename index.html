@@ -401,7 +401,6 @@
       margin: 2px 4px 2px 0;
     }
 
-    /* Live Mic Status Pill */
     .mic-live-pill {
       display: none;
       background: #FFF1F0;
@@ -661,7 +660,7 @@
           </div>
         </div>
 
-        <!-- Real-Time Mic Status Indicator for Teens & Adults -->
+        <!-- Live Mic Status Indicator for Teens & Adults -->
         <div class="mic-live-pill" id="micLivePill">🔴 Mic Listening...</div>
 
         <div class="timer-label" id="timerPhaseLabel">Ready to begin</div>
@@ -1297,13 +1296,10 @@
     var activePrompt = null;
     var categoryDecks = {};
 
-    // ========================================================
-    // PERMANENT VAULT SPEECH ENGINE (Android Pause-Proof)
-    // ========================================================
     var recognition = null;
-    var completedSentences = []; // Permanently stores finalized sentences across mic restarts
-    var currentInterim = '';     // Catches unfinalized words if user stops mid-sentence
-    var lastAddedSentence = '';  // Prevents duplicate sentence pushes
+    var completedSentences = [];
+    var currentInterim = '';
+    var lastAddedSentence = '';
     var isSpeakingActive = false;
 
     var audioCtx = null;
@@ -1566,13 +1562,12 @@
       return count;
     }
 
-    // Updated Speech Engine: Pushes finalized phrases into a permanent array so pauses never overwrite previous sentences
     function initSpeechRecognition() {
       try {
         var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
           recognition = new SpeechRecognition();
-          recognition.continuous = false; // False on Android prevents internal buffer duplication bugs; auto-restarts via onend
+          recognition.continuous = false;
           recognition.interimResults = true;
           recognition.lang = 'en-US';
 
@@ -1592,7 +1587,6 @@
             }
             currentInterim = interimChunk.trim();
 
-            // Update live on-screen word counter so user sees it working
             var fullNow = (completedSentences.join(' ') + ' ' + currentInterim).trim();
             var countNow = fullNow.length > 0 ? fullNow.split(/\s+/).length : 0;
             var pill = document.getElementById('micLivePill');
@@ -1602,13 +1596,11 @@
           };
 
           recognition.onend = function() {
-            // Save any lingering interim words if Android closed the mic mid-breath
             if (currentInterim && currentInterim !== lastAddedSentence) {
               completedSentences.push(currentInterim);
               lastAddedSentence = currentInterim;
               currentInterim = '';
             }
-            // Restart smoothly after 200ms breather if user is still speaking
             if (isSpeakingActive) {
               setTimeout(function() {
                 if (isSpeakingActive && recognition) {
@@ -1845,7 +1837,6 @@
       timeRemaining = targetTime;
       overtimeSeconds = 0;
 
-      // Clear Vault & Start Mic for Teens and Adults
       completedSentences = [];
       currentInterim = '';
       lastAddedSentence = '';
@@ -1925,7 +1916,6 @@
       var micPill = document.getElementById('micLivePill');
       if (micPill) micPill.style.display = 'none';
 
-      // Catch any unfinalized words still in the air before stopping
       if (currentInterim && currentInterim !== lastAddedSentence) {
         completedSentences.push(currentInterim);
         currentInterim = '';
@@ -1984,6 +1974,7 @@
       if (p) p.style.width = pct + '%';
     }
 
+    // Modal with Dynamic 100-Point Scorecard & Disclaimer
     function openCelebrationModal(seconds, transcript, streak) {
       var modalDesc = document.getElementById('modalDesc');
       var modalTitle = document.getElementById('modalTitle');
@@ -2021,23 +2012,30 @@
         var safeSeconds = Math.max(1, seconds);
         var wpm = Math.round((wordCount / safeSeconds) * 60);
 
-        var vocabCheck = '';
-        if (currentMode === 'vocab' && activePrompt && activePrompt.vocab) {
-          var target = activePrompt.vocab.word.toLowerCase();
-          var spokenClean = cleanTranscript.toLowerCase();
-          if (spokenClean.indexOf(target) !== -1) {
-            vocabCheck = '<div style="background:#EAF0E1; color:var(--moss-green); padding:4px 10px; border-radius:8px; font-weight:700; margin-top:6px; font-size:12px;">✅ Target Word Used: \'' + activePrompt.vocab.word + '\'</div>';
-          } else {
-            vocabCheck = '<div style="background:#FFF1F0; color:#B91C1C; padding:4px 10px; border-radius:8px; font-weight:600; margin-top:6px; font-size:12px;">⚠️ Target word \'' + activePrompt.vocab.word + '\' wasn\'t spotted — try again!</div>';
-          }
-        }
-
         var fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
         var fillerCount = 0;
         wordsArray.forEach(function(w) {
           var cleanWord = w.toLowerCase().replace(/[^a-z]/g, '');
           if (fillerList.indexOf(cleanWord) !== -1) fillerCount++;
         });
+
+        // ==========================================
+        // DYNAMIC 100-POINT SCORECARD LOGIC
+        // ==========================================
+        var timeScore = Math.min(40, Math.round((seconds / targetTime) * 40));
+        
+        var paceScore = 15;
+        if (wpm >= 120 && wpm <= 160) {
+          paceScore = 30;
+        } else if ((wpm >= 100 && wpm < 120) || (wpm > 160 && wpm <= 180)) {
+          paceScore = 22;
+        } else if (wpm > 0) {
+          paceScore = 15;
+        }
+
+        var fillerScore = Math.max(0, 20 - (fillerCount * 5));
+        var bonusScore = (currentMode === 'vocab' || currentLevel === 'hard') ? 10 : 8;
+        var totalScore = Math.min(100, timeScore + paceScore + fillerScore + bonusScore);
 
         var paceLabel = 'Conversational & Balanced';
         var paceColor = 'var(--moss-green)';
@@ -2051,21 +2049,26 @@
 
         var metricsCard = '';
         if (wordCount > 0) {
-          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:14px; margin:12px 0; text-align:left;">' +
-            '<strong style="font-family:\'Fredoka\',cursive; font-size:14px; color:#105666; display:block; margin-bottom:8px;">🎙️ Your Delivery Breakdown:</strong>' +
+          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:16px; margin:14px 0; text-align:left;">' +
+            '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1.5px solid #F3F5F4; padding-bottom:8px;">' +
+              '<span style="font-family:\'Fredoka\',cursive; font-size:16px; color:#0A3323; font-weight:700;">🏆 Session Score:</span>' +
+              '<span style="font-family:\'Fredoka\',cursive; font-size:18px; color:#105666; font-weight:700;">' + totalScore + ' / 100</span>' +
+            '</div>' +
             '<div style="font-size:13px; color:#293830; line-height:1.6; margin-bottom:10px;">' +
               '• <strong>Pace:</strong> ' + wpm + ' WPM <span style="font-weight:600; color:' + paceColor + ';">(' + paceLabel + ')</span><br>' +
               '• <strong>Words Spoken:</strong> ' + wordCount + ' words in ' + seconds + 's<br>' +
               '• <strong>Filler Words Detected:</strong> ' + fillerCount +
-              vocabCheck +
             '</div>' +
             '<strong style="font-family:\'Fredoka\',cursive; font-size:13px; color:#52635B; display:block; margin-bottom:4px;">💬 What did you speak:</strong>' +
-            '<div style="font-size:12.5px; color:#52635B; font-style:italic; background:#F8FAF9; padding:8px 10px; border-radius:8px; border:1px solid #E2E8E5; max-height:95px; overflow-y:auto; line-height:1.45;">"' + cleanTranscript + '"</div>' +
+            '<div style="font-size:12.5px; color:#52635B; font-style:italic; background:#F8FAF9; padding:8px 10px; border-radius:8px; border:1px solid #E2E8E5; max-height:85px; overflow-y:auto; line-height:1.45; margin-bottom:10px;">"' + cleanTranscript + '"</div>' +
+            '<div style="background:#FFFDF5; border:1px dashed #E6C875; border-radius:8px; padding:8px 10px; font-size:11.5px; color:#785E14; line-height:1.45;">' +
+              'ℹ️ <strong>Estimate Disclaimer:</strong> This score is an automated browser estimate for self-tracking and daily habit building. It is not human grading or an exact test.' +
+            '</div>' +
           '</div>';
         } else {
           metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:12px 0; text-align:left;">' +
             '<strong style="font-family:\'Fredoka\',cursive; font-size:13px; color:#105666; display:block; margin-bottom:4px;">📊 Quick Self-Check:</strong>' +
-            '<div style="font-size:12.5px; color:#293830; line-height:1.55;">• Did you complete your thought before time ran out?<br>• Did you structure your reason and example clearly?<br>• <em>(Tap the lock icon next to the website URL at the top of your browser and set Microphone to "Allow" to see your live word & pace analysis!)</em></div>' +
+            '<div style="font-size:12.5px; color:#293830; line-height:1.55;">• Did you complete your thought before time ran out?<br>• Did you structure your reason and example clearly?<br>• <em>(Allow microphone access to unlock automatic pace, word, and score tracking!)</em></div>' +
           '</div>';
         }
 
