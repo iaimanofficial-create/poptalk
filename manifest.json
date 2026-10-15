@@ -1,0 +1,20 @@
+{
+  "name": "PopTalk",
+  "short_name": "PopTalk",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0A3323",
+  "theme_color": "#0A3323",
+  "icons": [
+    {
+      "src": "cat.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "cat.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
