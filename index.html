@@ -691,12 +691,13 @@
   <script>
     const promptBank = [
       // ==========================================
-      // JUNIOR (5-8) - PICTURE TALK
+      // JUNIOR (5-8) - PICTURE TALK (With PNG/JPG Auto-Fallback)
       // ==========================================
       {
         age: 'junior', mode: 'picture',
         text: 'A fluffy cat wearing a chef hat making pizza.',
         image: 'cat.jpg',
+        fallbackImage: 'cat.png',
         easy: '<strong>1. Who:</strong> A cat wearing a tall white chef hat.<br><strong>2. Doing:</strong> Rolling out pizza dough with flour.<br><strong>3. Ending:</strong> Adding funny toppings for his friends!',
         medium: 'Start with the cat rolling the dough... then tell what happens when flour puffs into his face!',
         hardTwist: 'A little brown mouse runs across the table to grab the cheese!',
@@ -708,6 +709,7 @@
         age: 'junior', mode: 'picture',
         text: 'A giant rainbow treehouse with tire swings and a long slide.',
         image: 'treehouse.jpg',
+        fallbackImage: 'treehouse.png',
         easy: '<strong>1. Who:</strong> Tell who climbs the tall ladder.<br><strong>2. Inside:</strong> The games or snacks hidden in the treehouse.<br><strong>3. Slide:</strong> Zooming down the spiral slide to the grass!',
         medium: 'Tell a story about spotting a friendly squirrel peeking through the window!',
         hardTwist: 'A bird lands on the roof and drops a shiny golden key!',
@@ -719,6 +721,7 @@
         age: 'junior', mode: 'picture',
         text: 'A friendly elephant trying to balance on roller skates in the park.',
         image: 'elephant.jpg',
+        fallbackImage: 'elephant.png',
         easy: '<strong>1. Who:</strong> An elephant with giant red roller skates.<br><strong>2. Action:</strong> Wobbling down the path as animals watch.<br><strong>3. Ending:</strong> Trying to stop before rolling into the pond!',
         medium: 'Tell a story about the elephant shouting "Whoa!" as he tries to turn a corner!',
         hardTwist: 'He almost bumps right into a shiny ice cream cart!',
@@ -730,6 +733,7 @@
         age: 'junior', mode: 'picture',
         text: 'A tiny magical door hidden behind teddy bears on a shelf.',
         image: 'door.jpg',
+        fallbackImage: 'door.png',
         easy: '<strong>1. Who:</strong> Tell who spots the tiny glowing door.<br><strong>2. Action:</strong> Turning the shiny golden key in the lock.<br><strong>3. Ending:</strong> What secret room is on the other side!',
         medium: 'Tell a story about knocking on the door: "Knock knock! Anyone inside?"',
         hardTwist: 'The tiny door slowly begins to close all by itself!',
@@ -741,6 +745,7 @@
         age: 'junior', mode: 'picture',
         text: 'A baby dinosaur having juice and cookies in the garden.',
         image: 'dino.jpg',
+        fallbackImage: 'dino.png',
         easy: '<strong>1. Who:</strong> A baby dinosaur at a tiny garden table.<br><strong>2. Action:</strong> Sipping sweet juice through a curly straw.<br><strong>3. Ending:</strong> Who shares the plate of cookies with him!',
         medium: 'Tell a story about his giant, happy slurps: "Gulp, gulp!"',
         hardTwist: 'His long tail accidentally knocks over the cookie plate!',
@@ -1328,6 +1333,7 @@
       return audioCtx;
     }
 
+    // 1. Thinking Bell
     function playThinkingChime() {
       try {
         var ctx = getAudioContext();
@@ -1347,6 +1353,7 @@
       } catch(e) {}
     }
 
+    // 2. Launch Tone
     function playLaunchTone() {
       try {
         var ctx = getAudioContext();
@@ -1376,6 +1383,7 @@
       } catch(e) {}
     }
 
+    // 3. Curveball / Challenge Alert
     function playCurveballAlert() {
       try {
         var ctx = getAudioContext();
@@ -1395,6 +1403,7 @@
       } catch(e) {}
     }
 
+    // 4. Goal Reached Chime
     function playGoalChime() {
       try {
         var ctx = getAudioContext();
@@ -1416,6 +1425,7 @@
       } catch(e) {}
     }
 
+    // 5. Celebration Fanfare
     function playFanfare() {
       try {
         var ctx = getAudioContext();
@@ -1437,6 +1447,79 @@
       } catch(e) {}
     }
 
+    // 6. UI Tap Sound: For difficulty and category tabs
+    function playTapSound() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, now);
+        osc.frequency.exponentialRampToValueAtTime(400, now + 0.08);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      } catch(e) {}
+    }
+
+    // 7. Shuffle / Next Topic Sound: Card swoosh tone
+    function playShuffleSound() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        [280, 420, 560].forEach(function(freq, idx) {
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          var startTime = now + (idx * 0.04);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, startTime);
+          gain.gain.setValueAtTime(0.18, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.12);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(startTime);
+          osc.stop(startTime + 0.12);
+        });
+      } catch(e) {}
+    }
+
+    // 8. Add Time (+15s) Sound: Resonant two-note boost
+    function playAddTimeSound() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc1 = ctx.createOscillator();
+        var gain1 = ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(350, now);
+        gain1.gain.setValueAtTime(0.2, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.15);
+
+        var osc2 = ctx.createOscillator();
+        var gain2 = ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(520, now + 0.1);
+        gain2.gain.setValueAtTime(0.25, now + 0.1);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(now + 0.1);
+        osc2.stop(now + 0.3);
+      } catch(e) {}
+    }
+
+    // Daily Streak Engine
     function initStreak() {
       try {
         var today = new Date().toISOString().slice(0, 10);
@@ -1543,7 +1626,7 @@
     }
 
     function selectTrack(ageKey, displayLabel) {
-      getAudioContext();
+      playTapSound();
       currentAge = ageKey;
       
       var label = document.getElementById('currentTrackLabel');
@@ -1558,6 +1641,7 @@
     }
 
     function returnToLanding() {
+      playTapSound();
       resetAllTimers();
       var landing = document.getElementById('landingScreen');
       var arena = document.getElementById('arenaScreen');
@@ -1566,6 +1650,7 @@
     }
 
     function setLevel(lvl) {
+      playTapSound();
       currentLevel = lvl;
       document.querySelectorAll('#levelGroup .pill').forEach(function(btn) {
         btn.classList.remove('active');
@@ -1583,6 +1668,7 @@
     }
 
     function setMode(mode) {
+      playTapSound();
       currentMode = mode;
       document.querySelectorAll('#modeGroup .pill:not(.locked)').forEach(function(btn) {
         btn.classList.remove('active');
@@ -1603,6 +1689,7 @@
     }
 
     function toggleIdeas() {
+      playTapSound();
       var box = document.getElementById('scaffoldBox');
       if (box) {
         box.style.display = (box.style.display === 'block') ? 'none' : 'block';
@@ -1620,6 +1707,7 @@
     }
 
     function spinPrompt() {
+      playShuffleSound(); // Sound FX: New Topic Shuffle
       resetAllTimers();
       var scaffoldBox = document.getElementById('scaffoldBox');
       if (scaffoldBox) scaffoldBox.style.display = 'none';
@@ -1632,10 +1720,18 @@
       var deckKey = currentAge + '_' + currentMode;
       activePrompt = getNextPrompt(pool, deckKey);
 
+      // Handle Picture Display with Auto-Fallback (.jpg -> .png)
       var picFrame = document.getElementById('pictureFrame');
       var picImg = document.getElementById('pictureImg');
       if (picFrame && picImg) {
         if (currentMode === 'picture' && activePrompt.image) {
+          picImg.onerror = function() {
+            if (activePrompt.fallbackImage && this.src.indexOf(activePrompt.fallbackImage) === -1) {
+              this.src = activePrompt.fallbackImage;
+            } else {
+              this.onerror = null;
+            }
+          };
           picImg.src = activePrompt.image;
           picFrame.style.display = 'block';
         } else {
@@ -1729,6 +1825,7 @@
     }
 
     function addBufferTime() {
+      playAddTimeSound(); // Sound FX: +15s More Thinking
       if (bufferUsed) return;
       bufferUsed = true;
       timeRemaining += 15;
@@ -1974,6 +2071,7 @@
     }
 
     function openLockedModal(categoryName) {
+      playTapSound();
       var modalTitle = document.getElementById('modalTitle');
       var modalDesc = document.getElementById('modalDesc');
       var waBtn = document.getElementById('modalWaBtn');
@@ -1992,6 +2090,7 @@
     }
 
     function closeModal() {
+      playTapSound();
       var modal = document.getElementById('generalModal');
       if (modal) modal.style.display = 'none';
       spinPrompt();
