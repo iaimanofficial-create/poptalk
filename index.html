@@ -36,15 +36,7 @@
     
     header { 
       text-align: center; 
-      margin-bottom: 22px; 
-      position: relative;
-    }
-    .header-top {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      position: relative;
+      margin-bottom: 20px; 
     }
     h1 { 
       font-family: 'Fredoka', cursive, sans-serif; 
@@ -54,10 +46,22 @@
       letter-spacing: 0.5px; 
       line-height: 1.15;
     }
+    p.tagline { 
+      font-size: 15px; 
+      font-weight: 500; 
+      color: var(--midnight-green); 
+      margin-top: 4px; 
+      letter-spacing: 0.2px;
+    }
+    .streak-container {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
     .streak-pill {
       background: #FFF3E6;
       border: 1.5px solid #FBD0A7;
-      padding: 4px 12px;
+      padding: 5px 14px;
       border-radius: 20px;
       font-family: 'Fredoka', cursive, sans-serif;
       font-size: 13.5px;
@@ -65,26 +69,38 @@
       color: #B45309;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       box-shadow: 0 2px 6px rgba(180, 83, 9, 0.08);
     }
-    p.tagline { 
-      font-size: 15px; 
-      font-weight: 500; 
-      color: var(--midnight-green); 
-      margin-top: 6px; 
-      letter-spacing: 0.2px;
+
+    /* Daily Reminder Banner */
+    .daily-reminder {
+      background: #EDF3EF;
+      border: 1.5px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      text-align: center;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--midnight-green);
+      line-height: 1.45;
+    }
+    .daily-reminder.done {
+      background: #EAF0E1;
+      border-color: #C7DCB1;
+      color: var(--dark-green);
     }
 
     /* SCREEN 1: LANDING */
     #landingScreen { display: block; }
     .landing-title { 
       font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 22px; 
+      font-size: 20px; 
       font-weight: 600; 
       color: var(--dark-green); 
       text-align: center; 
-      margin-bottom: 20px; 
+      margin-bottom: 16px; 
     }
     .track-card { 
       background: var(--surface-white); 
@@ -519,17 +535,22 @@
 <body>
   <div class="container">
     <header>
-      <div class="header-top">
-        <h1>PopTalk</h1>
+      <h1>PopTalk</h1>
+      <p class="tagline">Think. Organize. Express.</p>
+      <div class="streak-container">
         <div class="streak-pill" id="streakBadge" title="Practice every day to keep your streak alive!">
-          🔥 <span id="streakCount">0</span> Days
+          🔥 <span id="streakCount">0</span> Day Streak
         </div>
       </div>
-      <p class="tagline">Think. Organize. Express.</p>
     </header>
 
     <!-- SCREEN 1: LANDING AGE SELECTOR -->
     <div id="landingScreen">
+      <!-- Daily Practice Reminder Notification -->
+      <div class="daily-reminder" id="dailyReminder">
+        ⚡ You haven't practiced your speaking today! Pick a track below to begin.
+      </div>
+
       <div class="landing-title">Choose Your Track to Begin</div>
 
       <div class="track-card" onclick="selectTrack('junior', '💬 Junior (Ages 5–8)')">
@@ -555,7 +576,7 @@
         <div class="track-info">
           <h3>Adult Fluency (18+ Non-Native)</h3>
           <p>Designed for non-native adults seeking natural fluency. Replaces mental freezing with practical thinking formulas for everyday spontaneous talk.</p>
-          <span class="track-tag tag-adult">Clarity & P.R.E.P. Frameworks</span>
+          <span class="track-tag tag-adult">Clarity & Structured Thinking</span>
         </div>
       </div>
     </div>
@@ -662,7 +683,7 @@
     </div>
   </div>
 
-  <!-- External Clean Architecture Scripts -->
+  <!-- Linked Modular Scripts -->
   <script src="prompts.js"></script>
   <script src="app.js"></script>
 </body>
