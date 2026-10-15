@@ -1,6 +1,5 @@
 // ============================================================================
-// POPTALK APPLICATION ENGINE (Timers, Speech Recognition, Streaks, UI)
-// (You never need to edit this file when updating prompts!)
+// POPTALK APPLICATION ENGINE (Timers, Speech Recognition, Streaks, Audio FX)
 // ============================================================================
 
 let currentAge = 'junior';
@@ -23,6 +22,152 @@ let finalTranscript = '';
 let accumulatedTranscript = '';
 let isSpeakingActive = false;
 let speechStartTime = 0;
+
+// ============================================================================
+// WEB AUDIO SYNTHESIZER SOUND ENGINE (Zero MP3s, Instant 0ms Playback)
+// ============================================================================
+let audioCtx = null;
+
+function getAudioContext() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      audioCtx = new AudioContextClass();
+    }
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+// 1. Thinking Bell: Calm, gentle resonant bell
+function playThinkingChime() {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(440, now); // A4 note
+  osc.frequency.exponentialRampToValueAtTime(330, now + 0.8);
+
+  gain.gain.setValueAtTime(0.3, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(now);
+  osc.stop(now + 0.9);
+}
+
+// 2. Launch Tone: Energetic rising two-note chime
+function playLaunchTone() {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+
+  // First Tone
+  const osc1 = ctx.createOscillator();
+  const gain1 = ctx.createGain();
+  osc1.type = 'triangle';
+  osc1.frequency.setValueAtTime(392, now); // G4
+  gain1.gain.setValueAtTime(0.25, now);
+  gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+  osc1.connect(gain1);
+  gain1.connect(ctx.destination);
+  osc1.start(now);
+  osc1.stop(now + 0.2);
+
+  // Second Higher Tone
+  const osc2 = ctx.createOscillator();
+  const gain2 = ctx.createGain();
+  osc2.type = 'triangle';
+  osc2.frequency.setValueAtTime(587.33, now + 0.15); // D5
+  gain2.gain.setValueAtTime(0.3, now + 0.15);
+  gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+  osc2.connect(gain2);
+  gain2.connect(ctx.destination);
+  osc2.start(now + 0.15);
+  osc2.stop(now + 0.45);
+}
+
+// 3. Curveball / Twist Alert: Playful frequency drop
+function playCurveballAlert() {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(650, now);
+  osc.frequency.exponentialRampToValueAtTime(220, now + 0.35);
+
+  gain.gain.setValueAtTime(0.2, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(now);
+  osc.stop(now + 0.35);
+}
+
+// 4. Goal Reached Chime: Cheerful sparkle chime
+function playGoalChime() {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+
+  [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const noteStart = now + (idx * 0.08);
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, noteStart);
+
+    gain.gain.setValueAtTime(0.2, noteStart);
+    gain.gain.exponentialRampToValueAtTime(0.001, noteStart + 0.4);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(noteStart);
+    osc.stop(noteStart + 0.4);
+  });
+}
+
+// 5. Celebration Fanfare: Major chord celebratory flourish
+function playFanfare() {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+
+  const chord = [392, 493.88, 587.33, 783.99]; // G Major
+  chord.forEach((freq, idx) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const startTime = now + (idx * 0.07);
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, startTime);
+
+    gain.gain.setValueAtTime(0.25, startTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.7);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(startTime);
+    osc.stop(startTime + 0.7);
+  });
+}
 
 // Daily Practice Streak Engine
 function initStreak() {
@@ -60,7 +205,7 @@ function recordStreakCompletion() {
       if (diffDays === 1) {
         count += 1;
       } else {
-        count = 1; // Restart streak
+        count = 1;
       }
     }
     localStorage.setItem('poptalk_last_date', today);
@@ -92,7 +237,6 @@ function initSpeechRecognition() {
       finalTranscript = (accumulatedTranscript + ' ' + interim).trim();
     };
 
-    // Android Pause Fix: Auto-wake if engine tries to sleep during speech
     recognition.onend = () => {
       if (isSpeakingActive) {
         try { recognition.start(); } catch(e) {}
@@ -113,6 +257,7 @@ function getTargetDuration(level) {
 }
 
 function selectTrack(ageKey, displayLabel) {
+  getAudioContext(); // Pre-warm audio on user touch
   currentAge = ageKey;
   document.getElementById('currentTrackLabel').innerText = displayLabel;
   document.getElementById('landingScreen').style.display = 'none';
@@ -159,7 +304,7 @@ function toggleIdeas() {
   box.style.display = box.style.display === 'block' ? 'none' : 'block';
 }
 
-// Anti-Repeat Dealing Function
+// Anti-Repeat Card Deck Engine
 function getNextPrompt(pool, key) {
   if (!categoryDecks[key] || categoryDecks[key].length === 0) {
     categoryDecks[key] = [...pool].sort(() => Math.random() - 0.5);
@@ -180,7 +325,7 @@ function spinPrompt() {
   const deckKey = `${currentAge}_${currentMode}`;
   activePrompt = getNextPrompt(pool, deckKey);
 
-  // Handle Picture Display: ONLY show if image exists (Junior)
+  // Picture display for Junior
   const picFrame = document.getElementById('pictureFrame');
   const picImg = document.getElementById('pictureImg');
   if (currentMode === 'picture' && activePrompt.image) {
@@ -191,7 +336,7 @@ function spinPrompt() {
     picImg.src = '';
   }
 
-  // Handle Vocab Yap Card Display
+  // Vocab card display
   const vocabCard = document.getElementById('vocabCard');
   if (currentMode === 'vocab' && activePrompt.vocab) {
     document.getElementById('vocabWord').innerText = activePrompt.vocab.word;
@@ -235,8 +380,9 @@ function renderScaffold() {
   tip.innerText = activePrompt.tip || 'Take a breath and describe what you see.';
 }
 
-// Timer Controls
+// Timer Controls with Sound FX Integration
 function startThinking() {
+  playThinkingChime(); // Sound FX: Thinking Bell
   resetAllTimers();
   timerState = 'thinking';
   timeRemaining = 30;
@@ -267,6 +413,7 @@ function addBufferTime() {
 }
 
 function startSpeaking() {
+  playLaunchTone(); // Sound FX: Launch Tone
   clearInterval(timerInterval);
   timerState = 'speaking';
   twistTriggered = false;
@@ -295,8 +442,10 @@ function startSpeaking() {
     if (timerState === 'speaking') {
       timeRemaining--;
 
+      // Halfway Curveball Trigger with Audio Alert
       if (currentLevel === 'hard' && !twistTriggered && timeRemaining <= (targetTime / 2)) {
         twistTriggered = true;
+        playCurveballAlert(); // Sound FX: Curveball Alert
         const banner = document.getElementById('twistBanner');
         
         const isStoryMode = (currentMode === 'picture');
@@ -311,7 +460,9 @@ function startSpeaking() {
         const pct = (timeRemaining / targetTime) * 100;
         updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🎙️ Speaking Time (' + targetTime + 's Goal)', pct);
       } else {
+        // Goal Reached: Trigger Chime & Shift to Overtime
         timerState = 'overtime';
+        playGoalChime(); // Sound FX: Goal Reached Chime
         updateTimerDisplay('00:00', '🌟 Goal Reached! Wrap up your thought', 0);
         document.getElementById('overtimeBadge').style.display = 'inline-block';
       }
@@ -325,6 +476,7 @@ function startSpeaking() {
 }
 
 function finishSpeech() {
+  playFanfare(); // Sound FX: Celebration Fanfare
   clearInterval(timerInterval);
   isSpeakingActive = false;
   if (recognition) {
@@ -455,7 +607,7 @@ function openCelebrationModal(seconds, transcript, streak) {
         </div>
       </div>
     ` : `
-      <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:14px 0; text-align:left;">
+      <div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:12px 0; text-align:left;">
         <strong style="font-family:'Fredoka',cursive; font-size:13px; color:#105666; display:block; margin-bottom:4px;">
           📊 Quick Self-Check:
         </strong>
@@ -530,7 +682,6 @@ function closeModal() {
   spinPrompt();
 }
 
-// Initialize on page load
 window.addEventListener('DOMContentLoaded', () => {
   initStreak();
   initSpeechRecognition();
