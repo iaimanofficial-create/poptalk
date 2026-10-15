@@ -242,6 +242,7 @@
       margin-bottom: 16px; 
       text-align: center; 
       border: 1.5px solid var(--border-soft); 
+      position: relative;
     }
     .badge { 
       display: inline-block; 
@@ -315,13 +316,30 @@
       line-height: 1.4;
     }
 
+    /* Prompt Text & Tumbler Animations */
     .prompt-text { 
       font-size: 22px; 
       font-weight: 700; 
       color: var(--dark-green); 
       margin-bottom: 18px; 
       line-height: 1.45; 
-      min-height: 56px; 
+      min-height: 60px; 
+      transition: all 0.15s ease-out;
+    }
+    .prompt-text.spinning {
+      opacity: 0.6;
+      filter: blur(1px);
+      transform: scale(0.98);
+      color: var(--midnight-green);
+    }
+    .spin-icon-rolling {
+      display: inline-block;
+      animation: diceRoll 0.25s infinite linear;
+    }
+    @keyframes diceRoll {
+      0% { transform: rotate(0deg) scale(1.1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1.1); }
     }
 
     .twist-banner {
@@ -1303,6 +1321,7 @@
     var twistTriggered = false;
     var activePrompt = null;
     var categoryDecks = {};
+    var isSpinning = false;
 
     var recognition = null;
     var completedSentences = [];
@@ -1453,35 +1472,43 @@
       } catch(e) {}
     }
 
-    function playShuffleSound() {
+    // Mechanical wheel tick sound for the spin animation
+    function playSpinTick(pitchOffset) {
       try {
         var ctx = getAudioContext();
         if (!ctx) return;
         var now = ctx.currentTime;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(800 + (pitchOffset || 0), now);
+        osc.frequency.exponentialRampToValueAtTime(200, now + 0.04);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.04);
+      } catch(e) {}
+    }
 
-        var osc1 = ctx.createOscillator();
-        var gain1 = ctx.createGain();
-        osc1.type = 'triangle';
-        osc1.frequency.setValueAtTime(1200, now);
-        osc1.frequency.exponentialRampToValueAtTime(300, now + 0.04);
-        gain1.gain.setValueAtTime(0.3, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-        osc1.connect(gain1);
-        gain1.connect(ctx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.04);
-
-        var osc2 = ctx.createOscillator();
-        var gain2 = ctx.createGain();
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(1600, now + 0.06);
-        osc2.frequency.exponentialRampToValueAtTime(400, now + 0.1);
-        gain2.gain.setValueAtTime(0.35, now + 0.06);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-        osc2.connect(gain2);
-        gain2.connect(ctx.destination);
-        osc2.start(now + 0.06);
-        osc2.stop(now + 0.1);
+    // Solid landing chime when roulette finishes
+    function playLandingChime() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.35);
       } catch(e) {}
     }
 
@@ -1665,7 +1692,10 @@
       var tryAgainBtn = document.getElementById('tryAgainBtn');
       if (tryAgainBtn) tryAgainBtn.style.display = 'none';
       var spinBtn = document.getElementById('spinBtn');
-      if (spinBtn) spinBtn.innerText = '🎲 Spin for Topic';
+      if (spinBtn) {
+        spinBtn.innerText = '🎲 Spin for Topic';
+        spinBtn.disabled = false;
+      }
 
       var picFrame = document.getElementById('pictureFrame');
       if (picFrame) picFrame.style.display = 'none';
@@ -1737,7 +1767,10 @@
       var tryAgainBtn = document.getElementById('tryAgainBtn');
       if (tryAgainBtn) tryAgainBtn.style.display = 'none';
       var spinBtn = document.getElementById('spinBtn');
-      if (spinBtn) spinBtn.innerText = '🎲 Spin for Topic';
+      if (spinBtn) {
+        spinBtn.innerText = '🎲 Spin for Topic';
+        spinBtn.disabled = false;
+      }
 
       var picFrame = document.getElementById('pictureFrame');
       if (picFrame) picFrame.style.display = 'none';
@@ -1763,69 +1796,114 @@
       return categoryDecks[key].shift();
     }
 
+    // ==========================================
+    // ANIMATED ROULETTE / DICE SPIN ENGINE
+    // ==========================================
     function spinPrompt() {
-      playShuffleSound();
+      if (isSpinning) return;
+      isSpinning = true;
+
       resetAllTimers();
+      
       var scaffoldBox = document.getElementById('scaffoldBox');
       if (scaffoldBox) scaffoldBox.style.display = 'none';
+      var ideasBtn = document.getElementById('ideasBtn');
+      if (ideasBtn) ideasBtn.style.display = 'none';
+      var actionBtnRow = document.getElementById('actionBtnRow');
+      if (actionBtnRow) actionBtnRow.style.display = 'none';
+      var tryAgainBtn = document.getElementById('tryAgainBtn');
+      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+      var picFrame = document.getElementById('pictureFrame');
+      if (picFrame) picFrame.style.display = 'none';
+      var vocabCard = document.getElementById('vocabCard');
+      if (vocabCard) vocabCard.style.display = 'none';
 
       var pool = promptBank.filter(function(p) {
         return p.age === currentAge && p.mode === currentMode;
       });
-      if (pool.length === 0) return;
+      if (pool.length === 0) {
+        isSpinning = false;
+        return;
+      }
 
       var deckKey = currentAge + '_' + currentMode;
-      activePrompt = getNextPrompt(pool, deckKey);
+      var selectedFinalPrompt = getNextPrompt(pool, deckKey);
 
-      var ideasBtn = document.getElementById('ideasBtn');
-      if (ideasBtn) ideasBtn.style.display = 'inline-block';
-      var actionBtnRow = document.getElementById('actionBtnRow');
-      if (actionBtnRow) actionBtnRow.style.display = 'flex';
-      var tryAgainBtn = document.getElementById('tryAgainBtn');
-      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
       var spinBtn = document.getElementById('spinBtn');
-      if (spinBtn) spinBtn.innerText = '🎲 New Topic';
+      if (spinBtn) {
+        spinBtn.disabled = true;
+        spinBtn.innerHTML = '<span class="spin-icon-rolling">🎲</span> Spinning...';
+      }
 
-      var picFrame = document.getElementById('pictureFrame');
-      var picImg = document.getElementById('pictureImg');
-      if (picFrame && picImg) {
-        if (currentMode === 'picture' && activePrompt.image) {
-          picImg.onerror = function() {
-            if (activePrompt.fallbackImage && this.src.indexOf(activePrompt.fallbackImage) === -1) {
-              this.src = activePrompt.fallbackImage;
-            } else {
-              this.onerror = null;
-            }
-          };
-          picImg.src = activePrompt.image;
-          picFrame.style.display = 'block';
+      var promptDisplay = document.getElementById('promptDisplay');
+      if (promptDisplay) promptDisplay.classList.add('spinning');
+
+      // Rapidly tumble through random prompt previews
+      var tumbleSteps = 10;
+      var currentStep = 0;
+      var baseInterval = 70; // ms
+
+      function runTumble() {
+        var randomPreview = pool[Math.floor(Math.random() * pool.length)].text;
+        if (promptDisplay) {
+          promptDisplay.innerText = randomPreview;
+        }
+        playSpinTick(currentStep * 30);
+        currentStep++;
+
+        if (currentStep < tumbleSteps) {
+          setTimeout(runTumble, baseInterval + (currentStep * 15)); // Gradually decelerate like a real roulette wheel
         } else {
-          picFrame.style.display = 'none';
-          picImg.src = '';
+          // Landing on Final Prompt
+          playLandingChime();
+          activePrompt = selectedFinalPrompt;
+
+          if (promptDisplay) {
+            promptDisplay.classList.remove('spinning');
+            promptDisplay.innerText = activePrompt.text;
+          }
+
+          if (spinBtn) {
+            spinBtn.disabled = false;
+            spinBtn.innerText = '🎲 New Topic';
+          }
+
+          if (ideasBtn) ideasBtn.style.display = 'inline-block';
+          if (actionBtnRow) actionBtnRow.style.display = 'flex';
+
+          // Show images if Picture mode
+          var picImg = document.getElementById('pictureImg');
+          if (picFrame && picImg && currentMode === 'picture' && activePrompt.image) {
+            picImg.onerror = function() {
+              if (activePrompt.fallbackImage && this.src.indexOf(activePrompt.fallbackImage) === -1) {
+                this.src = activePrompt.fallbackImage;
+              } else {
+                this.onerror = null;
+              }
+            };
+            picImg.src = activePrompt.image;
+            picFrame.style.display = 'block';
+          }
+
+          // Show vocab card if Vocab mode
+          if (vocabCard && currentMode === 'vocab' && activePrompt.vocab) {
+            document.getElementById('vocabWord').innerText = activePrompt.vocab.word;
+            document.getElementById('vocabPos').innerText = activePrompt.vocab.pos;
+            document.getElementById('vocabMeaning').innerText = activePrompt.vocab.meaning;
+            document.getElementById('vocabExample').innerText = '"' + activePrompt.vocab.example + '"';
+            vocabCard.style.display = 'block';
+          }
+
+          targetTime = getTargetDuration(currentLevel);
+          timeRemaining = targetTime;
+          updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
+          renderScaffold();
+
+          isSpinning = false;
         }
       }
 
-      var vocabCard = document.getElementById('vocabCard');
-      if (vocabCard) {
-        if (currentMode === 'vocab' && activePrompt.vocab) {
-          document.getElementById('vocabWord').innerText = activePrompt.vocab.word;
-          document.getElementById('vocabPos').innerText = activePrompt.vocab.pos;
-          document.getElementById('vocabMeaning').innerText = activePrompt.vocab.meaning;
-          document.getElementById('vocabExample').innerText = '"' + activePrompt.vocab.example + '"';
-          vocabCard.style.display = 'block';
-        } else {
-          vocabCard.style.display = 'none';
-        }
-      }
-
-      targetTime = getTargetDuration(currentLevel);
-      timeRemaining = targetTime;
-      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
-
-      var display = document.getElementById('promptDisplay');
-      if (display) display.innerText = activePrompt.text;
-      
-      renderScaffold();
+      runTumble();
     }
 
     function tryAgainSameTopic() {
