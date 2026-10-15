@@ -8,6 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Progressive Web App Setup -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0A3323">
+
   <style>
     :root {
       --dark-green: #0A3323;
@@ -683,7 +688,6 @@
     </div>
   </div>
 
-  <!-- ALL SCRIPTS EMBEDDED DIRECTLY (Zero file dependencies, guaranteed to load) -->
   <script>
     const promptBank = [
       // ==========================================
@@ -1303,14 +1307,12 @@
     var activePrompt = null;
     var categoryDecks = {};
 
-    // Web Speech API Variables
     var recognition = null;
     var finalTranscript = '';
     var accumulatedTranscript = '';
     var isSpeakingActive = false;
     var speechStartTime = 0;
 
-    // Sound Synthesizer Engine
     var audioCtx = null;
 
     function getAudioContext() {
@@ -1435,7 +1437,6 @@
       } catch(e) {}
     }
 
-    // Daily Streak Engine
     function initStreak() {
       try {
         var today = new Date().toISOString().slice(0, 10);
