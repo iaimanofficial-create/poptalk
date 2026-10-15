@@ -876,6 +876,9 @@
     let finalTranscript = '';
     let speechStartTime = 0;
 
+        let isSpeakingActive = false;
+    let accumulatedTranscript = '';
+
     function initSpeechRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (SpeechRecognition) {
@@ -885,11 +888,23 @@
         recognition.lang = 'en-US';
 
         recognition.onresult = (event) => {
-          let currentSessionText = '';
+          let interim = '';
           for (let i = event.resultIndex; i < event.results.length; ++i) {
-            currentSessionText += event.results[i][0].transcript;
+            const piece = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              accumulatedTranscript += ' ' + piece;
+            } else {
+              interim += piece;
+            }
           }
-          finalTranscript = currentSessionText;
+          finalTranscript = (accumulatedTranscript + ' ' + interim).trim();
+        };
+
+        // Android fix: If browser auto-stops on a pause, wake it right back up!
+        recognition.onend = () => {
+          if (isSpeakingActive) {
+            try { recognition.start(); } catch(e) {}
+          }
         };
 
         recognition.onerror = (event) => {
@@ -1037,9 +1052,11 @@
       timeRemaining = targetTime;
       overtimeSeconds = 0;
 
-      // Reset Transcript & Start Speech Engine ONLY for Teens/Adults
+            // Reset Transcript & Start Speech Engine ONLY for Teens/Adults
       finalTranscript = '';
+      accumulatedTranscript = '';
       speechStartTime = Date.now();
+      isSpeakingActive = true;
       if ((currentAge === 'teen' || currentAge === 'adult') && recognition) {
         try { recognition.start(); } catch(e) {}
       }
@@ -1083,6 +1100,7 @@
 
     function finishSpeech() {
       clearInterval(timerInterval);
+            isSpeakingActive = false;
       if (recognition) {
         try { recognition.stop(); } catch(e) {}
       }
