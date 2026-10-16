@@ -594,9 +594,13 @@ const allPrompts = [
 ];
 
 // Attach to window for global browser availability
+// Ensure global compatibility across index.html naming conventions
 if (typeof window !== 'undefined') {
   window.allPrompts = allPrompts;
+  window.prompts = allPrompts;
+  window.masterPrompts = allPrompts;
 }
+var prompts = allPrompts;
 
 // Support ES/CommonJS modules if imported
 if (typeof module !== 'undefined' && module.exports) {
