@@ -592,13 +592,14 @@ const allPrompts = [
     tip: 'Focus on how making reversible decisions keeps momentum alive when information is incomplete.'
   }
 ];
-
-// Assign to every common variable name PopTalk looks for
+// Connect directly to window.promptBank so spinPrompt() reads it
 if (typeof window !== 'undefined') {
+  window.promptBank = allPrompts;
   window.masterPrompts = allPrompts;
   window.prompts = allPrompts;
   window.allPrompts = allPrompts;
 }
 
+var promptBank = allPrompts;
 var masterPrompts = allPrompts;
 var prompts = allPrompts;
