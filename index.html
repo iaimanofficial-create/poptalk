@@ -1237,14 +1237,25 @@
       var vocabCard = document.getElementById('vocabCard');
       if (vocabCard) vocabCard.style.display = 'none';
 
-      // Pull prompts from window.promptBank (loaded from prompts.js)
-      var pool = (window.promptBank || []).filter(function(p) {
-        return p.age === currentAge && p.mode === currentMode;
-      });
-      if (pool.length === 0) {
+            // Pull prompts with fallback to all common names
+      var bank = window.promptBank || window.allPrompts || window.masterPrompts || window.prompts || (typeof allPrompts !== 'undefined' ? allPrompts : []);
+
+      if (!bank || bank.length === 0) {
+        alert("DEBUG: The prompts file is not loading into index.html at all! Check the script tag filename.");
         isSpinning = false;
         return;
       }
+
+      var pool = bank.filter(function(p) {
+        return p.age === currentAge && p.mode === currentMode;
+      });
+
+      if (pool.length === 0) {
+        alert("DEBUG: File loaded " + bank.length + " prompts, but zero match: age='" + currentAge + "' and mode='" + currentMode + "'.");
+        isSpinning = false;
+        return;
+      }
+
 
       var deckKey = currentAge + '_' + currentMode;
       var selectedFinalPrompt = getNextPrompt(pool, deckKey);
