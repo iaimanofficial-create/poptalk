@@ -1219,8 +1219,26 @@
     }
 
     function spinPrompt() {
-  alert("Spin clicked! Current isSpinning = " + isSpinning);
-  isSpinning = false; // Force reset
+  isSpinning = false;
+
+  var bank = window.promptBank || window.allPrompts || window.masterPrompts || window.prompts || (typeof allPrompts !== 'undefined' ? allPrompts : []);
+
+  alert("Bank size: " + bank.length + " | Age: " + currentAge + " | Mode: " + currentMode);
+
+  if (!bank || bank.length === 0) {
+    alert("Prompts file is not loaded! Make sure prompts.js is linked in index.html");
+    return;
+  }
+
+  var pool = bank.filter(function(p) {
+    return p.age === currentAge && p.mode === currentMode;
+  });
+
+  alert("Matching prompts found: " + pool.length);
+
+  if (pool.length === 0) {
+    return;
+  }
 
       resetAllTimers();
       
