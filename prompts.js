@@ -592,6 +592,7 @@ const allPrompts = [
     tip: 'Focus on how making reversible decisions keeps momentum alive when information is incomplete.'
   }
 ];
+
 // Connect directly to window.promptBank so spinPrompt() reads it
 if (typeof window !== 'undefined') {
   window.promptBank = allPrompts;
