@@ -1219,24 +1219,44 @@
     }
 
     function spinPrompt() {
-  isSpinning = false;
+  if (isSpinning) return;
+  isSpinning = true;
+
+  resetAllTimers();
+
+  var scaffoldBox = document.getElementById('scaffoldBox');
+  if (scaffoldBox) scaffoldBox.style.display = 'none';
+  var ideasBtn = document.getElementById('ideasBtn');
+  if (ideasBtn) ideasBtn.style.display = 'none';
+  var actionBtnRow = document.getElementById('actionBtnRow');
+  if (actionBtnRow) actionBtnRow.style.display = 'none';
+  var tryAgainBtn = document.getElementById('tryAgainBtn');
+  if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+  var picFrame = document.getElementById('pictureFrame');
+  if (picFrame) picFrame.style.display = 'none';
+  var vocabCard = document.getElementById('vocabCard');
+  if (vocabCard) vocabCard.style.display = 'none';
 
   var bank = window.promptBank || window.allPrompts || window.masterPrompts || window.prompts || (typeof allPrompts !== 'undefined' ? allPrompts : []);
 
-  alert("Bank size: " + bank.length + " | Age: " + currentAge + " | Mode: " + currentMode);
-
-  if (!bank || bank.length === 0) {
-    alert("Prompts file is not loaded! Make sure prompts.js is linked in index.html");
-    return;
-  }
+  // Standardize mode names so 'picture' matches 'scene' and 'hottakes' matches 'opinions'
+  var targetMode = currentMode;
+  if (targetMode === 'picture') targetMode = 'scene';
+  if (targetMode === 'opinions') targetMode = 'hottakes';
 
   var pool = bank.filter(function(p) {
-    return p.age === currentAge && p.mode === currentMode;
+    var pMode = p.mode;
+    if (pMode === 'scene') pMode = 'picture';
+    if (pMode === 'opinions') pMode = 'hottakes';
+
+    var matchMode = (p.mode === currentMode) || (pMode === currentMode) || (p.mode === targetMode);
+    var matchAge = (p.age === currentAge);
+    return matchMode && matchAge;
   });
 
-  alert("Matching prompts found: " + pool.length);
-
   if (pool.length === 0) {
+    isSpinning = false;
+    alert("No prompts found for age: " + currentAge + " and mode: " + currentMode);
     return;
   }
 
