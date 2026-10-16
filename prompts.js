@@ -1,11 +1,11 @@
-// ==========================================
+// ========================================================
 // POPTALK MASTER PROMPTS BANK (prompts.js)
-// ==========================================
+// ========================================================
 
 const allPrompts = [
-     // ==========================================
+  // ======================================================
   // 1. PICTURE TALK (mode: 'picture')
-  // ==========================================
+  // ======================================================
   // --- JUNIOR (Ages 5-8) ---
   {
     age: 'junior', mode: 'picture',
@@ -142,9 +142,9 @@ const allPrompts = [
     tip: 'Contrast natural elements (damp soil, herbs) with industrial elements (steel, headlights).'
   },
 
-  // ==========================================
+  // ======================================================
   // 2. PICK A SIDE (mode: 'dilemma')
-  // ==========================================
+  // ======================================================
   // --- JUNIOR (Ages 5-8) ---
   {
     age: 'junior', mode: 'dilemma',
@@ -281,9 +281,9 @@ const allPrompts = [
     tip: 'Think about whether constructive relationships require some degree of protective social cushioning.'
   },
 
-  // ==========================================
+  // ======================================================
   // 3. HOT TAKES / OPINIONS (mode: 'opinions')
-  // ==========================================
+  // ======================================================
   // --- JUNIOR (Ages 5-8) ---
   {
     age: 'junior', mode: 'opinions',
@@ -440,9 +440,9 @@ const allPrompts = [
     tip: 'Think about how you handle routine transactions.'
   },
 
-  // ==========================================
+  // ======================================================
   // 4. VOCAB YAP (mode: 'vocab')
-  // ==========================================
+  // ======================================================
   // --- JUNIOR (Ages 5-8) ---
   {
     age: 'junior', mode: 'vocab',
@@ -593,14 +593,15 @@ const allPrompts = [
   }
 ];
 
-// Connect directly to window.promptBank so spinPrompt() reads it
+// Universal browser bindings so every lookup finds the prompt bank
 if (typeof window !== 'undefined') {
   window.promptBank = allPrompts;
+  window.allPrompts = allPrompts;
   window.masterPrompts = allPrompts;
   window.prompts = allPrompts;
-  window.allPrompts = allPrompts;
 }
 
 var promptBank = allPrompts;
 var masterPrompts = allPrompts;
+var allPromptsVar = allPrompts;
 var prompts = allPrompts;
