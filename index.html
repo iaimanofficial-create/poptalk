@@ -1025,15 +1025,19 @@
       } catch(e) {}
       return count;
     }
-
-    function initSpeechRecognition() {
+    
+         function initSpeechRecognition() {
       try {
         var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
           recognition = new SpeechRecognition();
           recognition.continuous = false;
           recognition.interimResults = true;
-          recognition.lang = 'en-US';
+          
+          // Adaptive Locale: detects user's device language, defaults to International/Indian English for better accent accuracy
+          var deviceLang = navigator.language || navigator.userLanguage || 'en-IN';
+          recognition.lang = (deviceLang.indexOf('en') === 0) ? deviceLang : 'en-IN';
+          recognition.maxAlternatives = 1;
 
           recognition.onresult = function(event) {
             var interimChunk = '';
@@ -1055,7 +1059,7 @@
             var countNow = fullNow.length > 0 ? fullNow.split(/\s+/).length : 0;
             var pill = document.getElementById('micLivePill');
             if (pill && isSpeakingActive) {
-              pill.innerText = '🔴 Mic Listening... (' + countNow + ' words caught)';
+              pill.innerText = '🔴 Mic Active... (' + countNow + ' words)';
             }
           };
 
@@ -1070,7 +1074,7 @@
                 if (isSpeakingActive && recognition) {
                   try { recognition.start(); } catch(e) {}
                 }
-              }, 200);
+              }, 250);
             }
           };
         }
