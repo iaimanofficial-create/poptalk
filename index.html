@@ -2,1031 +2,585 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PopTalk - Think, Organize, Express</title>
-  <!-- Google Fonts: Fredoka & Inter -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PopTalk | Spontaneous Speaking Workout</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Progressive Web App Setup -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0A3323">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
   <style>
     :root {
-      --dark-green: #0A3323;
-      --moss-green: #839958;
-      --lotus-pink: #D3968C;
-      --midnight-green: #105666;
-      --bg-clean: #F8FAF9;
-      --surface-white: #FFFFFF;
-      --border-soft: #E2E8E5;
+      --cream-bg: #FAF8F5;
+      --card-white: #FFFFFF;
+      --midnight-green: #0A3323;
+      --deep-teal: #105666;
+      --moss-green: #2D6A4F;
+      --soft-mint: #EDF3EF;
+      --border-gray: #E2E8E5;
+      --text-main: #293830;
       --text-muted: #52635B;
+      --amber-accent: #E85D04;
+      --sun-yellow: #F6BD60;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { 
-      background-color: var(--bg-clean); 
-      color: var(--dark-green); 
-      font-family: 'Inter', -apple-system, sans-serif;
-      padding: 24px 16px; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      min-height: 100vh; 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .container { width: 100%; max-width: 480px; }
-    
-    header { 
-      text-align: center; 
-      margin-bottom: 20px; 
-    }
-    h1 { 
-      font-family: 'Fredoka', cursive, sans-serif; 
-      font-size: 40px; 
-      font-weight: 700; 
-      color: var(--dark-green); 
-      letter-spacing: 0.5px; 
-      line-height: 1.15;
-    }
-    p.tagline { 
-      font-size: 15px; 
-      font-weight: 500; 
-      color: var(--midnight-green); 
-      margin-top: 4px; 
-      letter-spacing: 0.2px;
-    }
-    .streak-container {
-      margin-top: 10px;
+    body {
+      background-color: var(--cream-bg);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
       display: flex;
       justify-content: center;
+      min-height: 100vh;
+      padding: 12px;
     }
+
+    .app-shell {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* DESKTOP RESPONSIVENESS */
+    @media (min-width: 768px) {
+      body {
+        background: radial-gradient(circle at top, #F7FAF8 0%, #E3EBE7 100%);
+        padding: 30px 16px;
+      }
+      .app-shell {
+        max-width: 600px;
+        background: #FFFFFF;
+        border-radius: 28px;
+        box-shadow: 0 15px 35px rgba(10, 51, 35, 0.08);
+        border: 1.5px solid var(--border-gray);
+        padding: 24px;
+      }
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 2px;
+    }
+
+    .logo-badge {
+      font-family: 'Fredoka', cursive;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--midnight-green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .streak-pill {
       background: #FFF3E6;
       border: 1.5px solid #FBD0A7;
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 13.5px;
-      font-weight: 700;
       color: #B45309;
-      display: inline-flex;
+      font-family: 'Fredoka', cursive;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    /* AGE SELECTOR PILLS */
+    .age-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: #E8EFEA;
+      padding: 4px;
+      border-radius: 14px;
+      gap: 4px;
+    }
+
+    .age-pill {
+      border: none;
+      background: transparent;
+      padding: 8px 4px;
+      border-radius: 10px;
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .age-pill.active {
+      background: var(--card-white);
+      color: var(--midnight-green);
+      box-shadow: 0 2px 6px rgba(10, 51, 35, 0.08);
+    }
+
+    /* CATEGORIES HORIZONTAL SCROLL */
+    .categories-wrapper {
+      overflow-x: auto;
+      scrollbar-width: none;
+      margin: 0 -4px;
+      padding: 2px 4px;
+    }
+    .categories-wrapper::-webkit-scrollbar { display: none; }
+
+    .categories-row {
+      display: flex;
+      gap: 8px;
+      width: max-content;
+    }
+
+    .cat-btn {
+      border: 1.5px solid var(--border-gray);
+      background: var(--card-white);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 2px 6px rgba(180, 83, 9, 0.08);
+      transition: all 0.2s ease;
     }
 
-    .daily-reminder {
-      background: #EDF3EF;
-      border: 1.5px solid var(--border-soft);
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 18px;
-      text-align: center;
-      font-size: 13.5px;
-      font-weight: 600;
-      color: var(--midnight-green);
-      line-height: 1.45;
-    }
-    .daily-reminder.done {
-      background: #EAF0E1;
-      border-color: #C7DCB1;
-      color: var(--dark-green);
+    .cat-btn.active {
+      background: var(--midnight-green);
+      color: #FFFFFF;
+      border-color: var(--midnight-green);
     }
 
-    #landingScreen { display: block; }
-    .landing-title { 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 20px; 
-      font-weight: 600; 
-      color: var(--dark-green); 
-      text-align: center; 
-      margin-bottom: 16px; 
-    }
-    .track-card { 
-      background: var(--surface-white); 
-      border: 2px solid var(--border-soft); 
-      border-radius: 20px; 
-      padding: 20px 18px; 
-      margin-bottom: 16px; 
-      cursor: pointer; 
-      transition: all 0.2s ease; 
-      box-shadow: 0 4px 12px rgba(10, 51, 35, 0.04); 
-      display: flex; 
-      align-items: center; 
-      gap: 16px; 
-      text-align: left; 
-    }
-    .track-card:hover, .track-card:active { 
-      border-color: var(--moss-green); 
-      transform: translateY(-2px); 
-    }
-    .track-icon { 
-      font-size: 32px; 
-      background: #EDF3EF; 
-      width: 60px; 
-      height: 60px; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      border-radius: 16px; 
-      flex-shrink: 0; 
-    }
-    .track-info h3 { 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 19px; 
-      font-weight: 600; 
-      color: var(--dark-green); 
-      margin-bottom: 6px; 
-      line-height: 1.25;
-    }
-    .track-info p { 
-      font-size: 15px; 
-      font-weight: 400; 
-      color: var(--text-muted); 
-      line-height: 1.55; 
-      margin-bottom: 10px;
-    }
-    .track-tag {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 12px;
-      background: #F3E4E1;
-      color: #9E564C;
-    }
-    .tag-teen { background: #EAF0E1; color: var(--moss-green); }
-    .tag-adult { background: #E1EFF2; color: var(--midnight-green); }
-
-    #arenaScreen { display: none; }
-    .top-bar { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      background: #EDF3EF; 
-      border-radius: 12px; 
-      padding: 10px 14px; 
-      margin-bottom: 16px; 
-    }
-    .active-track-name { 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 15px; 
-      font-weight: 600; 
-      color: var(--dark-green); 
-    }
-    .btn-change { 
-      background: none; 
-      border: none; 
-      color: var(--midnight-green); 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 13.5px; 
-      font-weight: 600; 
-      cursor: pointer; 
-      text-decoration: underline; 
+    .cat-btn.locked {
+      background: #F3F5F4;
+      opacity: 0.85;
     }
 
-    .control-panel { 
-      background: var(--surface-white); 
-      border-radius: 16px; 
-      padding: 14px; 
-      margin-bottom: 16px; 
-      border: 1px solid var(--border-soft);
-      box-shadow: 0 2px 6px rgba(10, 51, 35, 0.03); 
-    }
-    .control-label { 
-      font-size: 11.5px; 
-      font-weight: 700; 
-      color: var(--text-muted); 
-      text-transform: uppercase; 
-      margin-bottom: 6px; 
-      display: block; 
-      letter-spacing: 0.5px; 
-    }
-    
-    .pill-group { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; }
-    .pill-group:last-child { margin-bottom: 0; }
-    .pill { 
-      flex: 1; 
-      padding: 9px 10px; 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 13px; 
-      font-weight: 600; 
-      border: 1.5px solid var(--border-soft); 
-      border-radius: 10px; 
-      background: var(--surface-white); 
-      color: var(--dark-green);
-      cursor: pointer; 
-      text-align: center; 
-      white-space: nowrap; 
-      transition: all 0.15s; 
-    }
-    .pill.active { 
-      background: var(--midnight-green); 
-      color: #fff; 
-      border-color: var(--midnight-green); 
-    }
-    .pill.locked { 
-      background: #F3F5F4; 
-      color: #7D8F86; 
-      border-color: #E2E8E5; 
-    }
-
-    .card { 
-      background: var(--surface-white); 
-      border-radius: 22px; 
-      padding: 24px 20px; 
-      box-shadow: 0 8px 24px rgba(10, 51, 35, 0.06); 
-      margin-bottom: 16px; 
-      text-align: center; 
-      border: 1.5px solid var(--border-soft); 
+    /* PROMPT CARD */
+    .prompt-card {
+      background: var(--card-white);
+      border: 2px solid var(--midnight-green);
+      border-radius: 20px;
+      padding: 22px 18px;
+      box-shadow: 0 8px 24px rgba(10, 51, 35, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
       position: relative;
     }
-    .badge { 
-      display: inline-block; 
-      padding: 4px 12px; 
-      border-radius: 20px; 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 12px; 
-      font-weight: 600; 
-      background: #F3E4E1; 
-      color: #9E564C; 
-      margin-bottom: 14px; 
-    }
 
-    .picture-frame {
-      display: none;
-      width: 100%;
-      height: 220px;
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: 16px;
-      border: 2px solid var(--border-soft);
-      background: #EDF3EF;
-      box-shadow: 0 4px 10px rgba(10, 51, 35, 0.05);
-    }
-    .picture-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .vocab-card {
-      display: none;
-      background: #F8FAF9;
-      border: 1.5px solid var(--border-soft);
-      border-radius: 14px;
-      padding: 14px 16px;
-      text-align: left;
-      margin-bottom: 16px;
-    }
-    .vocab-word-row {
+    .card-meta {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 4px;
+      align-items: center;
     }
-    .vocab-word {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--midnight-green);
-    }
-    .vocab-pos {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-    .vocab-meaning {
-      font-size: 14px;
-      color: var(--dark-green);
-      line-height: 1.45;
-      margin-bottom: 8px;
-    }
-    .vocab-example {
+
+    .mode-label {
+      font-family: 'Fredoka', cursive;
       font-size: 13px;
-      font-style: italic;
-      color: var(--text-muted);
-      border-left: 3px solid var(--moss-green);
-      padding-left: 8px;
-      line-height: 1.4;
-    }
-
-    .prompt-text { 
-      font-size: 22px; 
-      font-weight: 700; 
-      color: var(--dark-green); 
-      margin-bottom: 18px; 
-      line-height: 1.45; 
-      min-height: 60px; 
-      transition: all 0.15s ease-out;
-    }
-    .prompt-text.spinning {
-      opacity: 0.35;
-      filter: blur(8px);
-      transform: scale(0.95);
-      user-select: none;
-      letter-spacing: 2px;
-      color: var(--midnight-green);
-    }
-    .spin-icon-rolling {
-      display: inline-block;
-      animation: diceRoll 0.25s infinite linear;
-    }
-    @keyframes diceRoll {
-      0% { transform: rotate(0deg) scale(1.1); }
-      50% { transform: rotate(180deg) scale(1.2); }
-      100% { transform: rotate(360deg) scale(1.1); }
-    }
-
-    .twist-banner {
-      display: none;
-      background: #F3E4E1;
-      border: 2px dashed var(--lotus-pink);
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 14.5px;
-      font-weight: 700;
-      color: var(--dark-green);
-      margin-bottom: 16px;
-      line-height: 1.45;
-      animation: gentle-pulse 1.2s infinite alternate ease-in-out;
-    }
-    @keyframes gentle-pulse {
-      from { transform: scale(1); }
-      to { transform: scale(1.015); }
-    }
-
-    .btn-ideas {
-      background: #EDF3EF;
-      border: 1.5px solid var(--border-soft);
-      border-radius: 10px;
-      padding: 8px 14px;
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 13.5px;
-      font-weight: 600;
-      color: var(--midnight-green);
-      cursor: pointer;
-      margin-bottom: 14px;
-      display: inline-block;
-    }
-    .scaffold-box { 
-      display: none;
-      background: #F8FAF9; 
-      border-left: 4px solid var(--moss-green); 
-      border-radius: 10px; 
-      padding: 16px; 
-      text-align: left; 
-      font-size: 14px; 
-      color: #293830; 
-      margin-bottom: 18px; 
-      line-height: 1.6; 
-    }
-    .scaffold-box strong { font-family: 'Fredoka', cursive, sans-serif; color: var(--dark-green); }
-    
-    .lifeboat-drawer {
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1.5px dashed var(--border-soft);
-      font-size: 14px;
-      color: var(--dark-green);
-      line-height: 1.6;
-    }
-    .lifeboat-item { margin-bottom: 8px; }
-    .lifeboat-item:last-child { margin-bottom: 0; }
-    .lifeboat-label {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 12.5px;
-      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      background: var(--soft-mint);
       color: var(--midnight-green);
-      display: block;
-      margin-bottom: 2px;
-    }
-    .power-pill {
-      display: inline-block;
-      background: #EDF3EF;
-      color: var(--dark-green);
-      border: 1px solid var(--border-soft);
-      padding: 3px 10px;
+      padding: 4px 10px;
       border-radius: 8px;
-      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    .time-target {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .prompt-text {
+      font-family: 'Fredoka', cursive;
+      font-size: 20px;
       font-weight: 600;
-      margin: 2px 4px 2px 0;
+      line-height: 1.4;
+      color: var(--midnight-green);
+      min-height: 70px;
+    }
+
+    /* LEVEL TOGGLES */
+    .level-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: #F0F4F2;
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .level-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 2px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .level-btn.active {
+      background: #FFFFFF;
+      color: var(--midnight-green);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    /* SCAFFOLD / HINT BOX */
+    .scaffold-box {
+      background: var(--soft-mint);
+      border: 1.5px solid #D6E4DC;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    /* RECORD / SPEAKING INTERACTION */
+    .timer-pill {
+      font-family: 'Fredoka', cursive;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--midnight-green);
+      text-align: center;
+      margin: 4px 0;
     }
 
     .mic-live-pill {
       display: none;
-      background: #FFF1F0;
-      border: 1px solid #FECACA;
-      color: #B91C1C;
-      font-size: 12px;
+      background: #FEE2E2;
+      border: 1px solid #FCA5A5;
+      color: #991B1B;
       font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 8px;
-      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 13.5px;
+      padding: 8px;
+      border-radius: 10px;
+      text-align: center;
     }
 
-    .timer-label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px; }
-    .timer-display { 
-      font-family: 'Fredoka', cursive, sans-serif; 
-      font-size: 48px; 
-      font-weight: 700; 
-      color: var(--dark-green); 
-      margin: 4px 0 8px 0; 
-      font-variant-numeric: tabular-nums; 
-    }
-    .overtime-badge {
-      display: none;
-      background: #EAF0E1;
-      color: var(--moss-green);
-      font-size: 12.5px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-    }
-    .progress-bar-bg { 
-      width: 100%; 
-      height: 8px; 
-      background: #E8EFEA; 
-      border-radius: 4px; 
-      overflow: hidden; 
-      margin-bottom: 18px; 
-    }
-    .progress-bar { 
-      width: 100%; 
-      height: 100%; 
-      background: var(--moss-green); 
-      transition: width 1s linear; 
+    /* BUTTON CONTROLS */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 10px;
     }
 
-    .btn-action-row { display: flex; gap: 8px; margin-bottom: 10px; }
-    .btn { 
-      display: block; 
-      width: 100%; 
-      padding: 14px; 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 16px; 
-      font-weight: 600; 
-      border-radius: 14px; 
-      border: none; 
-      cursor: pointer; 
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-family: 'Fredoka', cursive;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       transition: transform 0.1s ease;
     }
+
     .btn:active { transform: scale(0.98); }
-    .btn-think { background: #E1EFF2; color: var(--midnight-green); }
-    .btn-speak { background: var(--moss-green); color: #fff; }
-    .btn-buffer { 
-      background: #EDF3EF; 
-      color: var(--midnight-green); 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 13.5px; 
-      font-weight: 600;
-      padding: 10px; 
-      border: 1px solid var(--border-soft); 
-      border-radius: 10px; 
-      margin-bottom: 10px; 
-      display: none; 
-    }
-    .btn-try-again {
-      background: #EDF3EF;
-      color: var(--dark-green);
-      border: 1.5px solid var(--border-soft);
-      margin-bottom: 10px;
-    }
-    .btn-spin { 
-      background: var(--midnight-green); 
-      color: #fff; 
-      margin-bottom: 10px; 
-      box-shadow: 0 4px 12px rgba(16, 86, 102, 0.25); 
+
+    .btn-spin {
+      background: #FFFFFF;
+      border: 2px solid var(--midnight-green);
+      color: var(--midnight-green);
     }
 
-    .modal-overlay { 
-      display: none; 
-      position: fixed; 
-      inset: 0; 
-      background: rgba(10, 51, 35, 0.45); 
+    .btn-record {
+      background: var(--amber-accent);
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(232, 93, 4, 0.3);
+    }
+
+    .btn-record.speaking {
+      background: #DC2626;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
+
+    /* CELEBRATION SCORECARD MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10, 51, 35, 0.6);
       backdrop-filter: blur(4px);
-      z-index: 100; 
-      align-items: center; 
-      justify-content: center; 
-      padding: 16px; 
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      z-index: 9999;
     }
-    .modal-content { 
-      background: var(--surface-white); 
-      border-radius: 22px; 
-      padding: 24px; 
-      max-width: 420px; 
-      width: 100%; 
-      text-align: center; 
-      box-shadow: 0 20px 30px rgba(10, 51, 35, 0.15); 
+
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
       max-height: 90vh;
-      overflow-y: auto; 
+      overflow-y: auto;
+      padding: 24px 20px;
+      border: 2px solid var(--midnight-green);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
     }
-    .modal-icon { font-size: 40px; margin-bottom: 10px; }
-    .modal-title { 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 20px; 
-      font-weight: 700; 
-      color: var(--dark-green); 
-      margin-bottom: 8px; 
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 14px;
     }
-    .modal-desc { 
-      font-size: 14px; 
-      color: var(--text-muted); 
-      line-height: 1.55; 
-      margin-bottom: 18px; 
+
+    .modal-icon { font-size: 42px; display: block; margin-bottom: 6px; }
+    .modal-title { font-family: 'Fredoka', cursive; font-size: 24px; color: var(--midnight-green); font-weight: 700; }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 18px;
     }
-    .btn-wa { 
-      background: #25D366; 
-      color: #fff; 
-      text-decoration: none; 
-      display: block; 
-      padding: 13px; 
-      border-radius: 12px; 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-weight: 600; 
-      font-size: 15px; 
-      margin-bottom: 10px; 
-    }
-    .btn-close { 
-      background: none; 
-      border: none; 
-      color: var(--text-muted); 
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 13.5px; 
-      font-weight: 600; 
-      cursor: pointer; 
-      text-decoration: underline; 
+
+    .btn-wa {
+      background: #25D366;
+      color: #FFFFFF;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 15px;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+
+  <div class="app-shell">
     <header>
-      <h1>PopTalk</h1>
-      <p class="tagline">Think. Organize. Express.</p>
-      <div class="streak-container">
-        <div class="streak-pill" id="streakBadge" title="Practice every day to keep your streak alive!">
-          🔥 <span id="streakCount">0</span> Day Streak
-        </div>
-      </div>
+      <div class="logo-badge">🍿 PopTalk</div>
+      <div class="streak-pill" id="streakPill">🔥 <span id="streakNum">1</span> Day Streak</div>
     </header>
 
-    <!-- SCREEN 1: LANDING AGE SELECTOR -->
-    <div id="landingScreen">
-      <div class="daily-reminder" id="dailyReminder">
-        ⚡ You haven't practiced your speaking today! Pick a track below to begin.
-      </div>
+    <!-- AGE SELECTOR -->
+    <div class="age-selector">
+      <button class="age-pill active" onclick="setAge('junior')">🐣 Junior (5-8)</button>
+      <button class="age-pill" onclick="setAge('teen')">⚡ Teen (9-17)</button>
+      <button class="age-pill" onclick="setAge('adult')">👔 Adult (18+)</button>
+    </div>
 
-      <div class="landing-title">Choose Your Track to Begin</div>
-
-      <div class="track-card" onclick="selectTrack('junior', '💬 Junior (Ages 5–8)')">
-        <div class="track-icon">💬</div>
-        <div class="track-info">
-          <h3>Junior Explorers (Ages 5–8)</h3>
-          <p>Designed for young minds building sentence flow. Uses step-by-step visual handrails to turn ideas into lively, uninterrupted speech.</p>
-          <span class="track-tag">Expression & Fluency</span>
-        </div>
-      </div>
-
-      <div class="track-card" onclick="selectTrack('teen', '🧩 Teen (Ages 9–17)')">
-        <div class="track-icon">🧩</div>
-        <div class="track-info">
-          <h3>Rising Speakers (Ages 9–17)</h3>
-          <p>Designed for tweens and teens finding their voice. Connects reasoning, examples, and counter-perspectives into structured self-expression.</p>
-          <span class="track-tag tag-teen">Structure & Critical Thinking</span>
-        </div>
-      </div>
-
-      <div class="track-card" onclick="selectTrack('adult', '💡 Adult Fluency (18+)')">
-        <div class="track-icon">💡</div>
-        <div class="track-info">
-          <h3>Adult Fluency (18+ Non-Native)</h3>
-          <p>Designed for non-native adults seeking natural fluency. Replaces mental freezing with practical thinking formulas for everyday spontaneous talk.</p>
-          <span class="track-tag tag-adult">Clarity & Structured Thinking</span>
-        </div>
+    <!-- CATEGORIES -->
+    <div class="categories-wrapper">
+      <div class="categories-row">
+        <button class="cat-btn active" onclick="setCategory('picture')">🖼️ Picture Talk</button>
+        <button class="cat-btn" onclick="setCategory('dilemma')">⚖️ Pick a Side</button>
+        <button class="cat-btn" onclick="setCategory('opinions')">🔥 Hot Takes</button>
+        <button class="cat-btn" onclick="setCategory('vocab')">💎 Vocab Yap</button>
+        <button class="cat-btn locked" onclick="openLockedModal('Finish It')">🔒 Finish It</button>
+        <button class="cat-btn locked" onclick="openLockedModal('Echo Story')">🔒 Echo Story</button>
+        <button class="cat-btn locked" onclick="openLockedModal('Act It Out')">🔒 Act It Out</button>
+        <button class="cat-btn locked" onclick="openLockedModal('The Big Pitch')">🔒 Big Pitch</button>
+        <button class="cat-btn locked" onclick="openLockedModal('Sell This!')">🔒 Sell This!</button>
+        <button class="cat-btn locked" onclick="openLockedModal('What If?')">🔒 What If?</button>
       </div>
     </div>
 
-    <!-- SCREEN 2: PRACTICE ARENA -->
-    <div id="arenaScreen">
-      <div class="top-bar">
-        <span class="active-track-name" id="currentTrackLabel">💬 Junior (Ages 5–8)</span>
-        <button class="btn-change" onclick="returnToLanding()">Change ↺</button>
+    <!-- MAIN PROMPT CARD -->
+    <div class="prompt-card">
+      <div class="card-meta">
+        <span class="mode-label" id="modeBadge">🖼️ Picture Talk</span>
+        <span class="time-target" id="timeTargetText">⏱️ Target: 30s</span>
       </div>
 
-      <div class="control-panel">
-        <span class="control-label">Difficulty (Speaking Goal)</span>
-        <div class="pill-group" id="levelGroup">
-          <button class="pill active" onclick="setLevel('easy')">🟢 Easy (30s)</button>
-          <button class="pill" onclick="setLevel('medium')">🟡 Medium (45s)</button>
-          <button class="pill" onclick="setLevel('hard')">🔴 Hard (60s)</button>
-        </div>
-
-        <span class="control-label">Category</span>
-        <div class="pill-group" id="modeGroup">
-          <button class="pill active" onclick="setMode('picture')">🖼️ Picture Talk</button>
-          <button class="pill" onclick="setMode('wyr')">⚖️ Pick a Side</button>
-          <button class="pill" onclick="setMode('opinions')">💬 Hot Takes</button>
-          <button class="pill" onclick="setMode('vocab')">📚 Vocab Yap</button>
-          <button class="pill locked" onclick="openLockedModal('Finish It')">🔒 Finish It</button>
-          <button class="pill locked" onclick="openLockedModal('Echo Story')">🔒 Echo Story</button>
-          <button class="pill locked" onclick="openLockedModal('Act It Out')">🔒 Act It Out</button>
-          <button class="pill locked" onclick="openLockedModal('The Big Pitch')">🔒 The Big Pitch</button>
-          <button class="pill locked" onclick="openLockedModal('Sell This!')">🔒 Sell This!</button>
-          <button class="pill locked" onclick="openLockedModal('What If?')">🔒 What If?</button>
-        </div>
+      <div class="prompt-text" id="promptText">
+        Tap the 🎲 Spin button below to get your spontaneous speaking challenge!
       </div>
 
-      <div class="card">
-        <span class="badge" id="categoryBadge">PICTURE TALK</span>
-        
-        <div class="picture-frame" id="pictureFrame">
-          <img id="pictureImg" src="" alt="Story Scene">
-        </div>
-
-        <div class="vocab-card" id="vocabCard">
-          <div class="vocab-word-row">
-            <span class="vocab-word" id="vocabWord"></span>
-            <span class="vocab-pos" id="vocabPos"></span>
-          </div>
-          <div class="vocab-meaning" id="vocabMeaning"></div>
-          <div class="vocab-example" id="vocabExample"></div>
-        </div>
-
-        <div class="prompt-text" id="promptDisplay">🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!</div>
-        <div class="twist-banner" id="twistBanner"></div>
-
-        <button class="btn-ideas" id="ideasBtn" onclick="toggleIdeas()" style="display:none;">🗺️ Need Ideas? (Tap for Help)</button>
-
-        <div class="scaffold-box" id="scaffoldBox">
-          <div id="scaffoldContent"></div>
-          <div class="lifeboat-drawer" id="lifeboatDrawer">
-            <div class="lifeboat-item">
-              <span class="lifeboat-label">💬 Sentence Starter:</span>
-              <span id="lifeboatStarter"></span>
-            </div>
-            <div class="lifeboat-item">
-              <span class="lifeboat-label">🔤 Power Words:</span>
-              <span id="lifeboatWords"></span>
-            </div>
-            <div class="lifeboat-item">
-              <span class="lifeboat-label">💡 If You Freeze:</span>
-              <span id="lifeboatTip"></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Live Mic Status Indicator -->
-        <div class="mic-live-pill" id="micLivePill">🔴 Mic Listening...</div>
-
-        <div class="timer-label" id="timerPhaseLabel">Ready to begin</div>
-        <div class="timer-display" id="timerText">00:30</div>
-        <div class="overtime-badge" id="overtimeBadge">Overtime: +0:00 bonus</div>
-        
-        <div class="progress-bar-bg">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-
-        <button class="btn btn-buffer" id="bufferBtn" onclick="addBufferTime()">+15s More Thinking</button>
-        
-        <div class="btn-action-row" id="actionBtnRow" style="display:none;">
-          <button class="btn btn-think" id="thinkBtn" onclick="startThinking()">🧠 Start Thinking (30s)</button>
-          <button class="btn btn-speak" id="speakBtn" onclick="startSpeaking()">🎙️ Start Speaking</button>
-        </div>
+      <!-- DIFFICULTY TOGGLE -->
+      <div class="level-row">
+        <button class="level-btn active" id="lvlEasy" onclick="setLevel('easy')">🟢 Easy Steps</button>
+        <button class="level-btn" id="lvlMed" onclick="setLevel('medium')">🟡 Medium Spark</button>
+        <button class="level-btn" id="lvlHard" onclick="setLevel('hard')">🔴 Hard Twist</button>
       </div>
 
-      <!-- Action Row: Try Again & New Topic -->
-      <button class="btn btn-try-again" id="tryAgainBtn" onclick="tryAgainSameTopic()" style="display:none;">🔁 Try Again (Same Topic)</button>
-      <button class="btn btn-spin" id="spinBtn" onclick="spinPrompt()">🎲 Spin for Topic</button>
+      <!-- STEP BY STEP GUIDANCE -->
+      <div class="scaffold-box" id="scaffoldBox" style="display:none;"></div>
+
+      <!-- LIVE MIC & TIMER -->
+      <div class="timer-pill" id="timerDisplay">00:00</div>
+      <div class="mic-live-pill" id="micLivePill">🔴 Mic Listening... (0 words)</div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls-grid">
+      <button class="btn btn-spin" id="spinBtn" onclick="spinPrompt()">🎲 Spin</button>
+      <button class="btn btn-record" id="recordBtn" onclick="toggleSpeaking()">🎙️ Start Speaking</button>
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- CELEBRATION & SCORECARD MODAL -->
   <div class="modal-overlay" id="generalModal">
-    <div class="modal-content">
-      <div class="modal-icon" id="modalIcon">🎉</div>
-      <div class="modal-title" id="modalTitle">Practice Complete!</div>
-      <div class="modal-desc" id="modalDesc"></div>
-      <a href="https://wa.me/?text=Hi!%20I%20want%20to%20learn%20more." target="_blank" class="btn-wa" id="modalWaBtn">
-        💬 Inquire on WhatsApp
-      </a>
-      <button class="btn-close" onclick="closeModal()">Close</button>
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="modal-icon" id="modalIcon">🌟</span>
+        <h2 class="modal-title" id="modalTitle">Practice Complete!</h2>
+      </div>
+      <div id="modalDesc"></div>
+      <div class="modal-actions">
+        <a id="modalWaBtn" class="btn-wa" target="_blank">Book Demo on WhatsApp</a>
+        <button class="btn btn-spin" onclick="closeModal()">Close & Keep Practicing</button>
+      </div>
     </div>
   </div>
 
-  <!-- LOAD MASTER PROMPTS FIRST -->
+  <!-- 1. LOAD EXTERNAL PROMPTS BANK FIRST -->
   <script src="prompts.js"></script>
 
-  <!-- APPLICATION ENGINE -->
+  <!-- 2. CORE APPLICATION LOGIC -->
   <script>
     var currentAge = 'junior';
     var currentMode = 'picture';
     var currentLevel = 'easy';
-
-    var timerState = 'idle';
-    var timerInterval = null;
-    var timeRemaining = 30;
     var targetTime = 30;
-    var overtimeSeconds = 0;
-    var bufferUsed = false;
-    var twistTriggered = false;
-    var activePrompt = null;
-    var categoryDecks = {};
-    var isSpinning = false;
 
+    var activePrompt = null;
+    var isSpinning = false;
+    var isSpeakingActive = false;
+    
+    var speakTimer = null;
+    var secondsElapsed = 0;
     var recognition = null;
     var completedSentences = [];
     var currentInterim = '';
     var lastAddedSentence = '';
-    var isSpeakingActive = false;
 
-    var audioCtx = null;
+    // Standardize category and mode aliases
+    function normalizeMode(m) {
+      if (!m) return '';
+      var lower = m.toLowerCase();
+      if (lower === 'picture' || lower === 'scene') return 'picture';
+      if (lower === 'dilemma' || lower === 'side') return 'dilemma';
+      if (lower === 'opinions' || lower === 'hottakes' || lower === 'hottake') return 'opinions';
+      if (lower === 'vocab' || lower === 'vocabyap') return 'vocab';
+      return lower;
+    }
 
-    function getAudioContext() {
-      if (!audioCtx) {
-        var AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (AudioContextClass) {
-          audioCtx = new AudioContextClass();
-        }
+    function setAge(age) {
+      currentAge = age;
+      document.querySelectorAll('.age-pill').forEach(function(b) {
+        b.classList.remove('active');
+        if (b.innerText.toLowerCase().indexOf(age) !== -1) b.classList.add('active');
+      });
+      updateTargetDuration();
+      spinPrompt();
+    }
+
+    function setCategory(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.cat-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      var activeBtn = Array.from(document.querySelectorAll('.cat-btn')).find(function(b) {
+        return b.getAttribute('onclick') && b.getAttribute('onclick').indexOf(mode) !== -1;
+      });
+      if (activeBtn) activeBtn.classList.add('active');
+
+      var modeNames = {
+        'picture': '🖼️ Picture Talk',
+        'dilemma': '⚖️ Pick a Side',
+        'opinions': '🔥 Hot Takes',
+        'vocab': '💎 Vocab Yap'
+      };
+      document.getElementById('modeBadge').innerText = modeNames[mode] || mode;
+      spinPrompt();
+    }
+
+    function setLevel(lvl) {
+      currentLevel = lvl;
+      document.getElementById('lvlEasy').classList.toggle('active', lvl === 'easy');
+      document.getElementById('lvlMed').classList.toggle('active', lvl === 'medium');
+      document.getElementById('lvlHard').classList.toggle('active', lvl === 'hard');
+      renderScaffold();
+    }
+
+    function updateTargetDuration() {
+      if (currentAge === 'junior') targetTime = 30;
+      else if (currentAge === 'teen') targetTime = 45;
+      else targetTime = 60;
+      document.getElementById('timeTargetText').innerText = '⏱️ Target: ' + targetTime + 's';
+    }
+
+    // --- SPIN LOGIC (Tolerant & Diagnostic) ---
+    function spinPrompt() {
+      if (isSpinning) return;
+      isSpinning = true;
+
+      var bank = window.promptBank || window.allPrompts || window.masterPrompts || window.prompts || (typeof allPrompts !== 'undefined' ? allPrompts : []);
+
+      if (!bank || bank.length === 0) {
+        alert("⚠️ Prompts bank not loaded! Make sure prompts.js is linked properly.");
+        isSpinning = false;
+        return;
       }
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
+
+      var activeNorm = normalizeMode(currentMode);
+      var pool = bank.filter(function(p) {
+        return (p.age === currentAge) && (normalizeMode(p.mode) === activeNorm);
+      });
+
+      if (pool.length === 0) {
+        pool = bank.filter(function(p) {
+          return normalizeMode(p.mode) === activeNorm;
+        });
       }
-      return audioCtx;
+
+      if (pool.length > 0) {
+        var rand = Math.floor(Math.random() * pool.length);
+        activePrompt = pool[rand];
+        document.getElementById('promptText').innerHTML = activePrompt.text;
+        renderScaffold();
+      } else {
+        document.getElementById('promptText').innerHTML = "No prompts found for this filter. Tap another category!";
+      }
+
+      isSpinning = false;
     }
 
-    function playThinkingChime() {
-      try {
-        var ctx = getAudioContext();
-        if (!ctx) return;
-        var now = ctx.currentTime;
-        var osc = ctx.createOscillator();
-        var gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(440, now);
-        osc.frequency.exponentialRampToValueAtTime(330, now + 0.8);
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.9);
-      } catch(e) {}
+    function renderScaffold() {
+      var box = document.getElementById('scaffoldBox');
+      if (!activePrompt) {
+        box.style.display = 'none';
+        return;
+      }
+
+      box.style.display = 'block';
+      if (currentLevel === 'easy') {
+        box.innerHTML = activePrompt.easy || 'Break your thought into: 1. Idea, 2. Reason, 3. Example.';
+      } else if (currentLevel === 'medium') {
+        box.innerHTML = '<strong>🟡 Challenge:</strong> ' + (activePrompt.medium || 'Explain your thought clearly without pauses.');
+      } else {
+        box.innerHTML = '<strong>🔴 Debate Twist:</strong> ' + (activePrompt.hardTwist || 'Address an objection from someone who disagrees!');
+      }
     }
 
-    function playLaunchTone() {
-      try {
-        var ctx = getAudioContext();
-        if (!ctx) return;
-        var now = ctx.currentTime;
-        var osc1 = ctx.createOscillator();
-        var gain1 = ctx.createGain();
-        osc1.type = 'triangle';
-        osc1.frequency.setValueAtTime(392, now);
-        gain1.gain.setValueAtTime(0.25, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-        osc1.connect(gain1);
-        gain1.connect(ctx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.2);
-
-        var osc2 = ctx.createOscillator();
-        var gain2 = ctx.createGain();
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(587.33, now + 0.15);
-        gain2.gain.setValueAtTime(0.3, now + 0.15);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-        osc2.connect(gain2);
-        gain2.connect(ctx.destination);
-        osc2.start(now + 0.15);
-        osc2.stop(now + 0.45);
-      } catch(e) {}
-    }
-
-    function playCurveballAlert() {
-      try {
-        var ctx = getAudioContext();
-        if (!ctx) return;
-        var now = ctx.currentTime;
-        var osc = ctx.createOscillator();
-        var gain = ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(650, now);
-        osc.frequency.exponentialRampToValueAtTime(220, now + 0.35);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.35);
-      } catch(e) {}
-    }
-
-    function playGoalChime() {
-      try {
-        var ctx = getAudioContext();
-        if (!ctx) return;
-        var now = ctx.currentTime;
-        [523.25, 659.25, 783.99, 1046.50].forEach(function(freq, idx) {
-          var osc = ctx.createOscillator();
-          var gain = ctx.createGain();
-          var noteStart = now + (idx * 0.08);
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, noteStart);
-          gain.gain.setValueAtTime(0.2, noteStart);
-          gain.gain.exponentialRampToValueAtTime(0.001, noteStart + 0.4);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(noteStart);
-          osc.stop(noteStart + 0.4);
-        });
-      } catch(e) {}
-    }
-
-    function playFanfare() {
-      try {
-        var ctx = getAudioContext();
-        if (!ctx) return;
-        var now = ctx.currentTime;
-        [392, 493.88, 587.33, 783.99].forEach(function(freq, idx) {
-          var osc = ctx.createOscillator();
-          var gain = ctx.createGain();
-          var startTime = now + (idx * 0.07);
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, startTime);
-          gain.gain.setValueAtTime(0.25, startTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.7);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(startTime);
-          osc.stop(startTime + 0.7);
-        });
-      } catch(e) {}
-    }
-
-    function playTapSound() {
-      try {
-        var ctx = getAudioContext();
-        if (!ctx) return;
-        var now = ctx.currentTime;
-        var osc = ctx.createOscillator();
-        var gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(600, now);
-        osc.frequency.exponentialRampToValueAtTime(400, now + 0.08);
-        gain.gain.setValueAtTime(0.15, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.08);
-      } catch(e) {}
-    }
-
-    function playSpinTick(pitchOffset) {
-      try {
-        var ctx = getAudioContext();
-        if (!ctx) return;
-        var now = ctx.currentTime;
-        var osc = ctx.createOscillator();
-        var gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(800 + (pitchOffset || 0), now);
-        osc.frequency.exponentialRampToValueAtTime(200, now + 0.04);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.04);
-      } catch(e) {}
-    }
-
-    function playLandingChime() {
-      try {
-        var ctx = getAudioContext();
-        if (!ctx) return;
-        var now = ctx.currentTime;
-        var osc = ctx.createOscillator();
-        var gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, now);
-        osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.35);
-      } catch(e) {}
-    }
-
-    function playAddTimeSound() {
-      try {
-        var ctx = getAudioContext();
-        if (!ctx) return;
-        var now = ctx.currentTime;
-        var osc1 = ctx.createOscillator();
-        var gain1 = ctx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(350, now);
-        gain1.gain.setValueAtTime(0.2, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-        osc1.connect(gain1);
-        gain1.connect(ctx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.15);
-
-        var osc2 = ctx.createOscillator();
-        var gain2 = ctx.createGain();
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(520, now + 0.1);
-        gain2.gain.setValueAtTime(0.25, now + 0.1);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-        osc2.connect(gain2);
-        gain2.connect(ctx.destination);
-        osc2.start(now + 0.1);
-        osc2.stop(now + 0.3);
-      } catch(e) {}
-    }
-
-    function initStreak() {
-      try {
-        var today = new Date().toISOString().slice(0, 10);
-        var lastPractice = localStorage.getItem('poptalk_last_date');
-        var count = parseInt(localStorage.getItem('poptalk_streak_count') || '0', 10);
-
-        if (lastPractice) {
-          var lastDate = new Date(lastPractice);
-          var currDate = new Date(today);
-          var diffDays = Math.floor((currDate - lastDate) / (1000 * 60 * 60 * 24));
-          if (diffDays > 1) {
-            count = 0;
-            localStorage.setItem('poptalk_streak_count', '0');
-          }
-        }
-
-        var badge = document.getElementById('streakCount');
-        if (badge) badge.innerText = count;
-
-        var reminder = document.getElementById('dailyReminder');
-        if (reminder) {
-          if (lastPractice === today) {
-            reminder.classList.add('done');
-            reminder.innerHTML = '🌟 <strong>Great job!</strong> You completed today\'s practice session.';
-          } else {
-            reminder.classList.remove('done');
-            reminder.innerHTML = '⚡ <strong>Practice Reminder:</strong> You haven\'t practiced your speaking today! Pick a track below.';
-          }
-        }
-      } catch(e) {}
-    }
-
-    function recordStreakCompletion() {
-      var count = 1;
-      try {
-        var today = new Date().toISOString().slice(0, 10);
-        var lastPractice = localStorage.getItem('poptalk_last_date');
-        count = parseInt(localStorage.getItem('poptalk_streak_count') || '0', 10);
-
-        if (lastPractice !== today) {
-          if (!lastPractice) {
-            count = 1;
-          } else {
-            var lastDate = new Date(lastPractice);
-            var currDate = new Date(today);
-            var diffDays = Math.floor((currDate - lastDate) / (1000 * 60 * 60 * 24));
-            if (diffDays === 1) {
-              count += 1;
-            } else {
-              count = 1;
-            }
-          }
-          localStorage.setItem('poptalk_last_date', today);
-          localStorage.setItem('poptalk_streak_count', count.toString());
-          var badge = document.getElementById('streakCount');
-          if (badge) badge.innerText = count;
-        }
-
-        var reminder = document.getElementById('dailyReminder');
-        if (reminder) {
-          reminder.classList.add('done');
-          reminder.innerHTML = '🌟 <strong>Great job!</strong> You completed today\'s practice session.';
-        }
-      } catch(e) {}
-      return count;
-    }
-    
-         function initSpeechRecognition() {
+    // --- SPEECH RECOGNITION SETUP ---
+    function initSpeechRecognition() {
       try {
         var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
@@ -1034,7 +588,6 @@
           recognition.continuous = false;
           recognition.interimResults = true;
           
-          // Adaptive Locale: detects user's device language, defaults to International/Indian English for better accent accuracy
           var deviceLang = navigator.language || navigator.userLanguage || 'en-IN';
           recognition.lang = (deviceLang.indexOf('en') === 0) ? deviceLang : 'en-IN';
           recognition.maxAlternatives = 1;
@@ -1081,534 +634,57 @@
       } catch(e) {}
     }
 
-    function getTargetDuration(level) {
-      if (level === 'easy') return 30;
-      if (level === 'medium') return 45;
-      if (level === 'hard') return 60;
-      return 30;
-    }
+    // --- SPEAKING & TIMER TOGGLE ---
+    function toggleSpeaking() {
+      var btn = document.getElementById('recordBtn');
+      var pill = document.getElementById('micLivePill');
 
-    function selectTrack(ageKey, displayLabel) {
-      playTapSound();
-      currentAge = ageKey;
-      
-      var label = document.getElementById('currentTrackLabel');
-      if (label) label.innerText = displayLabel;
-      
-      var landing = document.getElementById('landingScreen');
-      var arena = document.getElementById('arenaScreen');
-      if (landing) landing.style.display = 'none';
-      if (arena) arena.style.display = 'block';
-      
-      activePrompt = null;
-      var promptDisplay = document.getElementById('promptDisplay');
-      if (promptDisplay) {
-        promptDisplay.innerText = '🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!';
-      }
-      var ideasBtn = document.getElementById('ideasBtn');
-      if (ideasBtn) ideasBtn.style.display = 'none';
-      var scaffoldBox = document.getElementById('scaffoldBox');
-      if (scaffoldBox) scaffoldBox.style.display = 'none';
-      var actionBtnRow = document.getElementById('actionBtnRow');
-      if (actionBtnRow) actionBtnRow.style.display = 'none';
-      var tryAgainBtn = document.getElementById('tryAgainBtn');
-      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
-      var spinBtn = document.getElementById('spinBtn');
-      if (spinBtn) {
-        spinBtn.innerText = '🎲 Spin for Topic';
-        spinBtn.disabled = false;
-      }
+      if (!isSpeakingActive) {
+        // Start Speaking
+        isSpeakingActive = true;
+        secondsElapsed = 0;
+        completedSentences = [];
+        currentInterim = '';
+        lastAddedSentence = '';
 
-      var picFrame = document.getElementById('pictureFrame');
-      if (picFrame) picFrame.style.display = 'none';
-      var vocabCard = document.getElementById('vocabCard');
-      if (vocabCard) vocabCard.style.display = 'none';
+        btn.innerText = '⏹️ Stop Speaking';
+        btn.classList.add('speaking');
+        pill.style.display = 'block';
+        pill.innerText = '🔴 Mic Active... (0 words)';
 
-      targetTime = getTargetDuration(currentLevel);
-      timeRemaining = targetTime;
-      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
-    }
-
-    function returnToLanding() {
-      playTapSound();
-      resetAllTimers();
-      var landing = document.getElementById('landingScreen');
-      var arena = document.getElementById('arenaScreen');
-      if (arena) arena.style.display = 'none';
-      if (landing) landing.style.display = 'block';
-    }
-
-    function setLevel(lvl) {
-      playTapSound();
-      currentLevel = lvl;
-      document.querySelectorAll('#levelGroup .pill').forEach(function(btn) {
-        btn.classList.remove('active');
-      });
-      if (window.event && window.event.target) {
-        window.event.target.classList.add('active');
-      }
-      
-      resetAllTimers();
-      renderScaffold();
-      
-      targetTime = getTargetDuration(currentLevel);
-      timeRemaining = targetTime;
-      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
-    }
-
-    function setMode(mode) {
-      playTapSound();
-      currentMode = mode;
-      document.querySelectorAll('#modeGroup .pill:not(.locked)').forEach(function(btn) {
-        btn.classList.remove('active');
-      });
-      if (window.event && window.event.target) {
-        window.event.target.classList.add('active');
-      }
-      
-      var labels = { 
-        picture: 'PICTURE TALK', 
-        wyr: 'PICK A SIDE', 
-        opinions: 'HOT TAKES',
-        vocab: 'VOCAB YAP'
-      };
-      var badge = document.getElementById('categoryBadge');
-      if (badge) badge.innerText = labels[mode] || 'PRACTICE';
-      
-      activePrompt = null;
-      var promptDisplay = document.getElementById('promptDisplay');
-      if (promptDisplay) {
-        promptDisplay.innerText = '🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!';
-      }
-      var ideasBtn = document.getElementById('ideasBtn');
-      if (ideasBtn) ideasBtn.style.display = 'none';
-      var scaffoldBox = document.getElementById('scaffoldBox');
-      if (scaffoldBox) scaffoldBox.style.display = 'none';
-      var actionBtnRow = document.getElementById('actionBtnRow');
-      if (actionBtnRow) actionBtnRow.style.display = 'none';
-      var tryAgainBtn = document.getElementById('tryAgainBtn');
-      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
-      var spinBtn = document.getElementById('spinBtn');
-      if (spinBtn) {
-        spinBtn.innerText = '🎲 Spin for Topic';
-        spinBtn.disabled = false;
-      }
-
-      var picFrame = document.getElementById('pictureFrame');
-      if (picFrame) picFrame.style.display = 'none';
-      var vocabCard = document.getElementById('vocabCard');
-      if (vocabCard) vocabCard.style.display = 'none';
-    }
-
-    function toggleIdeas() {
-      playTapSound();
-      var box = document.getElementById('scaffoldBox');
-      if (box) {
-        box.style.display = (box.style.display === 'block') ? 'none' : 'block';
-      }
-    }
-
-    function getNextPrompt(pool, key) {
-      if (!categoryDecks[key] || categoryDecks[key].length === 0) {
-        categoryDecks[key] = pool.slice().sort(function() { return Math.random() - 0.5; });
-        if (categoryDecks[key].length > 1 && categoryDecks[key][0] === activePrompt) {
-          categoryDecks[key].push(categoryDecks[key].shift());
-        }
-      }
-      return categoryDecks[key].shift();
-    }
-
-    function spinPrompt() {
-  if (isSpinning) return;
-  isSpinning = true;
-
-  resetAllTimers();
-
-  var scaffoldBox = document.getElementById('scaffoldBox');
-  if (scaffoldBox) scaffoldBox.style.display = 'none';
-  var ideasBtn = document.getElementById('ideasBtn');
-  if (ideasBtn) ideasBtn.style.display = 'none';
-  var actionBtnRow = document.getElementById('actionBtnRow');
-  if (actionBtnRow) actionBtnRow.style.display = 'none';
-  var tryAgainBtn = document.getElementById('tryAgainBtn');
-  if (tryAgainBtn) tryAgainBtn.style.display = 'none';
-  var picFrame = document.getElementById('pictureFrame');
-  if (picFrame) picFrame.style.display = 'none';
-  var vocabCard = document.getElementById('vocabCard');
-  if (vocabCard) vocabCard.style.display = 'none';
-
-  var bank = window.promptBank || window.allPrompts || window.masterPrompts || window.prompts || (typeof allPrompts !== 'undefined' ? allPrompts : []);
-
-  // Standardize mode names so 'picture' matches 'scene' and 'hottakes' matches 'opinions'
-  var targetMode = currentMode;
-  if (targetMode === 'picture') targetMode = 'scene';
-  if (targetMode === 'opinions') targetMode = 'hottakes';
-
-  var pool = bank.filter(function(p) {
-    var pMode = p.mode;
-    if (pMode === 'scene') pMode = 'picture';
-    if (pMode === 'opinions') pMode = 'hottakes';
-
-    var matchMode = (p.mode === currentMode) || (pMode === currentMode) || (p.mode === targetMode);
-    var matchAge = (p.age === currentAge);
-    return matchMode && matchAge;
-  });
-
-  if (pool.length === 0) {
-    isSpinning = false;
-    alert("No prompts found for age: " + currentAge + " and mode: " + currentMode);
-    return;
-  }
-
-      resetAllTimers();
-      
-      var scaffoldBox = document.getElementById('scaffoldBox');
-      if (scaffoldBox) scaffoldBox.style.display = 'none';
-      var ideasBtn = document.getElementById('ideasBtn');
-      if (ideasBtn) ideasBtn.style.display = 'none';
-      var actionBtnRow = document.getElementById('actionBtnRow');
-      if (actionBtnRow) actionBtnRow.style.display = 'none';
-      var tryAgainBtn = document.getElementById('tryAgainBtn');
-      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
-      var picFrame = document.getElementById('pictureFrame');
-      if (picFrame) picFrame.style.display = 'none';
-      var vocabCard = document.getElementById('vocabCard');
-      if (vocabCard) vocabCard.style.display = 'none';
-
-            // Pull prompts with fallback to all common names
-      var bank = window.promptBank || window.allPrompts || window.masterPrompts || window.prompts || (typeof allPrompts !== 'undefined' ? allPrompts : []);
-
-      if (!bank || bank.length === 0) {
-        alert("DEBUG: The prompts file is not loading into index.html at all! Check the script tag filename.");
-        isSpinning = false;
-        return;
-      }
-
-      var pool = bank.filter(function(p) {
-        return p.age === currentAge && p.mode === currentMode;
-      });
-
-      if (pool.length === 0) {
-        alert("DEBUG: File loaded " + bank.length + " prompts, but zero match: age='" + currentAge + "' and mode='" + currentMode + "'.");
-        isSpinning = false;
-        return;
-      }
-
-
-      var deckKey = currentAge + '_' + currentMode;
-      var selectedFinalPrompt = getNextPrompt(pool, deckKey);
-
-      var spinBtn = document.getElementById('spinBtn');
-      if (spinBtn) {
-        spinBtn.disabled = true;
-        spinBtn.innerHTML = '<span class="spin-icon-rolling">🎲</span> Spinning...';
-      }
-
-      var promptDisplay = document.getElementById('promptDisplay');
-      if (promptDisplay) promptDisplay.classList.add('spinning');
-
-      var tumbleSteps = 10;
-      var currentStep = 0;
-      var baseInterval = 70;
-
-      function runTumble() {
-        var randomPreview = pool[Math.floor(Math.random() * pool.length)].text;
-        if (promptDisplay) {
-          promptDisplay.innerText = randomPreview;
-        }
-        playSpinTick(currentStep * 30);
-        currentStep++;
-
-        if (currentStep < tumbleSteps) {
-          setTimeout(runTumble, baseInterval + (currentStep * 15));
-        } else {
-          playLandingChime();
-          activePrompt = selectedFinalPrompt;
-
-          if (promptDisplay) {
-            promptDisplay.classList.remove('spinning');
-            promptDisplay.innerText = activePrompt.text;
-          }
-
-          if (spinBtn) {
-            spinBtn.disabled = false;
-            spinBtn.innerText = '🎲 New Topic';
-          }
-
-          if (ideasBtn) ideasBtn.style.display = 'inline-block';
-          if (actionBtnRow) actionBtnRow.style.display = 'flex';
-
-          var picImg = document.getElementById('pictureImg');
-          if (picFrame && picImg && currentMode === 'picture' && activePrompt.image) {
-            picImg.onerror = function() {
-              if (activePrompt.fallbackImage && this.src.indexOf(activePrompt.fallbackImage) === -1) {
-                this.src = activePrompt.fallbackImage;
-              } else {
-                this.onerror = null;
-              }
-            };
-            picImg.src = activePrompt.image;
-            picFrame.style.display = 'block';
-          }
-
-          if (vocabCard && currentMode === 'vocab' && activePrompt.vocab) {
-            document.getElementById('vocabWord').innerText = activePrompt.vocab.word;
-            document.getElementById('vocabPos').innerText = activePrompt.vocab.pos;
-            document.getElementById('vocabMeaning').innerText = activePrompt.vocab.meaning;
-            document.getElementById('vocabExample').innerText = '"' + activePrompt.vocab.example + '"';
-            vocabCard.style.display = 'block';
-          }
-
-          targetTime = getTargetDuration(currentLevel);
-          timeRemaining = targetTime;
-          updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
-          renderScaffold();
-
-          isSpinning = false;
-        }
-      }
-
-      runTumble();
-    }
-
-    function tryAgainSameTopic() {
-      playTapSound();
-      resetAllTimers();
-      
-      var scaffoldBox = document.getElementById('scaffoldBox');
-      if (scaffoldBox) scaffoldBox.style.display = 'none';
-      var actionBtnRow = document.getElementById('actionBtnRow');
-      if (actionBtnRow) actionBtnRow.style.display = 'flex';
-      var tryAgainBtn = document.getElementById('tryAgainBtn');
-      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
-      
-      targetTime = getTargetDuration(currentLevel);
-      timeRemaining = targetTime;
-      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
-      renderScaffold();
-    }
-
-    function renderScaffold() {
-      if (!activePrompt) return;
-      var content = document.getElementById('scaffoldContent');
-      var starter = document.getElementById('lifeboatStarter');
-      var words = document.getElementById('lifeboatWords');
-      var tip = document.getElementById('lifeboatTip');
-
-      var banner = document.getElementById('twistBanner');
-      if (banner) {
-        banner.style.display = 'none';
-        banner.innerText = '';
-      }
-
-      if (content) {
-        if (currentLevel === 'easy') {
-          content.innerHTML = activePrompt.easy;
-        } else if (currentLevel === 'medium') {
-          content.innerHTML = '<strong>The Spark Hook:</strong> ' + activePrompt.medium;
-        } else {
-          var challengeType = (currentMode === 'picture') ? 'Plot Twist' : 'Debate Challenge';
-          content.innerHTML = '<strong>Hard Challenge:</strong> Zero handrails! Speak for 60 seconds. A surprise ' + challengeType.toLowerCase() + ' will unlock halfway through!';
-        }
-      }
-
-      if (starter) starter.innerText = activePrompt.starter || 'Start with your choice...';
-      if (words) {
-        words.innerHTML = (activePrompt.words || []).map(function(w) {
-          return '<span class="power-pill">' + w + '</span>';
-        }).join('');
-      }
-      if (tip) tip.innerText = activePrompt.tip || 'Take a breath and describe what you see.';
-    }
-
-    function startThinking() {
-      playThinkingChime();
-      resetAllTimers();
-      timerState = 'thinking';
-      timeRemaining = 30;
-      bufferUsed = false;
-      
-      var bufferBtn = document.getElementById('bufferBtn');
-      var thinkBtn = document.getElementById('thinkBtn');
-      var speakBtn = document.getElementById('speakBtn');
-      
-      if (bufferBtn) bufferBtn.style.display = 'block';
-      if (thinkBtn) thinkBtn.style.display = 'none';
-      if (speakBtn) speakBtn.innerText = "🚀 I'm Ready! Speak Now";
-
-      updateTimerDisplay('00:30', '🧠 Thinking Time', 100);
-
-      timerInterval = setInterval(function() {
-        timeRemaining--;
-        updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🧠 Thinking Time', (timeRemaining / 30) * 100);
-
-        if (timeRemaining <= 0) {
-          clearInterval(timerInterval);
-          startSpeaking();
-        }
-      }, 1000);
-    }
-
-    function addBufferTime() {
-      playAddTimeSound();
-      if (bufferUsed) return;
-      bufferUsed = true;
-      timeRemaining += 15;
-      var bufferBtn = document.getElementById('bufferBtn');
-      if (bufferBtn) bufferBtn.style.display = 'none';
-      updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🧠 Thinking Time (+15s)', 100);
-    }
-
-    function startSpeaking() {
-      playLaunchTone();
-      clearInterval(timerInterval);
-      timerState = 'speaking';
-      twistTriggered = false;
-      targetTime = getTargetDuration(currentLevel);
-      timeRemaining = targetTime;
-      overtimeSeconds = 0;
-
-      completedSentences = [];
-      currentInterim = '';
-      lastAddedSentence = '';
-      isSpeakingActive = true;
-      
-      var micPill = document.getElementById('micLivePill');
-      if (currentAge === 'teen' || currentAge === 'adult') {
-        if (micPill) {
-          micPill.innerText = '🔴 Mic Listening... (Speak clearly)';
-          micPill.style.display = 'inline-block';
-        }
+        if (!recognition) initSpeechRecognition();
         if (recognition) {
           try { recognition.start(); } catch(e) {}
         }
+
+        speakTimer = setInterval(function() {
+          secondsElapsed++;
+          var mins = Math.floor(secondsElapsed / 60);
+          var secs = secondsElapsed % 60;
+          document.getElementById('timerDisplay').innerText = 
+            (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }, 1000);
+
       } else {
-        if (micPill) micPill.style.display = 'none';
-      }
+        // Stop Speaking
+        isSpeakingActive = false;
+        clearInterval(speakTimer);
+        btn.innerText = '🎙️ Start Speaking';
+        btn.classList.remove('speaking');
+        pill.style.display = 'none';
 
-      var bufferBtn = document.getElementById('bufferBtn');
-      var thinkBtn = document.getElementById('thinkBtn');
-      var speakBtn = document.getElementById('speakBtn');
-      var overtimeBadge = document.getElementById('overtimeBadge');
-      var twistBanner = document.getElementById('twistBanner');
-
-      if (bufferBtn) bufferBtn.style.display = 'none';
-      if (thinkBtn) thinkBtn.style.display = 'none';
-      if (speakBtn) {
-        speakBtn.style.display = 'block';
-        speakBtn.innerText = '✅ Finish Story';
-        speakBtn.onclick = finishSpeech;
-      }
-      if (overtimeBadge) overtimeBadge.style.display = 'none';
-      if (twistBanner) twistBanner.style.display = 'none';
-
-      updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🎙️ Speaking Time (' + targetTime + 's Goal)', 100);
-
-      timerInterval = setInterval(function() {
-        if (timerState === 'speaking') {
-          timeRemaining--;
-
-          if (currentLevel === 'hard' && !twistTriggered && timeRemaining <= (targetTime / 2)) {
-            twistTriggered = true;
-            playCurveballAlert();
-            var banner = document.getElementById('twistBanner');
-            if (banner && activePrompt) {
-              var isStoryMode = (currentMode === 'picture');
-              var prefix = isStoryMode ? '⚡ PLOT TWIST:' : '⚡ DEBATE CHALLENGE:';
-              var instruction = isStoryMode ? 'Fit this into your story now without stopping' : 'Answer this objection now without breaking your flow';
-              banner.innerHTML = prefix + ' ' + activePrompt.hardTwist + '<br><span style="font-size:12.5px;font-weight:500;">(' + instruction + ')</span>';
-              banner.style.display = 'block';
-            }
-          }
-
-          if (timeRemaining > 0) {
-            var pct = (timeRemaining / targetTime) * 100;
-            updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🎙️ Speaking Time (' + targetTime + 's Goal)', pct);
-          } else {
-            timerState = 'overtime';
-            playGoalChime();
-            updateTimerDisplay('00:00', '🌟 Goal Reached! Wrap up your thought', 0);
-            var badge = document.getElementById('overtimeBadge');
-            if (badge) badge.style.display = 'inline-block';
-          }
-        } else if (timerState === 'overtime') {
-          overtimeSeconds++;
-          var badge = document.getElementById('overtimeBadge');
-          if (badge) badge.innerText = 'Overtime: +0:' + (overtimeSeconds < 10 ? '0' : '') + overtimeSeconds + ' bonus';
+        if (recognition) {
+          try { recognition.stop(); } catch(e) {}
         }
-      }, 1000);
+
+        var finalTranscript = (completedSentences.join(' ') + ' ' + currentInterim).trim();
+        openCelebrationModal(secondsElapsed, finalTranscript, 1);
+        document.getElementById('timerDisplay').innerText = '00:00';
+      }
     }
 
-    function finishSpeech() {
-      playFanfare();
-      clearInterval(timerInterval);
-      isSpeakingActive = false;
-
-      var micPill = document.getElementById('micLivePill');
-      if (micPill) micPill.style.display = 'none';
-
-      if (currentInterim && currentInterim !== lastAddedSentence) {
-        completedSentences.push(currentInterim);
-        currentInterim = '';
-      }
-
-      if (recognition) {
-        try { recognition.stop(); } catch(e) {}
-      }
-
-      var totalSpoken = (targetTime - Math.max(0, timeRemaining)) + overtimeSeconds;
-      var streak = recordStreakCompletion();
-
-      setTimeout(function() {
-        var fullTranscript = completedSentences.join(' ').replace(/\s+/g, ' ').trim();
-        openCelebrationModal(totalSpoken, fullTranscript, streak);
-        resetAllTimers();
-        
-        var tryAgainBtn = document.getElementById('tryAgainBtn');
-        if (tryAgainBtn) tryAgainBtn.style.display = 'block';
-      }, 350);
-    }
-
-    function resetAllTimers() {
-      clearInterval(timerInterval);
-      isSpeakingActive = false;
-      timerState = 'idle';
-      targetTime = getTargetDuration(currentLevel);
-      
-      var thinkBtn = document.getElementById('thinkBtn');
-      var speakBtn = document.getElementById('speakBtn');
-      var bufferBtn = document.getElementById('bufferBtn');
-      var overtimeBadge = document.getElementById('overtimeBadge');
-      var twistBanner = document.getElementById('twistBanner');
-      var progressBar = document.getElementById('progressBar');
-      var micPill = document.getElementById('micLivePill');
-
-      if (thinkBtn) {
-        thinkBtn.style.display = 'block';
-        thinkBtn.innerText = '🧠 Start Thinking (30s)';
-      }
-      if (speakBtn) {
-        speakBtn.style.display = 'block';
-        speakBtn.innerText = '🎙️ Start Speaking';
-        speakBtn.onclick = startSpeaking;
-      }
-      if (bufferBtn) bufferBtn.style.display = 'none';
-      if (overtimeBadge) overtimeBadge.style.display = 'none';
-      if (twistBanner) twistBanner.style.display = 'none';
-      if (micPill) micPill.style.display = 'none';
-      if (progressBar) progressBar.style.width = '100%';
-    }
-
-    function updateTimerDisplay(timeStr, label, pct) {
-      var t = document.getElementById('timerText');
-      var l = document.getElementById('timerPhaseLabel');
-      var p = document.getElementById('progressBar');
-      if (t) t.innerText = timeStr;
-      if (l) l.innerText = label;
-      if (p) p.style.width = pct + '%';
-    }
-
-        function openCelebrationModal(seconds, transcript, streak) {
+    // --- CELEBRATION MODAL (Enlarged Typography & Scored Metrics) ---
+    function openCelebrationModal(seconds, transcript, streak) {
       var modalDesc = document.getElementById('modalDesc');
       var modalTitle = document.getElementById('modalTitle');
       var modalIcon = document.getElementById('modalIcon');
@@ -1645,8 +721,8 @@
         var safeSeconds = Math.max(1, seconds);
         var wpm = wordCount >= 5 ? Math.round((wordCount / safeSeconds) * 60) : 0;
 
-        var vocabFound = false;
         var vocabBadge = '';
+        var vocabFound = false;
         if (currentMode === 'vocab' && activePrompt && activePrompt.vocab) {
           var targetWord = activePrompt.vocab.word.toLowerCase();
           var regex = new RegExp('\\b' + targetWord + '\\b', 'i');
@@ -1745,39 +821,43 @@
           if (waBtn) waBtn.style.display = 'none';
         }
       }
-      
-      var modal = document.getElementById('generalModal');
-      if (modal) modal.style.display = 'flex';
+
+      document.getElementById('generalModal').style.display = 'flex';
     }
 
     function openLockedModal(categoryName) {
-      playTapSound();
       var modalTitle = document.getElementById('modalTitle');
       var modalDesc = document.getElementById('modalDesc');
+      var modalIcon = document.getElementById('modalIcon');
       var waBtn = document.getElementById('modalWaBtn');
-      var modal = document.getElementById('generalModal');
 
-      if (modalTitle) modalTitle.innerText = 'Unlock PopTalk Pro';
+      if (modalIcon) modalIcon.innerText = '🔒';
+      if (modalTitle) modalTitle.innerText = categoryName + ' is Pro!';
       if (modalDesc) {
-        modalDesc.innerHTML = '<strong>' + categoryName + '</strong> is part of the PopTalk Pro Practice Pack.<br><br>Unlock all 7 exclusive modes including <strong>Finish It, Echo Story, Act It Out, and The Big Pitch</strong>, with 200+ prompt cards across all age tracks.<br><br>✨ <em>New creative categories and weekly challenge packs are added regularly!</em>';
+        modalDesc.innerHTML = '<div style="font-size:15px; color:#293830; line-height:1.6; text-align:left; padding:10px 0;">' +
+          'Unlock <strong>' + categoryName + '</strong> along with 5 other advanced speaking modes, full prompt banks, and priority access to new exercises.' +
+          '<div style="margin-top:14px; padding:12px; background:#FFF7ED; border:1px solid #FFEDD5; border-radius:10px; font-weight:700; color:#C2410C; font-size:14px;">' +
+          '🚀 PopTalk Pro Lifetime Pass: Regional pricing available at checkout!' +
+          '</div></div>';
       }
       if (waBtn) {
         waBtn.style.display = 'block';
-        waBtn.innerText = '⚡ Get PopTalk Pro Access';
-        waBtn.href = 'https://wa.me/?text=Hi!%20I%20want%20to%20unlock%20PopTalk%20Pro%20access%20for%20all%20speaking%20categories.';
+        waBtn.innerText = '⚡ Unlock PopTalk Pro';
+        waBtn.href = 'https://poptalk.lemonsqueezy.com/buy';
       }
-      if (modal) modal.style.display = 'flex';
+      document.getElementById('generalModal').style.display = 'flex';
     }
 
     function closeModal() {
-      playTapSound();
-      var modal = document.getElementById('generalModal');
-      if (modal) modal.style.display = 'none';
+      document.getElementById('generalModal').style.display = 'none';
     }
 
+    // Initialize on page load
     window.addEventListener('DOMContentLoaded', function() {
-      initStreak();
-      initSpeechRecognition();
+      updateTargetDuration();
+      setTimeout(function() {
+        spinPrompt();
+      }, 100);
     });
   </script>
 </body>
