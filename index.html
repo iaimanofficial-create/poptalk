@@ -2,584 +2,1689 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PopTalk | Spontaneous Speaking Workout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PopTalk - Think, Organize, Express</title>
+  <!-- Google Fonts: Fredoka & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Progressive Web App Setup -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0A3323">
 
   <style>
     :root {
-      --cream-bg: #FAF8F5;
-      --card-white: #FFFFFF;
-      --midnight-green: #0A3323;
-      --deep-teal: #105666;
-      --moss-green: #2D6A4F;
-      --soft-mint: #EDF3EF;
-      --border-gray: #E2E8E5;
-      --text-main: #293830;
+      --dark-green: #0A3323;
+      --moss-green: #839958;
+      --lotus-pink: #D3968C;
+      --midnight-green: #105666;
+      --bg-clean: #F8FAF9;
+      --surface-white: #FFFFFF;
+      --border-soft: #E2E8E5;
       --text-muted: #52635B;
-      --amber-accent: #E85D04;
-      --sun-yellow: #F6BD60;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      background-color: var(--bg-clean); 
+      color: var(--dark-green); 
+      font-family: 'Inter', -apple-system, sans-serif;
+      padding: 24px 16px; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      min-height: 100vh; 
     }
 
-    body {
-      background-color: var(--cream-bg);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      color: var(--text-main);
+    .container { width: 100%; max-width: 480px; }
+    
+    header { 
+      text-align: center; 
+      margin-bottom: 20px; 
+    }
+    h1 { 
+      font-family: 'Fredoka', cursive, sans-serif; 
+      font-size: 40px; 
+      font-weight: 700; 
+      color: var(--dark-green); 
+      letter-spacing: 0.5px; 
+      line-height: 1.15;
+    }
+    p.tagline { 
+      font-size: 15px; 
+      font-weight: 500; 
+      color: var(--midnight-green); 
+      margin-top: 4px; 
+      letter-spacing: 0.2px;
+    }
+    .streak-container {
+      margin-top: 10px;
       display: flex;
       justify-content: center;
-      min-height: 100vh;
-      padding: 12px;
     }
-
-    .app-shell {
-      width: 100%;
-      max-width: 500px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    /* DESKTOP RESPONSIVENESS */
-    @media (min-width: 768px) {
-      body {
-        background: radial-gradient(circle at top, #F7FAF8 0%, #E3EBE7 100%);
-        padding: 30px 16px;
-      }
-      .app-shell {
-        max-width: 600px;
-        background: #FFFFFF;
-        border-radius: 28px;
-        box-shadow: 0 15px 35px rgba(10, 51, 35, 0.08);
-        border: 1.5px solid var(--border-gray);
-        padding: 24px;
-      }
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 4px 2px;
-    }
-
-    .logo-badge {
-      font-family: 'Fredoka', cursive;
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--midnight-green);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
     .streak-pill {
       background: #FFF3E6;
       border: 1.5px solid #FBD0A7;
-      color: #B45309;
-      font-family: 'Fredoka', cursive;
-      font-weight: 700;
-      font-size: 14px;
-      padding: 6px 14px;
-      border-radius: 999px;
-    }
-
-    /* AGE SELECTOR PILLS */
-    .age-selector {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      background: #E8EFEA;
-      padding: 4px;
-      border-radius: 14px;
-      gap: 4px;
-    }
-
-    .age-pill {
-      border: none;
-      background: transparent;
-      padding: 8px 4px;
-      border-radius: 10px;
-      font-family: 'Fredoka', cursive;
-      font-weight: 600;
-      font-size: 14px;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .age-pill.active {
-      background: var(--card-white);
-      color: var(--midnight-green);
-      box-shadow: 0 2px 6px rgba(10, 51, 35, 0.08);
-    }
-
-    /* CATEGORIES HORIZONTAL SCROLL */
-    .categories-wrapper {
-      overflow-x: auto;
-      scrollbar-width: none;
-      margin: 0 -4px;
-      padding: 2px 4px;
-    }
-    .categories-wrapper::-webkit-scrollbar { display: none; }
-
-    .categories-row {
-      display: flex;
-      gap: 8px;
-      width: max-content;
-    }
-
-    .cat-btn {
-      border: 1.5px solid var(--border-gray);
-      background: var(--card-white);
-      padding: 8px 14px;
-      border-radius: 12px;
-      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-family: 'Fredoka', cursive, sans-serif;
       font-size: 13.5px;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
+      font-weight: 700;
+      color: #B45309;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(180, 83, 9, 0.08);
     }
 
-    .cat-btn.active {
-      background: var(--midnight-green);
-      color: #FFFFFF;
-      border-color: var(--midnight-green);
+    .daily-reminder {
+      background: #EDF3EF;
+      border: 1.5px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      text-align: center;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--midnight-green);
+      line-height: 1.45;
+    }
+    .daily-reminder.done {
+      background: #EAF0E1;
+      border-color: #C7DCB1;
+      color: var(--dark-green);
     }
 
-    .cat-btn.locked {
-      background: #F3F5F4;
-      opacity: 0.85;
+    #landingScreen { display: block; }
+    .landing-title { 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 20px; 
+      font-weight: 600; 
+      color: var(--dark-green); 
+      text-align: center; 
+      margin-bottom: 16px; 
+    }
+    .track-card { 
+      background: var(--surface-white); 
+      border: 2px solid var(--border-soft); 
+      border-radius: 20px; 
+      padding: 20px 18px; 
+      margin-bottom: 16px; 
+      cursor: pointer; 
+      transition: all 0.2s ease; 
+      box-shadow: 0 4px 12px rgba(10, 51, 35, 0.04); 
+      display: flex; 
+      align-items: center; 
+      gap: 16px; 
+      text-align: left; 
+    }
+    .track-card:hover, .track-card:active { 
+      border-color: var(--moss-green); 
+      transform: translateY(-2px); 
+    }
+    .track-icon { 
+      font-size: 32px; 
+      background: #EDF3EF; 
+      width: 60px; 
+      height: 60px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      border-radius: 16px; 
+      flex-shrink: 0; 
+    }
+    .track-info h3 { 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 19px; 
+      font-weight: 600; 
+      color: var(--dark-green); 
+      margin-bottom: 6px; 
+      line-height: 1.25;
+    }
+    .track-info p { 
+      font-size: 15px; 
+      font-weight: 400; 
+      color: var(--text-muted); 
+      line-height: 1.55; 
+      margin-bottom: 10px;
+    }
+    .track-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 12px;
+      background: #F3E4E1;
+      color: #9E564C;
+    }
+    .tag-teen { background: #EAF0E1; color: var(--moss-green); }
+    .tag-adult { background: #E1EFF2; color: var(--midnight-green); }
+
+    #arenaScreen { display: none; }
+    .top-bar { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      background: #EDF3EF; 
+      border-radius: 12px; 
+      padding: 10px 14px; 
+      margin-bottom: 16px; 
+    }
+    .active-track-name { 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 15px; 
+      font-weight: 600; 
+      color: var(--dark-green); 
+    }
+    .btn-change { 
+      background: none; 
+      border: none; 
+      color: var(--midnight-green); 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 13.5px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      text-decoration: underline; 
     }
 
-    /* PROMPT CARD */
-    .prompt-card {
-      background: var(--card-white);
-      border: 2px solid var(--midnight-green);
-      border-radius: 20px;
-      padding: 22px 18px;
-      box-shadow: 0 8px 24px rgba(10, 51, 35, 0.06);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .control-panel { 
+      background: var(--surface-white); 
+      border-radius: 16px; 
+      padding: 14px; 
+      margin-bottom: 16px; 
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 2px 6px rgba(10, 51, 35, 0.03); 
+    }
+    .control-label { 
+      font-size: 11.5px; 
+      font-weight: 700; 
+      color: var(--text-muted); 
+      text-transform: uppercase; 
+      margin-bottom: 6px; 
+      display: block; 
+      letter-spacing: 0.5px; 
+    }
+    
+    .pill-group { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; }
+    .pill-group:last-child { margin-bottom: 0; }
+    .pill { 
+      flex: 1; 
+      padding: 9px 10px; 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 13px; 
+      font-weight: 600; 
+      border: 1.5px solid var(--border-soft); 
+      border-radius: 10px; 
+      background: var(--surface-white); 
+      color: var(--dark-green);
+      cursor: pointer; 
+      text-align: center; 
+      white-space: nowrap; 
+      transition: all 0.15s; 
+    }
+    .pill.active { 
+      background: var(--midnight-green); 
+      color: #fff; 
+      border-color: var(--midnight-green); 
+    }
+    .pill.locked { 
+      background: #F3F5F4; 
+      color: #7D8F86; 
+      border-color: #E2E8E5; 
+    }
+
+    .card { 
+      background: var(--surface-white); 
+      border-radius: 22px; 
+      padding: 24px 20px; 
+      box-shadow: 0 8px 24px rgba(10, 51, 35, 0.06); 
+      margin-bottom: 16px; 
+      text-align: center; 
+      border: 1.5px solid var(--border-soft); 
       position: relative;
     }
+    .badge { 
+      display: inline-block; 
+      padding: 4px 12px; 
+      border-radius: 20px; 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 12px; 
+      font-weight: 600; 
+      background: #F3E4E1; 
+      color: #9E564C; 
+      margin-bottom: 14px; 
+    }
 
-    .card-meta {
+    .picture-frame {
+      display: none;
+      width: 100%;
+      height: 220px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 2px solid var(--border-soft);
+      background: #EDF3EF;
+      box-shadow: 0 4px 10px rgba(10, 51, 35, 0.05);
+    }
+    .picture-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .vocab-card {
+      display: none;
+      background: #F8FAF9;
+      border: 1.5px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 14px 16px;
+      text-align: left;
+      margin-bottom: 16px;
+    }
+    .vocab-word-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
+      margin-bottom: 4px;
     }
-
-    .mode-label {
-      font-family: 'Fredoka', cursive;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      background: var(--soft-mint);
+    .vocab-word {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
       color: var(--midnight-green);
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-weight: 700;
     }
-
-    .time-target {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-
-    .prompt-text {
-      font-family: 'Fredoka', cursive;
-      font-size: 20px;
+    .vocab-pos {
+      font-size: 12px;
       font-weight: 600;
-      line-height: 1.4;
-      color: var(--midnight-green);
-      min-height: 70px;
-    }
-
-    /* LEVEL TOGGLES */
-    .level-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      background: #F0F4F2;
-      border-radius: 12px;
-      padding: 4px;
-      gap: 4px;
-    }
-
-    .level-btn {
-      border: none;
-      background: transparent;
-      padding: 6px 2px;
-      border-radius: 8px;
-      font-size: 12.5px;
-      font-weight: 700;
       color: var(--text-muted);
-      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .vocab-meaning {
+      font-size: 14px;
+      color: var(--dark-green);
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+    .vocab-example {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--text-muted);
+      border-left: 3px solid var(--moss-green);
+      padding-left: 8px;
+      line-height: 1.4;
     }
 
-    .level-btn.active {
-      background: #FFFFFF;
+    /* Prompt Text & Tumbler Animations */
+    .prompt-text { 
+      font-size: 22px; 
+      font-weight: 700; 
+      color: var(--dark-green); 
+      margin-bottom: 18px; 
+      line-height: 1.45; 
+      min-height: 60px; 
+      transition: all 0.15s ease-out;
+    }
+      .prompt-text.spinning {
+      opacity: 0.35;
+      filter: blur(8px);
+      transform: scale(0.95);
+      user-select: none;
+      letter-spacing: 2px;
       color: var(--midnight-green);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
     }
 
-    /* SCAFFOLD / HINT BOX */
-    .scaffold-box {
-      background: var(--soft-mint);
-      border: 1.5px solid #D6E4DC;
-      border-radius: 14px;
+    .spin-icon-rolling {
+      display: inline-block;
+      animation: diceRoll 0.25s infinite linear;
+    }
+    @keyframes diceRoll {
+      0% { transform: rotate(0deg) scale(1.1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1.1); }
+    }
+
+    .twist-banner {
+      display: none;
+      background: #F3E4E1;
+      border: 2px dashed var(--lotus-pink);
+      border-radius: 12px;
       padding: 14px;
       font-size: 14.5px;
-      line-height: 1.6;
-      color: var(--text-main);
+      font-weight: 700;
+      color: var(--dark-green);
+      margin-bottom: 16px;
+      line-height: 1.45;
+      animation: gentle-pulse 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes gentle-pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.015); }
     }
 
-    /* RECORD / SPEAKING INTERACTION */
-    .timer-pill {
-      font-family: 'Fredoka', cursive;
-      font-size: 32px;
-      font-weight: 700;
+    .btn-ideas {
+      background: #EDF3EF;
+      border: 1.5px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
       color: var(--midnight-green);
-      text-align: center;
-      margin: 4px 0;
+      cursor: pointer;
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+    .scaffold-box { 
+      display: none;
+      background: #F8FAF9; 
+      border-left: 4px solid var(--moss-green); 
+      border-radius: 10px; 
+      padding: 16px; 
+      text-align: left; 
+      font-size: 14px; 
+      color: #293830; 
+      margin-bottom: 18px; 
+      line-height: 1.6; 
+    }
+    .scaffold-box strong { font-family: 'Fredoka', cursive, sans-serif; color: var(--dark-green); }
+    
+    .lifeboat-drawer {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1.5px dashed var(--border-soft);
+      font-size: 14px;
+      color: var(--dark-green);
+      line-height: 1.6;
+    }
+    .lifeboat-item { margin-bottom: 8px; }
+    .lifeboat-item:last-child { margin-bottom: 0; }
+    .lifeboat-label {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--midnight-green);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .power-pill {
+      display: inline-block;
+      background: #EDF3EF;
+      color: var(--dark-green);
+      border: 1px solid var(--border-soft);
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      margin: 2px 4px 2px 0;
     }
 
     .mic-live-pill {
       display: none;
-      background: #FEE2E2;
-      border: 1px solid #FCA5A5;
-      color: #991B1B;
+      background: #FFF1F0;
+      border: 1px solid #FECACA;
+      color: #B91C1C;
+      font-size: 12px;
       font-weight: 700;
-      font-size: 13.5px;
-      padding: 8px;
-      border-radius: 10px;
-      text-align: center;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      font-family: 'Fredoka', cursive, sans-serif;
     }
 
-    /* BUTTON CONTROLS */
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.6fr;
-      gap: 10px;
+    .timer-label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px; }
+    .timer-display { 
+      font-family: 'Fredoka', cursive, sans-serif; 
+      font-size: 48px; 
+      font-weight: 700; 
+      color: var(--dark-green); 
+      margin: 4px 0 8px 0; 
+      font-variant-numeric: tabular-nums; 
+    }
+    .overtime-badge {
+      display: none;
+      background: #EAF0E1;
+      color: var(--moss-green);
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    .progress-bar-bg { 
+      width: 100%; 
+      height: 8px; 
+      background: #E8EFEA; 
+      border-radius: 4px; 
+      overflow: hidden; 
+      margin-bottom: 18px; 
+    }
+    .progress-bar { 
+      width: 100%; 
+      height: 100%; 
+      background: var(--moss-green); 
+      transition: width 1s linear; 
     }
 
-    .btn {
-      border: none;
-      border-radius: 14px;
-      padding: 14px;
-      font-family: 'Fredoka', cursive;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+    .btn-action-row { display: flex; gap: 8px; margin-bottom: 10px; }
+    .btn { 
+      display: block; 
+      width: 100%; 
+      padding: 14px; 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 16px; 
+      font-weight: 600; 
+      border-radius: 14px; 
+      border: none; 
+      cursor: pointer; 
       transition: transform 0.1s ease;
     }
-
     .btn:active { transform: scale(0.98); }
-
-    .btn-spin {
-      background: #FFFFFF;
-      border: 2px solid var(--midnight-green);
-      color: var(--midnight-green);
+    .btn-think { background: #E1EFF2; color: var(--midnight-green); }
+    .btn-speak { background: var(--moss-green); color: #fff; }
+    .btn-buffer { 
+      background: #EDF3EF; 
+      color: var(--midnight-green); 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 13.5px; 
+      font-weight: 600;
+      padding: 10px; 
+      border: 1px solid var(--border-soft); 
+      border-radius: 10px; 
+      margin-bottom: 10px; 
+      display: none; 
+    }
+    .btn-try-again {
+      background: #EDF3EF;
+      color: var(--dark-green);
+      border: 1.5px solid var(--border-soft);
+      margin-bottom: 10px;
+    }
+    .btn-spin { 
+      background: var(--midnight-green); 
+      color: #fff; 
+      margin-bottom: 10px; 
+      box-shadow: 0 4px 12px rgba(16, 86, 102, 0.25); 
     }
 
-    .btn-record {
-      background: var(--amber-accent);
-      color: #FFFFFF;
-      box-shadow: 0 4px 14px rgba(232, 93, 4, 0.3);
-    }
-
-    .btn-record.speaking {
-      background: #DC2626;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
-    }
-
-    /* CELEBRATION SCORECARD MODAL */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(10, 51, 35, 0.6);
+    .modal-overlay { 
+      display: none; 
+      position: fixed; 
+      inset: 0; 
+      background: rgba(10, 51, 35, 0.45); 
       backdrop-filter: blur(4px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-      z-index: 9999;
+      z-index: 100; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 16px; 
     }
-
-    .modal-card {
-      background: #FFFFFF;
-      border-radius: 24px;
-      max-width: 520px;
-      width: 100%;
+    .modal-content { 
+      background: var(--surface-white); 
+      border-radius: 22px; 
+      padding: 24px; 
+      max-width: 420px; 
+      width: 100%; 
+      text-align: center; 
+      box-shadow: 0 20px 30px rgba(10, 51, 35, 0.15); 
       max-height: 90vh;
-      overflow-y: auto;
-      padding: 24px 20px;
-      border: 2px solid var(--midnight-green);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      overflow-y: auto; 
     }
-
-    .modal-header {
-      text-align: center;
-      margin-bottom: 14px;
+    .modal-icon { font-size: 40px; margin-bottom: 10px; }
+    .modal-title { 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 20px; 
+      font-weight: 700; 
+      color: var(--dark-green); 
+      margin-bottom: 8px; 
     }
-
-    .modal-icon { font-size: 42px; display: block; margin-bottom: 6px; }
-    .modal-title { font-family: 'Fredoka', cursive; font-size: 24px; color: var(--midnight-green); font-weight: 700; }
-
-    .modal-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 18px;
+    .modal-desc { 
+      font-size: 14px; 
+      color: var(--text-muted); 
+      line-height: 1.55; 
+      margin-bottom: 18px; 
     }
-
-    .btn-wa {
-      background: #25D366;
-      color: #FFFFFF;
-      text-decoration: none;
-      padding: 14px;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 15px;
-      display: none;
+    .btn-wa { 
+      background: #25D366; 
+      color: #fff; 
+      text-decoration: none; 
+      display: block; 
+      padding: 13px; 
+      border-radius: 12px; 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-weight: 600; 
+      font-size: 15px; 
+      margin-bottom: 10px; 
+    }
+    .btn-close { 
+      background: none; 
+      border: none; 
+      color: var(--text-muted); 
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 13.5px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      text-decoration: underline; 
     }
   </style>
 </head>
 <body>
-
-  <div class="app-shell">
+  <div class="container">
     <header>
-      <div class="logo-badge">🍿 PopTalk</div>
-      <div class="streak-pill" id="streakPill">🔥 <span id="streakNum">1</span> Day Streak</div>
+      <h1>PopTalk</h1>
+      <p class="tagline">Think. Organize. Express.</p>
+      <div class="streak-container">
+        <div class="streak-pill" id="streakBadge" title="Practice every day to keep your streak alive!">
+          🔥 <span id="streakCount">0</span> Day Streak
+        </div>
+      </div>
     </header>
 
-    <!-- AGE SELECTOR -->
-    <div class="age-selector">
-      <button class="age-pill active" onclick="setAge('junior')">🐣 Junior (5-8)</button>
-      <button class="age-pill" onclick="setAge('teen')">⚡ Teen (9-17)</button>
-      <button class="age-pill" onclick="setAge('adult')">👔 Adult (18+)</button>
-    </div>
+    <!-- SCREEN 1: LANDING AGE SELECTOR -->
+    <div id="landingScreen">
+      <div class="daily-reminder" id="dailyReminder">
+        ⚡ You haven't practiced your speaking today! Pick a track below to begin.
+      </div>
 
-    <!-- CATEGORIES -->
-    <div class="categories-wrapper">
-      <div class="categories-row">
-        <button class="cat-btn active" onclick="setCategory('picture')">🖼️ Picture Talk</button>
-        <button class="cat-btn" onclick="setCategory('dilemma')">⚖️ Pick a Side</button>
-        <button class="cat-btn" onclick="setCategory('opinions')">🔥 Hot Takes</button>
-        <button class="cat-btn" onclick="setCategory('vocab')">💎 Vocab Yap</button>
-        <button class="cat-btn locked" onclick="openLockedModal('Finish It')">🔒 Finish It</button>
-        <button class="cat-btn locked" onclick="openLockedModal('Echo Story')">🔒 Echo Story</button>
-        <button class="cat-btn locked" onclick="openLockedModal('Act It Out')">🔒 Act It Out</button>
-        <button class="cat-btn locked" onclick="openLockedModal('The Big Pitch')">🔒 Big Pitch</button>
-        <button class="cat-btn locked" onclick="openLockedModal('Sell This!')">🔒 Sell This!</button>
-        <button class="cat-btn locked" onclick="openLockedModal('What If?')">🔒 What If?</button>
+      <div class="landing-title">Choose Your Track to Begin</div>
+
+      <div class="track-card" onclick="selectTrack('junior', '💬 Junior (Ages 5–8)')">
+        <div class="track-icon">💬</div>
+        <div class="track-info">
+          <h3>Junior Explorers (Ages 5–8)</h3>
+          <p>Designed for young minds building sentence flow. Uses step-by-step visual handrails to turn ideas into lively, uninterrupted speech.</p>
+          <span class="track-tag">Expression & Fluency</span>
+        </div>
+      </div>
+
+      <div class="track-card" onclick="selectTrack('teen', '🧩 Teen (Ages 9–17)')">
+        <div class="track-icon">🧩</div>
+        <div class="track-info">
+          <h3>Rising Speakers (Ages 9–17)</h3>
+          <p>Designed for tweens and teens finding their voice. Connects reasoning, examples, and counter-perspectives into structured self-expression.</p>
+          <span class="track-tag tag-teen">Structure & Critical Thinking</span>
+        </div>
+      </div>
+
+      <div class="track-card" onclick="selectTrack('adult', '💡 Adult Fluency (18+)')">
+        <div class="track-icon">💡</div>
+        <div class="track-info">
+          <h3>Adult Fluency (18+ Non-Native)</h3>
+          <p>Designed for non-native adults seeking natural fluency. Replaces mental freezing with practical thinking formulas for everyday spontaneous talk.</p>
+          <span class="track-tag tag-adult">Clarity & Structured Thinking</span>
+        </div>
       </div>
     </div>
 
-    <!-- MAIN PROMPT CARD -->
-    <div class="prompt-card">
-      <div class="card-meta">
-        <span class="mode-label" id="modeBadge">🖼️ Picture Talk</span>
-        <span class="time-target" id="timeTargetText">⏱️ Target: 30s</span>
+    <!-- SCREEN 2: PRACTICE ARENA -->
+    <div id="arenaScreen">
+      <div class="top-bar">
+        <span class="active-track-name" id="currentTrackLabel">💬 Junior (Ages 5–8)</span>
+        <button class="btn-change" onclick="returnToLanding()">Change ↺</button>
       </div>
 
-      <div class="prompt-text" id="promptText">
-        Tap the 🎲 Spin button below to get your spontaneous speaking challenge!
+      <div class="control-panel">
+        <span class="control-label">Difficulty (Speaking Goal)</span>
+        <div class="pill-group" id="levelGroup">
+          <button class="pill active" onclick="setLevel('easy')">🟢 Easy (30s)</button>
+          <button class="pill" onclick="setLevel('medium')">🟡 Medium (45s)</button>
+          <button class="pill" onclick="setLevel('hard')">🔴 Hard (60s)</button>
+        </div>
+
+        <span class="control-label">Category</span>
+        <div class="pill-group" id="modeGroup">
+          <button class="pill active" onclick="setMode('picture')">🖼️ Picture Talk</button>
+          <button class="pill" onclick="setMode('wyr')">⚖️ Pick a Side</button>
+          <button class="pill" onclick="setMode('opinions')">💬 Hot Takes</button>
+          <button class="pill" onclick="setMode('vocab')">📚 Vocab Yap</button>
+          <button class="pill locked" onclick="openLockedModal('Finish It')">🔒 Finish It</button>
+          <button class="pill locked" onclick="openLockedModal('Echo Story')">🔒 Echo Story</button>
+          <button class="pill locked" onclick="openLockedModal('Act It Out')">🔒 Act It Out</button>
+          <button class="pill locked" onclick="openLockedModal('The Big Pitch')">🔒 The Big Pitch</button>
+          <button class="pill locked" onclick="openLockedModal('Sell This!')">🔒 Sell This!</button>
+          <button class="pill locked" onclick="openLockedModal('What If?')">🔒 What If?</button>
+        </div>
       </div>
 
-      <!-- DIFFICULTY TOGGLE -->
-      <div class="level-row">
-        <button class="level-btn active" id="lvlEasy" onclick="setLevel('easy')">🟢 Easy Steps</button>
-        <button class="level-btn" id="lvlMed" onclick="setLevel('medium')">🟡 Medium Spark</button>
-        <button class="level-btn" id="lvlHard" onclick="setLevel('hard')">🔴 Hard Twist</button>
+      <div class="card">
+        <span class="badge" id="categoryBadge">PICTURE TALK</span>
+        
+        <div class="picture-frame" id="pictureFrame">
+          <img id="pictureImg" src="" alt="Story Scene">
+        </div>
+
+        <div class="vocab-card" id="vocabCard">
+          <div class="vocab-word-row">
+            <span class="vocab-word" id="vocabWord"></span>
+            <span class="vocab-pos" id="vocabPos"></span>
+          </div>
+          <div class="vocab-meaning" id="vocabMeaning"></div>
+          <div class="vocab-example" id="vocabExample"></div>
+        </div>
+
+        <div class="prompt-text" id="promptDisplay">🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!</div>
+        <div class="twist-banner" id="twistBanner"></div>
+
+        <button class="btn-ideas" id="ideasBtn" onclick="toggleIdeas()" style="display:none;">🗺️ Need Ideas? (Tap for Help)</button>
+
+        <div class="scaffold-box" id="scaffoldBox">
+          <div id="scaffoldContent"></div>
+          <div class="lifeboat-drawer" id="lifeboatDrawer">
+            <div class="lifeboat-item">
+              <span class="lifeboat-label">💬 Sentence Starter:</span>
+              <span id="lifeboatStarter"></span>
+            </div>
+            <div class="lifeboat-item">
+              <span class="lifeboat-label">🔤 Power Words:</span>
+              <span id="lifeboatWords"></span>
+            </div>
+            <div class="lifeboat-item">
+              <span class="lifeboat-label">💡 If You Freeze:</span>
+              <span id="lifeboatTip"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Mic Status Indicator -->
+        <div class="mic-live-pill" id="micLivePill">🔴 Mic Listening...</div>
+
+        <div class="timer-label" id="timerPhaseLabel">Ready to begin</div>
+        <div class="timer-display" id="timerText">00:30</div>
+        <div class="overtime-badge" id="overtimeBadge">Overtime: +0:00 bonus</div>
+        
+        <div class="progress-bar-bg">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <button class="btn btn-buffer" id="bufferBtn" onclick="addBufferTime()">+15s More Thinking</button>
+        
+        <div class="btn-action-row" id="actionBtnRow" style="display:none;">
+          <button class="btn btn-think" id="thinkBtn" onclick="startThinking()">🧠 Start Thinking (30s)</button>
+          <button class="btn btn-speak" id="speakBtn" onclick="startSpeaking()">🎙️ Start Speaking</button>
+        </div>
       </div>
 
-      <!-- STEP BY STEP GUIDANCE -->
-      <div class="scaffold-box" id="scaffoldBox" style="display:none;"></div>
-
-      <!-- LIVE MIC & TIMER -->
-      <div class="timer-pill" id="timerDisplay">00:00</div>
-      <div class="mic-live-pill" id="micLivePill">🔴 Mic Listening... (0 words)</div>
-    </div>
-
-    <!-- CONTROLS -->
-    <div class="controls-grid">
-      <button class="btn btn-spin" id="spinBtn" onclick="spinPrompt()">🎲 Spin</button>
-      <button class="btn btn-record" id="recordBtn" onclick="toggleSpeaking()">🎙️ Start Speaking</button>
+      <!-- Action Row: Try Again & New Topic -->
+      <button class="btn btn-try-again" id="tryAgainBtn" onclick="tryAgainSameTopic()" style="display:none;">🔁 Try Again (Same Topic)</button>
+      <button class="btn btn-spin" id="spinBtn" onclick="spinPrompt()">🎲 Spin for Topic</button>
     </div>
   </div>
 
-  <!-- CELEBRATION & SCORECARD MODAL -->
+  <!-- Modal -->
   <div class="modal-overlay" id="generalModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <span class="modal-icon" id="modalIcon">🌟</span>
-        <h2 class="modal-title" id="modalTitle">Practice Complete!</h2>
-      </div>
-      <div id="modalDesc"></div>
-      <div class="modal-actions">
-        <a id="modalWaBtn" class="btn-wa" target="_blank">Book Demo on WhatsApp</a>
-        <button class="btn btn-spin" onclick="closeModal()">Close & Keep Practicing</button>
-      </div>
+    <div class="modal-content">
+      <div class="modal-icon" id="modalIcon">🎉</div>
+      <div class="modal-title" id="modalTitle">Practice Complete!</div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <a href="https://wa.me/?text=Hi!%20I%20want%20to%20learn%20more." target="_blank" class="btn-wa" id="modalWaBtn">
+        💬 Inquire on WhatsApp
+      </a>
+      <button class="btn-close" onclick="closeModal()">Close</button>
     </div>
   </div>
 
-  <!-- 1. LOAD EXTERNAL PROMPTS BANK FIRST -->
-  <script src="prompts.js"></script>
-
-  <!-- 2. CORE APPLICATION LOGIC -->
   <script>
+         const promptBank = [
+      // ==========================================
+      // JUNIOR (5-8) - PICTURE TALK (5 Prompts)
+      // ==========================================
+      {
+        age: 'junior', mode: 'picture',
+        text: 'A fluffy cat wearing a chef hat making pizza.',
+        image: 'cat.jpg',
+        fallbackImage: 'cat.png',
+        easy: '<strong>1. Who:</strong> A cat wearing a tall white chef hat.<br><strong>2. Doing:</strong> Rolling out pizza dough on the kitchen counter.<br><strong>3. Ending:</strong> Putting funny toppings on top for his friends!',
+        medium: 'Start with the cat rolling the dough, then tell what happens when flour puffs into his face!',
+        hardTwist: 'A little brown mouse runs across the table to grab the cheese!',
+        starter: 'In the kitchen, the chef cat is...',
+        words: ['Giant', 'Messy', 'Yummy'],
+        tip: 'Describe what toppings are sitting on the counter.'
+      },
+      {
+        age: 'junior', mode: 'picture',
+        text: 'A giant rainbow treehouse with tire swings and a long slide.',
+        image: 'treehouse.jpg',
+        fallbackImage: 'treehouse.png',
+        easy: '<strong>1. Who:</strong> Tell who climbs the wooden ladder to the top.<br><strong>2. Doing:</strong> Playing games and sharing snacks in the secret clubhouse.<br><strong>3. Ending:</strong> Zooming down the green slide back to the soft grass!',
+        medium: 'Tell a story about spotting a friendly squirrel peeking through the window!',
+        hardTwist: 'A bird lands on the roof and drops a shiny golden key!',
+        starter: 'When I climb to the top of the treehouse, I see...',
+        words: ['High', 'Secret', 'Fast'],
+        tip: 'Describe what games you would play inside.'
+      },
+      {
+        age: 'junior', mode: 'picture',
+        text: 'A friendly elephant trying to balance on roller skates in the park.',
+        image: 'elephant.jpg',
+        fallbackImage: 'elephant.png',
+        easy: '<strong>1. Who:</strong> An elephant putting on four big red roller skates.<br><strong>2. Doing:</strong> Wobbling down the park path while other animals watch.<br><strong>3. Ending:</strong> Trying to brake before rolling right into the duck pond!',
+        medium: 'Tell a story about the elephant shouting "Whoa!" as he tries to turn a corner!',
+        hardTwist: 'He almost bumps right into a shiny ice cream cart!',
+        starter: 'On the park path, the big elephant is...',
+        words: ['Wobbly', 'Heavy', 'Happy'],
+        tip: 'Tell if his skates make a loud rumbling sound or a quiet sound.'
+      },
+      {
+        age: 'junior', mode: 'picture',
+        text: 'A tiny magical door hidden behind teddy bears on a shelf.',
+        image: 'door.jpg',
+        fallbackImage: 'door.png',
+        easy: '<strong>1. Who:</strong> Tell who discovers the tiny glowing door behind the bears.<br><strong>2. Doing:</strong> Turning the shiny golden key in the lock.<br><strong>3. Ending:</strong> Stepping inside to see what room is on the other side!',
+        medium: 'Tell a story about knocking on the door: "Knock knock! Anyone inside?"',
+        hardTwist: 'The tiny door slowly begins to close all by itself!',
+        starter: 'Tucked behind the bears on the shelf, I see...',
+        words: ['Tiny', 'Shiny', 'Secret'],
+        tip: 'Tell what color the glowing light looks like.'
+      },
+      {
+        age: 'junior', mode: 'picture',
+        text: 'A baby dinosaur having juice and cookies in the garden.',
+        image: 'dino.jpg',
+        fallbackImage: 'dino.png',
+        easy: '<strong>1. Who:</strong> A baby dinosaur sitting at a tiny garden table.<br><strong>2. Doing:</strong> Sipping sweet juice through a curly loop-de-loop straw.<br><strong>3. Ending:</strong> Sharing the plate of cookies with a garden friend!',
+        medium: 'Tell a story about his giant, happy slurps: "Gulp, gulp!"',
+        hardTwist: 'His long tail accidentally knocks over the cookie plate!',
+        starter: 'Out in the sunny garden, the little dinosaur is...',
+        words: ['Green', 'Sweet', 'Friendly'],
+        tip: 'Tell what flavor of juice he is drinking.'
+      },
+
+      // ==========================================
+      // JUNIOR (5-8) - PICK A SIDE (5 Prompts)
+      // ==========================================
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather have a pet penguin that eats ice cream or a monkey that cleans your room?',
+        easy: '<strong>1. Pick:</strong> Choose the penguin or the monkey.<br><strong>2. Fun Part:</strong> What is the funniest trick they do in your house?<br><strong>3. Big Plan:</strong> What is the first thing you two do together?',
+        medium: 'Pick your pet and explain what makes them fun to have at home!',
+        hardTwist: 'Tell one funny reason why a friend might pick the other pet!',
+        starter: 'I would definitely choose the... because...',
+        words: ['Silly', 'Clean', 'Cute'],
+        tip: 'Tell where your new pet would sleep at night.'
+      },
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather have shoes that jump over houses or a jacket that makes you invisible?',
+        easy: '<strong>1. Pick:</strong> Choose the jumping shoes or the invisibility jacket.<br><strong>2. Fun Part:</strong> What is the coolest thing your item can do?<br><strong>3. Big Plan:</strong> Where is the very first place you travel using it?',
+        medium: 'Pick your item and explain how you would use it on an adventure!',
+        hardTwist: 'Tell one tricky problem that could happen while using your item!',
+        starter: 'Between the two, I choose the... because...',
+        words: ['Magic', 'Sneaky', 'Super'],
+        tip: 'Tell what color your shoes or jacket would be.'
+      },
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather have it rain warm chocolate milk or shiny rainbow glitter from the sky?',
+        easy: '<strong>1. Pick:</strong> Choose chocolate milk rain or glitter rain.<br><strong>2. Fun Part:</strong> What does your street look like when it falls?<br><strong>3. Big Plan:</strong> What boots or gear do you put on before running outside?',
+        medium: 'Pick your choice and describe what you do when you see the sky change!',
+        hardTwist: 'Tell how everyone works together to clean up after the storm ends!',
+        starter: 'If it could rain anything outside today, I want...',
+        words: ['Sweet', 'Sparkly', 'Messy'],
+        tip: 'Tell if you catch it in a cup or jump in puddles.'
+      },
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather be able to talk to all animals or be able to fly anywhere like a bird?',
+        easy: '<strong>1. Pick:</strong> Choose talking to animals or soaring in the sky.<br><strong>2. Fun Part:</strong> What is the best thing about having that power?<br><strong>3. Big Plan:</strong> Who is the first creature you chat with, or where do you fly first?',
+        medium: 'Pick your power and explain why it makes every day an adventure!',
+        hardTwist: 'Tell one funny reason why someone might pick the other power!',
+        starter: 'I would much rather... because...',
+        words: ['Brave', 'High', 'Fun'],
+        tip: 'Name your favorite animal or a landmark you would look down on.'
+      },
+      {
+        age: 'junior', mode: 'wyr',
+        text: 'Would you rather eat cake for dinner every night or play at recess all day at school?',
+        easy: '<strong>1. Pick:</strong> Choose cake for dinner or endless recess.<br><strong>2. Fun Part:</strong> What favorite flavor or playground game fills your day?<br><strong>3. Big Plan:</strong> What is the first thing you do when you get to start?',
+        medium: 'Pick your choice and describe the best part of your new daily routine!',
+        hardTwist: 'Tell what someone who disagrees with you would say!',
+        starter: 'My top choice is definitely... because...',
+        words: ['Sweet', 'Tired', 'Excited'],
+        tip: 'Name your favorite dessert or playground tag game.'
+      },
+
+      // ==========================================
+      // JUNIOR (5-8) - HOT TAKES (5 Prompts)
+      // ==========================================
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Ice cream should be allowed as a normal breakfast food every single day.',
+        easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what you usually eat in the morning to start your day.',
+        medium: 'Give your answer and explain whether you like cold treats or warm food in the morning!',
+        hardTwist: 'Tell what a parent or doctor would say about this idea!',
+        starter: 'I think this idea is... because...',
+        words: ['Yummy', 'Healthy'],
+        tip: 'Tell what you ate for breakfast this morning.'
+      },
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Dogs make better pets at home than cats.',
+        easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Share a fun memory of playing with or seeing a pet.',
+        medium: 'Pick your side and explain what makes a great pet to have at home!',
+        hardTwist: 'Give one nice compliment to the other animal!',
+        starter: 'In my opinion, I believe...',
+        words: ['Playful', 'Quiet'],
+        tip: 'Tell if you prefer energetic pets or calm pets.'
+      },
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Kids should stay up one hour later on the night before a school holiday.',
+        easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what game, movie, or book you would enjoy with that extra hour.',
+        medium: 'Give your answer and explain how you like to spend the night before a day off!',
+        hardTwist: 'Tell what a tired parent would say to this idea!',
+        starter: 'On the night before a holiday, I think...',
+        words: ['Relaxing', 'No School'],
+        tip: 'Think about what time you usually turn off your light.'
+      },
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Rainy days indoors are more fun than sunny days outside.',
+        easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Describe your favorite thing to do on that kind of day.',
+        medium: 'Choose your side and describe how you spend your favorite weather!',
+        hardTwist: 'Tell what you do if the weather suddenly changes in the middle of your game!',
+        starter: 'Between rain and sunshine, I prefer... because...',
+        words: ['Cozy', 'Outdoor'],
+        tip: 'Think about whether you like running in fresh air or staying inside.'
+      },
+      {
+        age: 'junior', mode: 'opinions',
+        text: 'Kids should be allowed to watch cartoons in the morning before school.',
+        easy: '<strong>1. Stance:</strong> Say "Yes, allowed" or "No, not allowed".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what your morning routine looks like before you leave for school.',
+        medium: 'Share your opinion on how you like to get ready in the morning!',
+        hardTwist: 'Tell what you would say to someone who thinks morning shows cause delays!',
+        starter: 'In the morning before school, I think...',
+        words: ['Ready', 'Distracted'],
+        tip: 'Tell what is the first thing you do after getting out of bed.'
+      },
+
+      // ==========================================
+      // JUNIOR (5-8) - VOCAB YAP (3 Prompts)
+      // ==========================================
+      {
+        age: 'junior', mode: 'vocab',
+        vocab: { word: 'CURIOUS', pos: 'adjective', meaning: 'Wanting to know or learn about something new.', example: 'The curious kitten peeked inside the open box.' },
+        text: 'Tell a story about a very curious puppy or person who went exploring somewhere new!',
+        easy: '<strong>1. Who:</strong> Tell who was feeling very curious today.<br><strong>2. Explore:</strong> What strange door, box, or sound did they find?<br><strong>3. Surprise:</strong> Use the word CURIOUS as you tell what they discovered!',
+        medium: 'Tell a story using the word CURIOUS to describe someone finding a secret treasure!',
+        hardTwist: 'Someone taps their shoulder and asks what they are doing!',
+        starter: 'One morning, a very curious little...',
+        words: ['Curious', 'Explore', 'Secret'],
+        tip: 'Make sure to say the word CURIOUS out loud in your story!'
+      },
+      {
+        age: 'junior', mode: 'vocab',
+        vocab: { word: 'GIGANTIC', pos: 'adjective', meaning: 'Incredibly huge, much bigger than normal.', example: 'We baked a gigantic chocolate chip cookie.' },
+        text: 'Tell a story about finding a gigantic object in your backyard or living room!',
+        easy: '<strong>1. What:</strong> What gigantic thing did you wake up and see?<br><strong>2. Reaction:</strong> How did you climb it or look at it?<br><strong>3. Ending:</strong> Use the word GIGANTIC to tell who helped you move it!',
+        medium: 'Describe trying to hide a gigantic watermelon or stuffed bear from your family!',
+        hardTwist: 'The gigantic object suddenly begins to wobble!',
+        starter: 'When I looked outside the window, I saw a gigantic...',
+        words: ['Gigantic', 'Huge', 'Heavy'],
+        tip: 'Say GIGANTIC in a loud, expressive voice!'
+      },
+      {
+        age: 'junior', mode: 'vocab',
+        vocab: { word: 'COURAGEOUS', pos: 'adjective', meaning: 'Brave; not afraid to try something difficult.', example: 'The courageous girl climbed to the top of the tall ladder.' },
+        text: 'Tell a story about someone who was courageous and tried something scary!',
+        easy: '<strong>1. The Fear:</strong> What was hard or scary to do (like swimming or a dark room)?<br><strong>2. The Brave Step:</strong> How did they take a deep breath and do it anyway?<br><strong>3. Celebration:</strong> Use COURAGEOUS to describe how proud they felt!',
+        medium: 'Tell a story about a courageous little bird learning to fly from a high branch!',
+        hardTwist: 'A sudden gust of wind blows past them!',
+        starter: 'Even though my hands were shaking, I decided to be courageous and...',
+        words: ['Courageous', 'Brave', 'Strong'],
+        tip: 'Describe what it feels like right before you do something brave.'
+      },
+
+      // ==========================================
+      // TEEN (9-17) - PICTURE TALK / SITUATIONS (All 10 Scenarios)
+      // ==========================================
+      {
+        age: 'teen', mode: 'picture',
+        text: 'You find an unlocked phone buzzing on an empty cafeteria table after school.',
+        easy: '<strong>1. Pick-up:</strong> You pick it up and see 5 missed calls from "MOM".<br><strong>2. Choice:</strong> Do you answer it, search contacts, or hand it to lost-and-found?<br><strong>3. The Twist:</strong> A new text pops up: "Please don\'t move it."',
+        medium: 'Tell what you do in the next 30 seconds before anyone walks into the room!',
+        hardTwist: 'Footsteps are coming fast down the hallway!',
+        starter: 'The cafeteria was completely quiet when I spotted the phone buzzing...',
+        words: ['Panic', 'Suspicious'],
+        tip: 'Describe the buzzing vibration on the empty plastic table.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'It is 8:00 PM before a major presentation, and your project partner has not replied.',
+        easy: '<strong>1. Problem:</strong> You open the shared document and see only 1 blank slide.<br><strong>2. Choice:</strong> Do you stay up late finishing it alone, or report it tomorrow?<br><strong>3. The Talk:</strong> What do you say when they walk into class smiling?',
+        medium: 'Tell what text message you send them right now to get an answer!',
+        hardTwist: 'Your laptop battery drops to 2% and your charger is missing!',
+        starter: 'Looking at the clock at 8:00 PM, I had two clear choices...',
+        words: ['Deadline', 'Frustrated'],
+        tip: 'Tell how many slides were supposed to be done.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'You accidentally knock over and shatter an expensive glass display shelf in a busy store.',
+        easy: '<strong>1. Accident:</strong> What did your elbow or backpack bump into?<br><strong>2. Reaction:</strong> Do you freeze, or look around for an employee immediately?<br><strong>3. Conversation:</strong> What do you say to the manager when they walk over?',
+        medium: 'Explain how you stay calm, admit the mistake, and offer to help clean up!',
+        hardTwist: 'Another customer points at you and calls loudly for security!',
+        starter: 'The sound of glass breaking was loud enough that everyone stopped talking...',
+        words: ['Accident', 'Responsible'],
+        tip: 'Describe the broken items scattered on the floor.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'You type an honest complaint about a rule, but send it to the official group chat by accident.',
+        easy: '<strong>1. Mistake:</strong> The second you hit Send and notice the group name.<br><strong>2. Reaction:</strong> Do you try to delete it for everyone, or type an apology?<br><strong>3. Facing Class:</strong> How do you handle things the next morning?',
+        medium: 'Tell how you handle the first two minutes when you see "3 people are typing..."!',
+        hardTwist: 'The group admin replies: "Please see me first thing tomorrow."',
+        starter: 'My stomach dropped the second I saw the message go through...',
+        words: ['Instant', 'Apology'],
+        tip: 'Tell what the complaint was about.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'You were listening to music on the bus and realize you stayed on way past your stop.',
+        easy: '<strong>1. Realization:</strong> You look out the window and see streets you do not recognize.<br><strong>2. Plan:</strong> Do you get off at the next stop, or talk to the driver?<br><strong>3. Heading Back:</strong> How do you navigate back home before dark?',
+        medium: 'Tell what you check on your phone map to figure out where you are!',
+        hardTwist: 'Your phone screen flickers and shuts down with 0% battery!',
+        starter: 'I took off my headphones and realized this was definitely not my neighborhood...',
+        words: ['Unfamiliar', 'Route'],
+        tip: 'Describe what unfamiliar buildings or signs you see.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'An underground subway platform that local kids turned into a secret DIY skatepark.',
+        easy: '<strong>1. The Space:</strong> Describe the smooth concrete platform and ramps between the tracks.<br><strong>2. The Crew:</strong> Who hangs out here after school and what music is playing?<br><strong>3. The Catch:</strong> What do people do when someone unfamiliar walks down the stairs?',
+        medium: 'Describe the sound of wheels rolling on concrete and the one rule everyone follows!',
+        hardTwist: 'Someone spots a security flashlight turning the corner at the stairs!',
+        starter: 'Walking down the old station stairs, the first thing you hear is...',
+        words: ['Underground', 'Echo'],
+        tip: 'Describe the colorful graffiti art on the brick walls.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'An empty school hallway at 6:00 PM with one locker showing a bright light through its vents.',
+        easy: '<strong>1. The Setting:</strong> Why are you still in the building after hours?<br><strong>2. The Locker:</strong> What color is the light, and whose locker is it?<br><strong>3. Opening It:</strong> What normal item was left inside that was making the glow?',
+        medium: 'Explain whether you walk over to check it or just head straight for the exit!',
+        hardTwist: 'The locker door suddenly pops open all by itself!',
+        starter: 'The hallway was completely empty, but as I passed locker 42...',
+        words: ['Quiet', 'Curious'],
+        tip: 'Mention the squeak of your shoes on the polished floor.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'An unexpected garden with lush plants and benches on top of an ordinary office building.',
+        easy: '<strong>1. Finding It:</strong> How did you discover the door leading to this quiet rooftop?<br><strong>2. The View:</strong> Contrast looking down at traffic while standing in quiet greenery.<br><strong>3. Your Routine:</strong> Why is this your favorite place to study or think?',
+        medium: 'Describe sitting on the bench watching the sunset over the city buildings!',
+        hardTwist: 'The heavy rooftop door clicks shut and locks from the inside!',
+        starter: 'Most people take the elevator down to the lobby, but if you go up to the roof...',
+        words: ['Peaceful', 'Skyline'],
+        tip: 'Describe the cool breeze or the view of cars below.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'A package left on your porch with a label that says: "Do Not Open Until Next Year".',
+        easy: '<strong>1. The Box:</strong> What size is the box, and is there a return address?<br><strong>2. The Curiosity:</strong> Do you keep it hidden in your room, or ask your family?<br><strong>3. The Guess:</strong> What harmless thing do you think is actually inside?',
+        medium: 'Explain how hard it is to walk past that box every day without tearing off the tape!',
+        hardTwist: 'You hear a faint ticking or buzzing sound coming from inside the box!',
+        starter: 'Sitting right by the door was a box with no return address...',
+        words: ['Curious', 'Patience'],
+        tip: 'Describe the thick packing tape or the heavy cardboard.'
+      },
+      {
+        age: 'teen', mode: 'picture',
+        text: 'An old, forgotten table on the top floor of a library with books stacked high.',
+        easy: '<strong>1. The Spot:</strong> Describe finding a hidden desk between tall wooden shelves.<br><strong>2. The Stack:</strong> What interesting topic or old map is in the book you pick up?<br><strong>3. Time Flying:</strong> Why is it so easy to sit there for hours without checking your phone?',
+        medium: 'Explain why old paper books and quiet rooms feel so rare compared to scrolling online!',
+        hardTwist: 'The overhead lights flicker off as the intercom announces closing time in 5 minutes!',
+        starter: 'Tucked in the back corner of the third floor, there is a desk where...',
+        words: ['Quiet', 'Focus'],
+        tip: 'Describe the smell of old paper or the dust floating in the window light.'
+      },
+
+      // ==========================================
+      // TEEN (9-17) - PICK A SIDE (5 Prompts)
+      // ==========================================
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather have your phone taken away every night at 8:00 PM, or keep it 24/7 with a location tracking app installed by your parents?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Share how this rule would affect your typical evening.',
+        medium: 'State your choice clearly and explain why it feels easier for you to manage.',
+        hardTwist: 'Address a parent who claims having a smartphone in the bedroom ruins sleep quality!',
+        starter: 'Between the two options, I would choose... because...',
+        words: ['Privacy', 'Boundary'],
+        tip: 'Think about what you usually do on your phone late in the evening.'
+      },
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather lead a 4-person group project where everyone shares the same grade, or do the entire assignment completely by yourself?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Share a past project experience that illustrates your point.',
+        medium: 'State your choice clearly and explain why it protects your grade better.',
+        hardTwist: 'Defend your choice against someone who claims you are either controlling or uncooperative!',
+        starter: 'When it comes to school projects, I prefer to... because...',
+        words: ['Teamwork', 'Control'],
+        tip: 'Think about whether you prefer sharing work or working at your own speed.'
+      },
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather have a 2-month summer break with zero responsibilities, or attend a demanding summer program that helps your future career?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Describe what a typical week in your chosen summer looks like.',
+        medium: 'State your choice clearly and explain what makes it the smarter use of your time.',
+        hardTwist: 'Defend your choice to a critic who says you are either being lazy or taking life too seriously!',
+        starter: 'If I had to plan my summer right now, I would choose...',
+        words: ['Recharge', 'Future'],
+        tip: 'Think about whether you get bored easily during long school holidays.'
+      },
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather have friends who always tell you the brutal truth, or friends who tell polite white lies to protect your feelings?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Describe a situation where your chosen approach builds stronger trust.',
+        medium: 'State your choice clearly and explain what kind of communication you value most.',
+        hardTwist: 'Address someone who argues that your chosen communication style causes unnecessary friction!',
+        starter: 'In my friendships, I value... because...',
+        words: ['Honest', 'Feelings'],
+        tip: 'Think about how you react when someone gives you direct feedback.'
+      },
+      {
+        age: 'teen', mode: 'wyr',
+        text: 'Would you rather finish high school ranked at the very top of your class with zero close friends, or be an average student surrounded by great friends?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Share which asset you believe matters more for your long-term success.',
+        medium: 'State your choice clearly and explain why that outcome is harder to achieve.',
+        hardTwist: 'Refute the argument that your chosen path leaves you unprepared for real-world adulthood!',
+        starter: 'Looking at high school life, I would rather have... because...',
+        words: ['Grades', 'Friends'],
+        tip: 'Think about whether academic marks or relationships matter more five years later.'
+      },
+
+      // ==========================================
+      // TEEN (9-17) - HOT TAKES (5 Prompts)
+      // ==========================================
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'Traditional daily homework does more harm to students than good.',
+        easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share how homework affects your evenings and schedule.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Answer an objection from a teacher who says homework is necessary to pass exams!',
+        starter: 'When it comes to daily homework, I believe... because...',
+        words: ['Practice', 'Balance'],
+        tip: 'Think about how much time you spend studying after class ends.'
+      },
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'Nobody under the age of 16 should be allowed to have personal social media accounts.',
+        easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe how people your age use these platforms in daily life.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Address the argument that restricting teens leaves them socially isolated!',
+        starter: 'On the topic of social media age limits, I think...',
+        words: ['Safety', 'Connected'],
+        tip: 'Think about how you and your peers stay in touch outside of school.'
+      },
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'School uniforms are better than letting students wear whatever they want.',
+        easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe what getting ready for school looks like under both systems.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Address an administrator who argues that your stance creates discipline or equality issues!',
+        starter: 'When looking at school uniforms, I believe...',
+        words: ['Uniform', 'Style'],
+        tip: 'Think about how clothing affects focus and peer dynamics at school.'
+      },
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'Using AI tools to help with schoolwork is smart studying, not cheating.',
+        easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share a practical example of how AI can be used for learning.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Address the concern that relying on AI tools weakens independent problem-solving skills!',
+        starter: 'Regarding AI in the classroom, I think...',
+        words: ['Tool', 'Honesty'],
+        tip: 'Compare using AI tools to using calculators in math.'
+      },
+      {
+        age: 'teen', mode: 'opinions',
+        text: 'Timed exams only test how much you can memorize, not how smart you are.',
+        easy: '<strong>1. Stance:</strong> Say whether you agree or disagree with this statement.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share which assessment format best reflects your true capabilities.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Explain how schools or universities could evaluate applicants fairly without standardized scores!',
+        starter: 'Looking at how students are tested, I believe...',
+        words: ['Memory', 'Skills'],
+        tip: 'Think about whether you perform better on written tests or hands-on projects.'
+      },
+
+      // ==========================================
+      // TEEN (9-17) - VOCAB YAP (3 Prompts)
+      // ==========================================
+      {
+        age: 'teen', mode: 'vocab',
+        vocab: { word: 'RELUCTANT', pos: 'adjective', meaning: 'Hesitant, unwilling, or holding back from doing something.', example: 'He was reluctant to lend his favorite jacket to his younger brother.' },
+        text: 'Weave the word RELUCTANT into a story about someone hesitating to make a big decision!',
+        easy: '<strong>1. The Situation:</strong> What was someone invited or asked to do?<br><strong>2. The Hesitation:</strong> Why were they so reluctant to say yes?<br><strong>3. What Happened:</strong> Did they finally do it, and was it worth it?',
+        medium: 'Use RELUCTANT to describe a person who refused to join a competition or try something new!',
+        hardTwist: 'Their best friend tries to peer-pressure them into changing their mind!',
+        starter: 'At first, everyone was excited, but Mark was extremely reluctant because...',
+        words: ['Reluctant', 'Hesitant', 'Choice'],
+        tip: 'Use the word RELUCTANT at least once in your first two sentences.'
+      },
+      {
+        age: 'teen', mode: 'vocab',
+        vocab: { word: 'SKEPTICAL', pos: 'adjective', meaning: 'Doubtful; not easily convinced having reservations.', example: 'The class was skeptical when the teacher promised zero homework for a month.' },
+        text: 'Weave the word SKEPTICAL into an argument or story about a rumor or wild promise!',
+        easy: '<strong>1. The Claim:</strong> What crazy story, rumor, or deal did someone pitch?<br><strong>2. The Doubt:</strong> Why were you immediately skeptical of their words?<br><strong>3. The Proof:</strong> How did the truth finally come out in the end?',
+        medium: 'Use SKEPTICAL to explain why you should never trust viral life hacks online!',
+        hardTwist: 'The person claiming the story shows you a photoshopped image as proof!',
+        starter: 'When I first heard the announcement, I was deeply skeptical because...',
+        words: ['Skeptical', 'Doubt', 'Evidence'],
+        tip: 'Contrast what sounded believable against what sounded fake.'
+      },
+      {
+        age: 'teen', mode: 'vocab',
+        vocab: { word: 'AUTHENTIC', pos: 'adjective', meaning: 'Genuine, real, and true to one\'s own personality rather than copied.', example: 'People respected her because she was always authentic on camera.' },
+        text: 'Weave the word AUTHENTIC into a speech about online trends vs. staying true to yourself!',
+        easy: '<strong>1. The Trend:</strong> What popular style or trend did everyone suddenly start copying?<br><strong>2. The Contrast:</strong> Why does being authentic stand out so much more?<br><strong>3. The Conclusion:</strong> Why is keeping an authentic voice harder than copying others?',
+        medium: 'Use AUTHENTIC to defend why honest flaws are better than fake perfection online!',
+        hardTwist: 'Someone accuses an influencer of being completely staged!',
+        starter: 'In a world where everyone copies viral trends, being truly authentic means...',
+        words: ['Authentic', 'Genuine', 'Original'],
+        tip: 'Emphasize the word AUTHENTIC when you reach your main conclusion.'
+      },
+
+      // ==========================================
+      // ADULT (18+) - PICTURE TALK (5 Prompts)
+      // ==========================================
+      {
+        age: 'adult', mode: 'picture',
+        text: 'The night before a trip, your suitcase will not zip shut and is bursting open with clothes.',
+        easy: '<strong>1. The Problem:</strong> What clothes and shoes are spilling over the sides?<br><strong>2. Hard Choice:</strong> What is the one item you refuse to leave behind?<br><strong>3. The Fix:</strong> Do you sit on the bag to zip it, or take half the clothes out?',
+        medium: 'Tell why packing for a trip is always more stressful than the trip itself!',
+        hardTwist: 'You suddenly realize your passport is not in your bag!',
+        starter: 'Every time I pack for a trip, I make the exact same mistake...',
+        words: ['Overpacked', 'Essentials'],
+        tip: 'Describe the messy clothes and jackets sitting on the bed.'
+      },
+      {
+        age: 'adult', mode: 'picture',
+        text: 'The waiter brings a plate with food you did not order, but they look very busy and tired.',
+        easy: '<strong>1. The Surprise:</strong> What did you order vs. what is actually on the plate?<br><strong>2. The Dilemma:</strong> Do you just eat it quietly, or wave the waiter over?<br><strong>3. What You Say:</strong> How do you politely explain the mistake without sounding rude?',
+        medium: 'Explain why sending food back at a restaurant feels so awkward and uncomfortable!',
+        hardTwist: 'Your friend takes a bite and says: "Wait, this is actually delicious!"',
+        starter: 'When the waiter set the plate down, I looked at it and thought...',
+        words: ['Polite', 'Mistake'],
+        tip: 'Describe what dish is sitting on the table in front of you.'
+      },
+      {
+        age: 'adult', mode: 'picture',
+        text: 'You wake up, look at the sunlight through the window, and realize your phone alarm never went off.',
+        easy: '<strong>1. The Shock:</strong> You look at the clock and see it is already 8:30 AM.<br><strong>2. The Rush:</strong> What is the very first thing you grab as you jump out of bed?<br><strong>3. The Excuse:</strong> What text message do you type to explain why you are running late?',
+        medium: 'Describe the crazy 5-minute rush to get dressed and run out the front door!',
+        hardTwist: 'You check your calendar and realize... today is actually a public holiday!',
+        starter: 'The second I opened my eyes and saw the sun, I knew something was wrong...',
+        words: ['Overslept', 'Panicked'],
+        tip: 'Describe frantically looking for your shoes or keys.'
+      },
+      {
+        age: 'adult', mode: 'picture',
+        text: 'You went to the supermarket for only milk and bread, but your shopping cart is completely full.',
+        easy: '<strong>1. The Plan:</strong> What was the one thing you actually walked into the store to buy?<br><strong>2. The Temptation:</strong> What snacks or items did you end up tossing in the cart?<br><strong>3. The Register:</strong> How much did you expect to spend vs. the final bill?',
+        medium: 'Explain why you should never walk into a grocery store when you are hungry!',
+        hardTwist: 'You reach the cashier and realize you left your wallet at home!',
+        starter: 'I only walked in for two minutes to grab one thing, but then...',
+        words: ['Tempting', 'Budget'],
+        tip: 'Name two of your favorite snacks sitting in the cart.'
+      },
+      {
+        age: 'adult', mode: 'picture',
+        text: 'You are walking down the street and suddenly see someone you have not spoken to in 5 years.',
+        easy: '<strong>1. The Spot:</strong> Do you recognize them immediately or squint to make sure?<br><strong>2. The Catch-Up:</strong> What is the very first question you ask each other?<br><strong>3. The Promise:</strong> Do you make real plans to meet, or just say "Let\'s catch up soon!"?',
+        medium: 'Describe how awkward or exciting those first 30 seconds of small talk feel!',
+        hardTwist: 'You completely blank on their name while talking to them!',
+        starter: 'Out of nowhere, someone tapped my shoulder and called out my name...',
+        words: ['Surprise', 'Familiar'],
+        tip: 'Describe what street, café, or shop you are standing outside of.'
+      },
+
+      // ==========================================
+      // ADULT (18+) - PICK A SIDE (5 Prompts)
+      // ==========================================
+      {
+        age: 'adult', mode: 'wyr',
+        text: 'Would you rather be an early settler on Mars, or explore the deepest uncharted oceans on Earth?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Name one specific challenge or environment that influences your decision.',
+        medium: 'State your choice clearly and explain what makes it the more compelling frontier.',
+        hardTwist: 'Address a skeptic who says exploring either one is an irresponsible use of resources!',
+        starter: 'Between space and the deep sea, I choose...',
+        words: ['Exploration', 'Isolation'],
+        tip: 'Focus on whether extreme heights or deep waters feel more daunting to you.'
+      },
+      {
+        age: 'adult', mode: 'wyr',
+        text: 'Would you rather remember every single detail of your life, or be able to erase memories at will?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Describe a situation where that ability would provide the most value.',
+        medium: 'State your choice clearly and explain how it shapes long-term mental clarity.',
+        hardTwist: 'Explain how your choice could create complications in your personal relationships!',
+        starter: 'Looking at how memory affects us, I would rather...',
+        words: ['Recall', 'Perspective'],
+        tip: 'Consider whether having total control over memory helps or hinders growth.'
+      },
+      {
+        age: 'adult', mode: 'wyr',
+        text: 'Would you rather upload your consciousness into a computer to live indefinitely, or live a natural 80-year lifespan?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Describe how this choice influences your everyday priorities.',
+        medium: 'State your choice clearly and contrast digital continuity against biological life.',
+        hardTwist: 'Defend your choice to someone who argues that your option takes away what makes us human!',
+        starter: 'When considering the nature of life, I choose...',
+        words: ['Continuity', 'Existence'],
+        tip: 'Think about how finite time limits shape human meaning.'
+      },
+      {
+        age: 'adult', mode: 'wyr',
+        text: 'Would you rather see a clear snapshot of your life 10 years from now, or re-live one full day from your past?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Share what specific detail or moment you would look for.',
+        medium: 'State your choice clearly and compare certainty about the future with revisiting a memory.',
+        hardTwist: 'Address someone who argues that your choice would make you miss out on living in the present moment!',
+        starter: 'Given this choice, I would decide to...',
+        words: ['Foresight', 'Reflection'],
+        tip: 'Consider how knowing what lies ahead impacts day-to-day motivation.'
+      },
+      {
+        age: 'adult', mode: 'wyr',
+        text: 'Would you rather live in a society where work happens from 4:00 AM to 12:00 PM, or one that runs from 8:00 PM to 4:00 AM?',
+        easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Describe your typical energy levels during the morning versus late in the evening.',
+        medium: 'State your choice clearly and explain how it aligns with your lifestyle.',
+        hardTwist: 'Address the argument that your chosen schedule makes maintaining relationships difficult!',
+        starter: 'In terms of schedule preference, I lean toward...',
+        words: ['Routine', 'Schedule'],
+        tip: 'Think about when during a 24-hour cycle you feel most alert.'
+      },
+
+      // ==========================================
+      // ADULT (18+) - HOT TAKES (5 Prompts)
+      // ==========================================
+      {
+        age: 'adult', mode: 'opinions',
+        text: 'Renting a home gives you much more freedom in life than buying one.',
+        easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share an observation from your own living situation or friends.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+        starter: 'On this topic, I agree / disagree because...',
+        words: ['Flexibility', 'Investment'],
+        tip: 'Consider how flexibility compares to long-term ownership for you.'
+      },
+      {
+        age: 'adult', mode: 'opinions',
+        text: 'Large family or community group chats create more stress than real connection.',
+        easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe how you manage your notifications and messages day-to-day.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+        starter: 'Looking at large group chats, I think...',
+        words: ['Messages', 'Connection'],
+        tip: 'Think about how you react when group threads get very active.'
+      },
+      {
+        age: 'adult', mode: 'opinions',
+        text: 'Cooking meals at home every day is not worth the time and effort for busy adults.',
+        easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share how you typically handle meals after a tiring day.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+        starter: 'When it comes to cooking daily, I agree / disagree because...',
+        words: ['Effort', 'Routine'],
+        tip: 'Consider how you balance time preparation with food choices.'
+      },
+      {
+        age: 'adult', mode: 'opinions',
+        text: 'Calling someone on the phone without sending a text first has become rude.',
+        easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe how you react when an unscheduled call rings your phone.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+        starter: 'Regarding unexpected phone calls, I believe...',
+        words: ['Habit', 'Communication'],
+        tip: 'Think about whether you prefer answering live or replying via message.'
+      },
+      {
+        age: 'adult', mode: 'opinions',
+        text: 'A completely cashless society does more harm than good.',
+        easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Give a quick example of how you pay for items day-to-day.',
+        medium: 'State your view clearly and explain why you feel that way.',
+        hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
+        starter: 'On the question of going cashless, I agree / disagree because...',
+        words: ['Payment', 'Daily life'],
+        tip: 'Think about how you handle routine transactions.'
+      },
+
+      // ==========================================
+      // ADULT (18+) - VOCAB YAP (3 Prompts)
+      // ==========================================
+      {
+        age: 'adult', mode: 'vocab',
+        vocab: { word: 'NUANCED', pos: 'adjective', meaning: 'Characterized by subtle distinctions or complexity, not simple black-and-white.', example: 'The debate around remote work requires a nuanced perspective.' },
+        text: 'Weave the word NUANCED into a speech explaining why modern dilemmas cannot be solved with simple answers!',
+        easy: '<strong>1. The Issue:</strong> Pick a topic people argue about in black-and-white terms.<br><strong>2. The Layers:</strong> Explain why the reality is actually much more nuanced.<br><strong>3. The Balance:</strong> Conclude by stating what compromise works best.',
+        medium: 'Use NUANCED to challenge someone who gives an oversimplified opinion on a complex topic!',
+        hardTwist: 'A listener demands a simple YES or NO answer from you!',
+        starter: 'People love simple slogans, but the truth is far more nuanced because...',
+        words: ['Nuanced', 'Complexity', 'Balance'],
+        tip: 'Use NUANCED when pointing out the grey areas between extremes.'
+      },
+      {
+        age: 'adult', mode: 'vocab',
+        vocab: { word: 'PRAGMATIC', pos: 'adjective', meaning: 'Dealing with things sensibly and realistically based on practical results.', example: 'She took a pragmatic approach by prioritizing budget over perfection.' },
+        text: 'Weave the word PRAGMATIC into a story or reflection about choosing what works over an impossible ideal!',
+        easy: '<strong>1. The Goal:</strong> What project or plan was getting too complicated or idealistic?<br><strong>2. The Shift:</strong> Why was taking a pragmatic approach the only way forward?<br><strong>3. The Outcome:</strong> How did focusing on practical results save time or money?',
+        medium: 'Use PRAGMATIC to defend why an imperfect solution delivered on time beats a perfect dream!',
+        hardTwist: 'Someone accuses you of settling for less and abandoning the original dream!',
+        starter: 'While others argued about perfection, we had to be pragmatic and...',
+        words: ['Pragmatic', 'Realistic', 'Execution'],
+        tip: 'Contrast theoretical ideals with pragmatic reality.'
+      },
+      {
+        age: 'adult', mode: 'vocab',
+        vocab: { word: 'BOTTLENECK', pos: 'noun', meaning: 'A point of congestion that slows down an entire process or workflow.', example: 'Slow approval times created a massive bottleneck in the project.' },
+        text: 'Weave the word BOTTLENECK into an analysis of what slows down productivity in daily routines!',
+        easy: '<strong>1. The Process:</strong> What daily routine or workflow always takes too long?<br><strong>2. The Bottleneck:</strong> What is the single bottleneck slowing everything down?<br><strong>3. The Fix:</strong> What simple change would instantly clear the delay?',
+        medium: 'Use BOTTLENECK to explain why working longer hours does not fix a broken system!',
+        hardTwist: 'A colleague argues that hiring more people is the only solution!',
+        starter: 'The problem was never the team effort; the real bottleneck was...',
+        words: ['Bottleneck', 'Delay', 'Efficiency'],
+        tip: 'Identify the exact pinch-point that causes the backlog.'
+      }
+    ]; 
+
     var currentAge = 'junior';
     var currentMode = 'picture';
     var currentLevel = 'easy';
-    var targetTime = 30;
 
+    var timerState = 'idle';
+    var timerInterval = null;
+    var timeRemaining = 30;
+    var targetTime = 30;
+    var overtimeSeconds = 0;
+    var bufferUsed = false;
+    var twistTriggered = false;
     var activePrompt = null;
+    var categoryDecks = {};
     var isSpinning = false;
-    var isSpeakingActive = false;
-    
-    var speakTimer = null;
-    var secondsElapsed = 0;
+
     var recognition = null;
     var completedSentences = [];
     var currentInterim = '';
     var lastAddedSentence = '';
+    var isSpeakingActive = false;
 
-    // Standardize category and mode aliases
-    function normalizeMode(m) {
-      if (!m) return '';
-      var lower = m.toLowerCase();
-      if (lower === 'picture' || lower === 'scene') return 'picture';
-      if (lower === 'dilemma' || lower === 'side') return 'dilemma';
-      if (lower === 'opinions' || lower === 'hottakes' || lower === 'hottake') return 'opinions';
-      if (lower === 'vocab' || lower === 'vocabyap') return 'vocab';
-      return lower;
-    }
+    var audioCtx = null;
 
-    function setAge(age) {
-      currentAge = age;
-      document.querySelectorAll('.age-pill').forEach(function(b) {
-        b.classList.remove('active');
-        if (b.innerText.toLowerCase().indexOf(age) !== -1) b.classList.add('active');
-      });
-      updateTargetDuration();
-      spinPrompt();
-    }
-
-    function setCategory(mode) {
-      currentMode = mode;
-      document.querySelectorAll('.cat-btn').forEach(function(b) {
-        b.classList.remove('active');
-      });
-      var activeBtn = Array.from(document.querySelectorAll('.cat-btn')).find(function(b) {
-        return b.getAttribute('onclick') && b.getAttribute('onclick').indexOf(mode) !== -1;
-      });
-      if (activeBtn) activeBtn.classList.add('active');
-
-      var modeNames = {
-        'picture': '🖼️ Picture Talk',
-        'dilemma': '⚖️ Pick a Side',
-        'opinions': '🔥 Hot Takes',
-        'vocab': '💎 Vocab Yap'
-      };
-      document.getElementById('modeBadge').innerText = modeNames[mode] || mode;
-      spinPrompt();
-    }
-
-    function setLevel(lvl) {
-      currentLevel = lvl;
-      document.getElementById('lvlEasy').classList.toggle('active', lvl === 'easy');
-      document.getElementById('lvlMed').classList.toggle('active', lvl === 'medium');
-      document.getElementById('lvlHard').classList.toggle('active', lvl === 'hard');
-      renderScaffold();
-    }
-
-    function updateTargetDuration() {
-      if (currentAge === 'junior') targetTime = 30;
-      else if (currentAge === 'teen') targetTime = 45;
-      else targetTime = 60;
-      document.getElementById('timeTargetText').innerText = '⏱️ Target: ' + targetTime + 's';
-    }
-
-    // --- SPIN LOGIC (Tolerant & Diagnostic) ---
-    function spinPrompt() {
-      if (isSpinning) return;
-      isSpinning = true;
-
-      var bank = window.promptBank || window.allPrompts || window.masterPrompts || window.prompts || (typeof allPrompts !== 'undefined' ? allPrompts : []);
-
-      if (!bank || bank.length === 0) {
-        alert("⚠️ Prompts bank not loaded! Make sure prompts.js is linked properly.");
-        isSpinning = false;
-        return;
+    function getAudioContext() {
+      if (!audioCtx) {
+        var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
       }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
 
-      var activeNorm = normalizeMode(currentMode);
-      var pool = bank.filter(function(p) {
-        return (p.age === currentAge) && (normalizeMode(p.mode) === activeNorm);
-      });
+    function playThinkingChime() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.exponentialRampToValueAtTime(330, now + 0.8);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.9);
+      } catch(e) {}
+    }
 
-      if (pool.length === 0) {
-        pool = bank.filter(function(p) {
-          return normalizeMode(p.mode) === activeNorm;
+    function playLaunchTone() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc1 = ctx.createOscillator();
+        var gain1 = ctx.createGain();
+        osc1.type = 'triangle';
+        osc1.frequency.setValueAtTime(392, now);
+        gain1.gain.setValueAtTime(0.25, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.2);
+
+        var osc2 = ctx.createOscillator();
+        var gain2 = ctx.createGain();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(587.33, now + 0.15);
+        gain2.gain.setValueAtTime(0.3, now + 0.15);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(now + 0.15);
+        osc2.stop(now + 0.45);
+      } catch(e) {}
+    }
+
+    function playCurveballAlert() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(650, now);
+        osc.frequency.exponentialRampToValueAtTime(220, now + 0.35);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } catch(e) {}
+    }
+
+    function playGoalChime() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        [523.25, 659.25, 783.99, 1046.50].forEach(function(freq, idx) {
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          var noteStart = now + (idx * 0.08);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, noteStart);
+          gain.gain.setValueAtTime(0.2, noteStart);
+          gain.gain.exponentialRampToValueAtTime(0.001, noteStart + 0.4);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(noteStart);
+          osc.stop(noteStart + 0.4);
         });
-      }
-
-      if (pool.length > 0) {
-        var rand = Math.floor(Math.random() * pool.length);
-        activePrompt = pool[rand];
-        document.getElementById('promptText').innerHTML = activePrompt.text;
-        renderScaffold();
-      } else {
-        document.getElementById('promptText').innerHTML = "No prompts found for this filter. Tap another category!";
-      }
-
-      isSpinning = false;
+      } catch(e) {}
     }
 
-    function renderScaffold() {
-      var box = document.getElementById('scaffoldBox');
-      if (!activePrompt) {
-        box.style.display = 'none';
-        return;
-      }
-
-      box.style.display = 'block';
-      if (currentLevel === 'easy') {
-        box.innerHTML = activePrompt.easy || 'Break your thought into: 1. Idea, 2. Reason, 3. Example.';
-      } else if (currentLevel === 'medium') {
-        box.innerHTML = '<strong>🟡 Challenge:</strong> ' + (activePrompt.medium || 'Explain your thought clearly without pauses.');
-      } else {
-        box.innerHTML = '<strong>🔴 Debate Twist:</strong> ' + (activePrompt.hardTwist || 'Address an objection from someone who disagrees!');
-      }
+    function playFanfare() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        [392, 493.88, 587.33, 783.99].forEach(function(freq, idx) {
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          var startTime = now + (idx * 0.07);
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, startTime);
+          gain.gain.setValueAtTime(0.25, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.7);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(startTime);
+          osc.stop(startTime + 0.7);
+        });
+      } catch(e) {}
     }
 
-    // --- SPEECH RECOGNITION SETUP ---
+    function playTapSound() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, now);
+        osc.frequency.exponentialRampToValueAtTime(400, now + 0.08);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      } catch(e) {}
+    }
+
+    // Mechanical wheel tick sound for the spin animation
+    function playSpinTick(pitchOffset) {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(800 + (pitchOffset || 0), now);
+        osc.frequency.exponentialRampToValueAtTime(200, now + 0.04);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.04);
+      } catch(e) {}
+    }
+
+    // Solid landing chime when roulette finishes
+    function playLandingChime() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } catch(e) {}
+    }
+
+    function playAddTimeSound() {
+      try {
+        var ctx = getAudioContext();
+        if (!ctx) return;
+        var now = ctx.currentTime;
+        var osc1 = ctx.createOscillator();
+        var gain1 = ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(350, now);
+        gain1.gain.setValueAtTime(0.2, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.15);
+
+        var osc2 = ctx.createOscillator();
+        var gain2 = ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(520, now + 0.1);
+        gain2.gain.setValueAtTime(0.25, now + 0.1);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(now + 0.1);
+        osc2.stop(now + 0.3);
+      } catch(e) {}
+    }
+
+    function initStreak() {
+      try {
+        var today = new Date().toISOString().slice(0, 10);
+        var lastPractice = localStorage.getItem('poptalk_last_date');
+        var count = parseInt(localStorage.getItem('poptalk_streak_count') || '0', 10);
+
+        if (lastPractice) {
+          var lastDate = new Date(lastPractice);
+          var currDate = new Date(today);
+          var diffDays = Math.floor((currDate - lastDate) / (1000 * 60 * 60 * 24));
+          if (diffDays > 1) {
+            count = 0;
+            localStorage.setItem('poptalk_streak_count', '0');
+          }
+        }
+
+        var badge = document.getElementById('streakCount');
+        if (badge) badge.innerText = count;
+
+        var reminder = document.getElementById('dailyReminder');
+        if (reminder) {
+          if (lastPractice === today) {
+            reminder.classList.add('done');
+            reminder.innerHTML = '🌟 <strong>Great job!</strong> You completed today\'s practice session.';
+          } else {
+            reminder.classList.remove('done');
+            reminder.innerHTML = '⚡ <strong>Practice Reminder:</strong> You haven\'t practiced your speaking today! Pick a track below.';
+          }
+        }
+      } catch(e) {}
+    }
+
+    function recordStreakCompletion() {
+      var count = 1;
+      try {
+        var today = new Date().toISOString().slice(0, 10);
+        var lastPractice = localStorage.getItem('poptalk_last_date');
+        count = parseInt(localStorage.getItem('poptalk_streak_count') || '0', 10);
+
+        if (lastPractice !== today) {
+          if (!lastPractice) {
+            count = 1;
+          } else {
+            var lastDate = new Date(lastPractice);
+            var currDate = new Date(today);
+            var diffDays = Math.floor((currDate - lastDate) / (1000 * 60 * 60 * 24));
+            if (diffDays === 1) {
+              count += 1;
+            } else {
+              count = 1;
+            }
+          }
+          localStorage.setItem('poptalk_last_date', today);
+          localStorage.setItem('poptalk_streak_count', count.toString());
+          var badge = document.getElementById('streakCount');
+          if (badge) badge.innerText = count;
+        }
+
+        var reminder = document.getElementById('dailyReminder');
+        if (reminder) {
+          reminder.classList.add('done');
+          reminder.innerHTML = '🌟 <strong>Great job!</strong> You completed today\'s practice session.';
+        }
+      } catch(e) {}
+      return count;
+    }
+
     function initSpeechRecognition() {
       try {
         var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -587,10 +1692,7 @@
           recognition = new SpeechRecognition();
           recognition.continuous = false;
           recognition.interimResults = true;
-          
-          var deviceLang = navigator.language || navigator.userLanguage || 'en-IN';
-          recognition.lang = (deviceLang.indexOf('en') === 0) ? deviceLang : 'en-IN';
-          recognition.maxAlternatives = 1;
+          recognition.lang = 'en-US';
 
           recognition.onresult = function(event) {
             var interimChunk = '';
@@ -612,7 +1714,7 @@
             var countNow = fullNow.length > 0 ? fullNow.split(/\s+/).length : 0;
             var pill = document.getElementById('micLivePill');
             if (pill && isSpeakingActive) {
-              pill.innerText = '🔴 Mic Active... (' + countNow + ' words)';
+              pill.innerText = '🔴 Mic Listening... (' + countNow + ' words caught)';
             }
           };
 
@@ -627,63 +1729,497 @@
                 if (isSpeakingActive && recognition) {
                   try { recognition.start(); } catch(e) {}
                 }
-              }, 250);
+              }, 200);
             }
           };
         }
       } catch(e) {}
     }
 
-    // --- SPEAKING & TIMER TOGGLE ---
-    function toggleSpeaking() {
-      var btn = document.getElementById('recordBtn');
-      var pill = document.getElementById('micLivePill');
+    function getTargetDuration(level) {
+      if (level === 'easy') return 30;
+      if (level === 'medium') return 45;
+      if (level === 'hard') return 60;
+      return 30;
+    }
 
-      if (!isSpeakingActive) {
-        // Start Speaking
-        isSpeakingActive = true;
-        secondsElapsed = 0;
-        completedSentences = [];
-        currentInterim = '';
-        lastAddedSentence = '';
+    function selectTrack(ageKey, displayLabel) {
+      playTapSound();
+      currentAge = ageKey;
+      
+      var label = document.getElementById('currentTrackLabel');
+      if (label) label.innerText = displayLabel;
+      
+      var landing = document.getElementById('landingScreen');
+      var arena = document.getElementById('arenaScreen');
+      if (landing) landing.style.display = 'none';
+      if (arena) arena.style.display = 'block';
+      
+      activePrompt = null;
+      var promptDisplay = document.getElementById('promptDisplay');
+      if (promptDisplay) {
+        promptDisplay.innerText = '🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!';
+      }
+      var ideasBtn = document.getElementById('ideasBtn');
+      if (ideasBtn) ideasBtn.style.display = 'none';
+      var scaffoldBox = document.getElementById('scaffoldBox');
+      if (scaffoldBox) scaffoldBox.style.display = 'none';
+      var actionBtnRow = document.getElementById('actionBtnRow');
+      if (actionBtnRow) actionBtnRow.style.display = 'none';
+      var tryAgainBtn = document.getElementById('tryAgainBtn');
+      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+      var spinBtn = document.getElementById('spinBtn');
+      if (spinBtn) {
+        spinBtn.innerText = '🎲 Spin for Topic';
+        spinBtn.disabled = false;
+      }
 
-        btn.innerText = '⏹️ Stop Speaking';
-        btn.classList.add('speaking');
-        pill.style.display = 'block';
-        pill.innerText = '🔴 Mic Active... (0 words)';
+      var picFrame = document.getElementById('pictureFrame');
+      if (picFrame) picFrame.style.display = 'none';
+      var vocabCard = document.getElementById('vocabCard');
+      if (vocabCard) vocabCard.style.display = 'none';
 
-        if (!recognition) initSpeechRecognition();
-        if (recognition) {
-          try { recognition.start(); } catch(e) {}
-        }
+      targetTime = getTargetDuration(currentLevel);
+      timeRemaining = targetTime;
+      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
+    }
 
-        speakTimer = setInterval(function() {
-          secondsElapsed++;
-          var mins = Math.floor(secondsElapsed / 60);
-          var secs = secondsElapsed % 60;
-          document.getElementById('timerDisplay').innerText = 
-            (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
-        }, 1000);
+    function returnToLanding() {
+      playTapSound();
+      resetAllTimers();
+      var landing = document.getElementById('landingScreen');
+      var arena = document.getElementById('arenaScreen');
+      if (arena) arena.style.display = 'none';
+      if (landing) landing.style.display = 'block';
+    }
 
-      } else {
-        // Stop Speaking
-        isSpeakingActive = false;
-        clearInterval(speakTimer);
-        btn.innerText = '🎙️ Start Speaking';
-        btn.classList.remove('speaking');
-        pill.style.display = 'none';
+    function setLevel(lvl) {
+      playTapSound();
+      currentLevel = lvl;
+      document.querySelectorAll('#levelGroup .pill').forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+      if (window.event && window.event.target) {
+        window.event.target.classList.add('active');
+      }
+      
+      resetAllTimers();
+      renderScaffold();
+      
+      targetTime = getTargetDuration(currentLevel);
+      timeRemaining = targetTime;
+      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
+    }
 
-        if (recognition) {
-          try { recognition.stop(); } catch(e) {}
-        }
+    function setMode(mode) {
+      playTapSound();
+      currentMode = mode;
+      document.querySelectorAll('#modeGroup .pill:not(.locked)').forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+      if (window.event && window.event.target) {
+        window.event.target.classList.add('active');
+      }
+      
+      var labels = { 
+        picture: 'PICTURE TALK', 
+        wyr: 'PICK A SIDE', 
+        opinions: 'HOT TAKES',
+        vocab: 'VOCAB YAP'
+      };
+      var badge = document.getElementById('categoryBadge');
+      if (badge) badge.innerText = labels[mode] || 'PRACTICE';
+      
+      activePrompt = null;
+      var promptDisplay = document.getElementById('promptDisplay');
+      if (promptDisplay) {
+        promptDisplay.innerText = '🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!';
+      }
+      var ideasBtn = document.getElementById('ideasBtn');
+      if (ideasBtn) ideasBtn.style.display = 'none';
+      var scaffoldBox = document.getElementById('scaffoldBox');
+      if (scaffoldBox) scaffoldBox.style.display = 'none';
+      var actionBtnRow = document.getElementById('actionBtnRow');
+      if (actionBtnRow) actionBtnRow.style.display = 'none';
+      var tryAgainBtn = document.getElementById('tryAgainBtn');
+      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+      var spinBtn = document.getElementById('spinBtn');
+      if (spinBtn) {
+        spinBtn.innerText = '🎲 Spin for Topic';
+        spinBtn.disabled = false;
+      }
 
-        var finalTranscript = (completedSentences.join(' ') + ' ' + currentInterim).trim();
-        openCelebrationModal(secondsElapsed, finalTranscript, 1);
-        document.getElementById('timerDisplay').innerText = '00:00';
+      var picFrame = document.getElementById('pictureFrame');
+      if (picFrame) picFrame.style.display = 'none';
+      var vocabCard = document.getElementById('vocabCard');
+      if (vocabCard) vocabCard.style.display = 'none';
+    }
+
+    function toggleIdeas() {
+      playTapSound();
+      var box = document.getElementById('scaffoldBox');
+      if (box) {
+        box.style.display = (box.style.display === 'block') ? 'none' : 'block';
       }
     }
 
-    // --- CELEBRATION MODAL (Enlarged Typography & Scored Metrics) ---
+    function getNextPrompt(pool, key) {
+      if (!categoryDecks[key] || categoryDecks[key].length === 0) {
+        categoryDecks[key] = pool.slice().sort(function() { return Math.random() - 0.5; });
+        if (categoryDecks[key].length > 1 && categoryDecks[key][0] === activePrompt) {
+          categoryDecks[key].push(categoryDecks[key].shift());
+        }
+      }
+      return categoryDecks[key].shift();
+    }
+
+    // ==========================================
+    // ANIMATED ROULETTE / DICE SPIN ENGINE
+    // ==========================================
+    function spinPrompt() {
+      if (isSpinning) return;
+      isSpinning = true;
+
+      resetAllTimers();
+      
+      var scaffoldBox = document.getElementById('scaffoldBox');
+      if (scaffoldBox) scaffoldBox.style.display = 'none';
+      var ideasBtn = document.getElementById('ideasBtn');
+      if (ideasBtn) ideasBtn.style.display = 'none';
+      var actionBtnRow = document.getElementById('actionBtnRow');
+      if (actionBtnRow) actionBtnRow.style.display = 'none';
+      var tryAgainBtn = document.getElementById('tryAgainBtn');
+      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+      var picFrame = document.getElementById('pictureFrame');
+      if (picFrame) picFrame.style.display = 'none';
+      var vocabCard = document.getElementById('vocabCard');
+      if (vocabCard) vocabCard.style.display = 'none';
+
+      var pool = promptBank.filter(function(p) {
+        return p.age === currentAge && p.mode === currentMode;
+      });
+      if (pool.length === 0) {
+        isSpinning = false;
+        return;
+      }
+
+      var deckKey = currentAge + '_' + currentMode;
+      var selectedFinalPrompt = getNextPrompt(pool, deckKey);
+
+      var spinBtn = document.getElementById('spinBtn');
+      if (spinBtn) {
+        spinBtn.disabled = true;
+        spinBtn.innerHTML = '<span class="spin-icon-rolling">🎲</span> Spinning...';
+      }
+
+      var promptDisplay = document.getElementById('promptDisplay');
+      if (promptDisplay) promptDisplay.classList.add('spinning');
+
+      // Rapidly tumble through random prompt previews
+      var tumbleSteps = 10;
+      var currentStep = 0;
+      var baseInterval = 70; // ms
+
+      function runTumble() {
+        var randomPreview = pool[Math.floor(Math.random() * pool.length)].text;
+        if (promptDisplay) {
+          promptDisplay.innerText = randomPreview;
+        }
+        playSpinTick(currentStep * 30);
+        currentStep++;
+
+        if (currentStep < tumbleSteps) {
+          setTimeout(runTumble, baseInterval + (currentStep * 15)); // Gradually decelerate like a real roulette wheel
+        } else {
+          // Landing on Final Prompt
+          playLandingChime();
+          activePrompt = selectedFinalPrompt;
+
+          if (promptDisplay) {
+            promptDisplay.classList.remove('spinning');
+            promptDisplay.innerText = activePrompt.text;
+          }
+
+          if (spinBtn) {
+            spinBtn.disabled = false;
+            spinBtn.innerText = '🎲 New Topic';
+          }
+
+          if (ideasBtn) ideasBtn.style.display = 'inline-block';
+          if (actionBtnRow) actionBtnRow.style.display = 'flex';
+
+          // Show images if Picture mode
+          var picImg = document.getElementById('pictureImg');
+          if (picFrame && picImg && currentMode === 'picture' && activePrompt.image) {
+            picImg.onerror = function() {
+              if (activePrompt.fallbackImage && this.src.indexOf(activePrompt.fallbackImage) === -1) {
+                this.src = activePrompt.fallbackImage;
+              } else {
+                this.onerror = null;
+              }
+            };
+            picImg.src = activePrompt.image;
+            picFrame.style.display = 'block';
+          }
+
+          // Show vocab card if Vocab mode
+          if (vocabCard && currentMode === 'vocab' && activePrompt.vocab) {
+            document.getElementById('vocabWord').innerText = activePrompt.vocab.word;
+            document.getElementById('vocabPos').innerText = activePrompt.vocab.pos;
+            document.getElementById('vocabMeaning').innerText = activePrompt.vocab.meaning;
+            document.getElementById('vocabExample').innerText = '"' + activePrompt.vocab.example + '"';
+            vocabCard.style.display = 'block';
+          }
+
+          targetTime = getTargetDuration(currentLevel);
+          timeRemaining = targetTime;
+          updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
+          renderScaffold();
+
+          isSpinning = false;
+        }
+      }
+
+      runTumble();
+    }
+
+    function tryAgainSameTopic() {
+      playTapSound();
+      resetAllTimers();
+      
+      var scaffoldBox = document.getElementById('scaffoldBox');
+      if (scaffoldBox) scaffoldBox.style.display = 'none';
+      var actionBtnRow = document.getElementById('actionBtnRow');
+      if (actionBtnRow) actionBtnRow.style.display = 'flex';
+      var tryAgainBtn = document.getElementById('tryAgainBtn');
+      if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+      
+      targetTime = getTargetDuration(currentLevel);
+      timeRemaining = targetTime;
+      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
+      renderScaffold();
+    }
+
+    function renderScaffold() {
+      if (!activePrompt) return;
+      var content = document.getElementById('scaffoldContent');
+      var starter = document.getElementById('lifeboatStarter');
+      var words = document.getElementById('lifeboatWords');
+      var tip = document.getElementById('lifeboatTip');
+
+      var banner = document.getElementById('twistBanner');
+      if (banner) {
+        banner.style.display = 'none';
+        banner.innerText = '';
+      }
+
+      if (content) {
+        if (currentLevel === 'easy') {
+          content.innerHTML = activePrompt.easy;
+        } else if (currentLevel === 'medium') {
+          content.innerHTML = '<strong>The Spark Hook:</strong> ' + activePrompt.medium;
+        } else {
+          var challengeType = (currentMode === 'picture') ? 'Plot Twist' : 'Debate Challenge';
+          content.innerHTML = '<strong>Hard Challenge:</strong> Zero handrails! Speak for 60 seconds. A surprise ' + challengeType.toLowerCase() + ' will unlock halfway through!';
+        }
+      }
+
+      if (starter) starter.innerText = activePrompt.starter || 'Start with your choice...';
+      if (words) {
+        words.innerHTML = (activePrompt.words || []).map(function(w) {
+          return '<span class="power-pill">' + w + '</span>';
+        }).join('');
+      }
+      if (tip) tip.innerText = activePrompt.tip || 'Take a breath and describe what you see.';
+    }
+
+    function startThinking() {
+      playThinkingChime();
+      resetAllTimers();
+      timerState = 'thinking';
+      timeRemaining = 30;
+      bufferUsed = false;
+      
+      var bufferBtn = document.getElementById('bufferBtn');
+      var thinkBtn = document.getElementById('thinkBtn');
+      var speakBtn = document.getElementById('speakBtn');
+      
+      if (bufferBtn) bufferBtn.style.display = 'block';
+      if (thinkBtn) thinkBtn.style.display = 'none';
+      if (speakBtn) speakBtn.innerText = "🚀 I'm Ready! Speak Now";
+
+      updateTimerDisplay('00:30', '🧠 Thinking Time', 100);
+
+      timerInterval = setInterval(function() {
+        timeRemaining--;
+        updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🧠 Thinking Time', (timeRemaining / 30) * 100);
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          startSpeaking();
+        }
+      }, 1000);
+    }
+
+    function addBufferTime() {
+      playAddTimeSound();
+      if (bufferUsed) return;
+      bufferUsed = true;
+      timeRemaining += 15;
+      var bufferBtn = document.getElementById('bufferBtn');
+      if (bufferBtn) bufferBtn.style.display = 'none';
+      updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🧠 Thinking Time (+15s)', 100);
+    }
+
+    function startSpeaking() {
+      playLaunchTone();
+      clearInterval(timerInterval);
+      timerState = 'speaking';
+      twistTriggered = false;
+      targetTime = getTargetDuration(currentLevel);
+      timeRemaining = targetTime;
+      overtimeSeconds = 0;
+
+      completedSentences = [];
+      currentInterim = '';
+      lastAddedSentence = '';
+      isSpeakingActive = true;
+      
+      var micPill = document.getElementById('micLivePill');
+      if (currentAge === 'teen' || currentAge === 'adult') {
+        if (micPill) {
+          micPill.innerText = '🔴 Mic Listening... (Speak clearly)';
+          micPill.style.display = 'inline-block';
+        }
+        if (recognition) {
+          try { recognition.start(); } catch(e) {}
+        }
+      } else {
+        if (micPill) micPill.style.display = 'none';
+      }
+
+      var bufferBtn = document.getElementById('bufferBtn');
+      var thinkBtn = document.getElementById('thinkBtn');
+      var speakBtn = document.getElementById('speakBtn');
+      var overtimeBadge = document.getElementById('overtimeBadge');
+      var twistBanner = document.getElementById('twistBanner');
+
+      if (bufferBtn) bufferBtn.style.display = 'none';
+      if (thinkBtn) thinkBtn.style.display = 'none';
+      if (speakBtn) {
+        speakBtn.style.display = 'block';
+        speakBtn.innerText = '✅ Finish Story';
+        speakBtn.onclick = finishSpeech;
+      }
+      if (overtimeBadge) overtimeBadge.style.display = 'none';
+      if (twistBanner) twistBanner.style.display = 'none';
+
+      updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🎙️ Speaking Time (' + targetTime + 's Goal)', 100);
+
+      timerInterval = setInterval(function() {
+        if (timerState === 'speaking') {
+          timeRemaining--;
+
+          if (currentLevel === 'hard' && !twistTriggered && timeRemaining <= (targetTime / 2)) {
+            twistTriggered = true;
+            playCurveballAlert();
+            var banner = document.getElementById('twistBanner');
+            if (banner && activePrompt) {
+              var isStoryMode = (currentMode === 'picture');
+              var prefix = isStoryMode ? '⚡ PLOT TWIST:' : '⚡ DEBATE CHALLENGE:';
+              var instruction = isStoryMode ? 'Fit this into your story now without stopping' : 'Answer this objection now without breaking your flow';
+              banner.innerHTML = prefix + ' ' + activePrompt.hardTwist + '<br><span style="font-size:12.5px;font-weight:500;">(' + instruction + ')</span>';
+              banner.style.display = 'block';
+            }
+          }
+
+          if (timeRemaining > 0) {
+            var pct = (timeRemaining / targetTime) * 100;
+            updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🎙️ Speaking Time (' + targetTime + 's Goal)', pct);
+          } else {
+            timerState = 'overtime';
+            playGoalChime();
+            updateTimerDisplay('00:00', '🌟 Goal Reached! Wrap up your thought', 0);
+            var badge = document.getElementById('overtimeBadge');
+            if (badge) badge.style.display = 'inline-block';
+          }
+        } else if (timerState === 'overtime') {
+          overtimeSeconds++;
+          var badge = document.getElementById('overtimeBadge');
+          if (badge) badge.innerText = 'Overtime: +0:' + (overtimeSeconds < 10 ? '0' : '') + overtimeSeconds + ' bonus';
+        }
+      }, 1000);
+    }
+
+    function finishSpeech() {
+      playFanfare();
+      clearInterval(timerInterval);
+      isSpeakingActive = false;
+
+      var micPill = document.getElementById('micLivePill');
+      if (micPill) micPill.style.display = 'none';
+
+      if (currentInterim && currentInterim !== lastAddedSentence) {
+        completedSentences.push(currentInterim);
+        currentInterim = '';
+      }
+
+      if (recognition) {
+        try { recognition.stop(); } catch(e) {}
+      }
+
+      var totalSpoken = (targetTime - Math.max(0, timeRemaining)) + overtimeSeconds;
+      var streak = recordStreakCompletion();
+
+      setTimeout(function() {
+        var fullTranscript = completedSentences.join(' ').replace(/\s+/g, ' ').trim();
+        openCelebrationModal(totalSpoken, fullTranscript, streak);
+        resetAllTimers();
+        
+        var tryAgainBtn = document.getElementById('tryAgainBtn');
+        if (tryAgainBtn) tryAgainBtn.style.display = 'block';
+      }, 350);
+    }
+
+    function resetAllTimers() {
+      clearInterval(timerInterval);
+      isSpeakingActive = false;
+      timerState = 'idle';
+      targetTime = getTargetDuration(currentLevel);
+      
+      var thinkBtn = document.getElementById('thinkBtn');
+      var speakBtn = document.getElementById('speakBtn');
+      var bufferBtn = document.getElementById('bufferBtn');
+      var overtimeBadge = document.getElementById('overtimeBadge');
+      var twistBanner = document.getElementById('twistBanner');
+      var progressBar = document.getElementById('progressBar');
+      var micPill = document.getElementById('micLivePill');
+
+      if (thinkBtn) {
+        thinkBtn.style.display = 'block';
+        thinkBtn.innerText = '🧠 Start Thinking (30s)';
+      }
+      if (speakBtn) {
+        speakBtn.style.display = 'block';
+        speakBtn.innerText = '🎙️ Start Speaking';
+        speakBtn.onclick = startSpeaking;
+      }
+      if (bufferBtn) bufferBtn.style.display = 'none';
+      if (overtimeBadge) overtimeBadge.style.display = 'none';
+      if (twistBanner) twistBanner.style.display = 'none';
+      if (micPill) micPill.style.display = 'none';
+      if (progressBar) progressBar.style.width = '100%';
+    }
+
+    function updateTimerDisplay(timeStr, label, pct) {
+      var t = document.getElementById('timerText');
+      var l = document.getElementById('timerPhaseLabel');
+      var p = document.getElementById('progressBar');
+      if (t) t.innerText = timeStr;
+      if (l) l.innerText = label;
+      if (p) p.style.width = pct + '%';
+    }
+
     function openCelebrationModal(seconds, transcript, streak) {
       var modalDesc = document.getElementById('modalDesc');
       var modalTitle = document.getElementById('modalTitle');
@@ -694,18 +2230,18 @@
       if (modalTitle) modalTitle.innerText = (seconds < 15) ? 'Good Effort!' : 'Practice Complete!';
       
       var encouragement = (seconds < 15)
-        ? '<div style="font-size:16px; color:#293830; line-height:1.5;">You spoke for <strong>' + seconds + ' seconds</strong>. Keep practicing to build out your thoughts!</div>' 
-        : '<div style="font-size:16px; color:#293830; line-height:1.5;">Great work speaking out loud for <strong>' + seconds + ' seconds</strong> today!</div>';
+        ? 'You spoke for <strong>' + seconds + ' seconds</strong>. Keep practicing to build out your thoughts!' 
+        : 'Great work speaking out loud for <strong>' + seconds + ' seconds</strong> today!';
 
-      var streakBanner = '<div style="background:#FFF3E6; border:1.5px solid #FBD0A7; border-radius:12px; padding:12px; margin:14px 0; color:#B45309; font-weight:700; font-family:\'Fredoka\',cursive; font-size:16px; text-align:center;">🔥 ' + streak + ' Day Practice Streak Kept!</div>';
+      var streakBanner = '<div style="background:#FFF3E6; border:1.5px solid #FBD0A7; border-radius:12px; padding:10px; margin:12px 0 14px 0; color:#B45309; font-weight:700; font-family:\'Fredoka\',cursive; font-size:14px;">🔥 ' + streak + ' Day Practice Streak Kept!</div>';
 
       if (currentAge === 'junior') {
         if (modalDesc) {
           modalDesc.innerHTML = encouragement + streakBanner +
-            '<div style="background:#EDF3EF; border-radius:16px; padding:18px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">' +
-              '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:17px; display:block; margin-bottom:8px;">Finding it difficult to turn thoughts into words?</strong>' +
-              '<span style="font-size:14.5px; color:#52635B; line-height:1.6; display:block; margin-bottom:12px;">If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.</span>' +
-              '<div style="font-size:13.5px; font-weight:600; color:#105666; line-height:1.6;">• Small interactive batches (strictly 5–6 students)<br>• Classes run 2 days a week<br>• Pure practical techniques — zero grammar drills</div>' +
+            '<div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:14px; text-align:left; border:1px solid #E2E8E5;">' +
+              '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:15px; display:block; margin-bottom:6px;">Finding it difficult to turn thoughts into words?</strong>' +
+              '<span style="font-size:13.5px; color:#52635B; line-height:1.5; display:block; margin-bottom:10px;">If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.</span>' +
+              '<div style="font-size:12.5px; font-weight:600; color:#105666; line-height:1.45;">• Small interactive batches (strictly 5–6 students)<br>• Classes run 2 days a week<br>• Pure practical techniques — zero grammar drills</div>' +
             '</div>';
         }
         if (waBtn) {
@@ -714,95 +2250,77 @@
           waBtn.href = 'https://wa.me/?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
         }
       } else {
-        var cleanText = transcript ? transcript.trim() : '';
-        var wordsArray = cleanText.length > 0 ? cleanText.split(/\s+/) : [];
+        var cleanTranscript = transcript.replace(/\s+/g, ' ').trim();
+        var wordsArray = cleanTranscript.length > 0 ? cleanTranscript.split(' ') : [];
         var wordCount = wordsArray.length;
         
         var safeSeconds = Math.max(1, seconds);
-        var wpm = wordCount >= 5 ? Math.round((wordCount / safeSeconds) * 60) : 0;
-
-        var vocabBadge = '';
-        var vocabFound = false;
-        if (currentMode === 'vocab' && activePrompt && activePrompt.vocab) {
-          var targetWord = activePrompt.vocab.word.toLowerCase();
-          var regex = new RegExp('\\b' + targetWord + '\\b', 'i');
-          vocabFound = regex.test(cleanText);
-
-          if (vocabFound) {
-            vocabBadge = '<div style="background:#EAF0E1; color:var(--moss-green); padding:6px 12px; border-radius:8px; font-weight:700; margin-top:8px; font-size:14px;">✅ Power Word Used: \'' + activePrompt.vocab.word + '\'</div>';
-          } else {
-            vocabBadge = '<div style="background:#FFF1F0; color:#B91C1C; padding:6px 12px; border-radius:8px; font-weight:600; margin-top:8px; font-size:14px;">⚠️ Power word \'' + activePrompt.vocab.word + '\' was not detected — try again!</div>';
-          }
-        }
+        var wpm = Math.round((wordCount / safeSeconds) * 60);
 
         var fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
         var fillerCount = 0;
         wordsArray.forEach(function(w) {
-          var lower = w.toLowerCase().replace(/[^a-z]/g, '');
-          if (fillerList.indexOf(lower) !== -1) fillerCount++;
+          var cleanWord = w.toLowerCase().replace(/[^a-z]/g, '');
+          if (fillerList.indexOf(cleanWord) !== -1) fillerCount++;
         });
 
         var timeScore = Math.min(40, Math.round((seconds / targetTime) * 40));
-        var paceScore = 10;
+        
+        var paceScore = 15;
         if (wpm >= 120 && wpm <= 160) {
           paceScore = 30;
-        } else if ((wpm >= 95 && wpm < 120) || (wpm > 160 && wpm <= 185)) {
+        } else if ((wpm >= 100 && wpm < 120) || (wpm > 160 && wpm <= 180)) {
           paceScore = 22;
         } else if (wpm > 0) {
-          paceScore = 14;
+          paceScore = 15;
         }
 
-        var fillerScore = Math.max(5, 20 - (fillerCount * 4));
-        var bonusScore = vocabFound ? 10 : (currentLevel === 'hard' ? 8 : 5);
+        var fillerScore = Math.max(0, 20 - (fillerCount * 5));
+        var bonusScore = (currentMode === 'vocab' || currentLevel === 'hard') ? 10 : 8;
         var totalScore = Math.min(100, timeScore + paceScore + fillerScore + bonusScore);
 
-        var paceLabel = 'Balanced / Natural';
+        var paceLabel = 'Conversational & Balanced';
         var paceColor = 'var(--moss-green)';
         if (wpm < 110 && wpm > 0) {
           paceLabel = 'Thoughtful / Deliberate';
           paceColor = 'var(--midnight-green)';
         } else if (wpm > 165) {
-          paceLabel = 'Fast / High Energy';
+          paceLabel = 'Energetic / Fast';
           paceColor = '#D97706';
         }
 
         var metricsCard = '';
-        if (wordCount >= 4) {
-          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:16px; padding:18px; margin:16px 0; text-align:left;">' +
-            '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1.5px solid #F3F5F4; padding-bottom:10px;">' +
-              '<span style="font-family:\'Fredoka\',cursive; font-size:18px; color:#0A3323; font-weight:700;">🏆 Session Score</span>' +
-              '<span style="font-family:\'Fredoka\',cursive; font-size:24px; color:#105666; font-weight:700;">' + totalScore + ' / 100</span>' +
+        if (wordCount > 0) {
+          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:16px; margin:14px 0; text-align:left;">' +
+            '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1.5px solid #F3F5F4; padding-bottom:8px;">' +
+              '<span style="font-family:\'Fredoka\',cursive; font-size:16px; color:#0A3323; font-weight:700;">🏆 Session Score:</span>' +
+              '<span style="font-family:\'Fredoka\',cursive; font-size:18px; color:#105666; font-weight:700;">' + totalScore + ' / 100</span>' +
             '</div>' +
-            '<div style="font-size:15px; color:#293830; line-height:1.7; margin-bottom:14px;">' +
-              '• <strong>Pace:</strong> ' + wpm + ' WPM <span style="font-weight:700; color:' + paceColor + ';">(' + paceLabel + ')</span><br>' +
-              '• <strong>Words Recorded:</strong> ' + wordCount + ' words in ' + seconds + 's<br>' +
-              '• <strong>Filler Words:</strong> ' + fillerCount +
-              vocabBadge +
+            '<div style="font-size:13px; color:#293830; line-height:1.6; margin-bottom:10px;">' +
+              '• <strong>Pace:</strong> ' + wpm + ' WPM <span style="font-weight:600; color:' + paceColor + ';">(' + paceLabel + ')</span><br>' +
+              '• <strong>Words Spoken:</strong> ' + wordCount + ' words in ' + seconds + 's<br>' +
+              '• <strong>Filler Words Detected:</strong> ' + fillerCount +
             '</div>' +
-            '<strong style="font-family:\'Fredoka\',cursive; font-size:15px; color:#0A3323; display:block; margin-bottom:6px;">💬 What did you speak:</strong>' +
-            '<div style="font-size:14.5px; color:#293830; font-style:italic; background:#F8FAF9; padding:12px 14px; border-radius:10px; border:1px solid #E2E8E5; max-height:110px; overflow-y:auto; line-height:1.6; margin-bottom:12px;">"' + cleanText + '"</div>' +
-            '<div style="background:#FFFDF5; border:1px dashed #E6C875; border-radius:10px; padding:10px 12px; font-size:13px; color:#785E14; line-height:1.5;">' +
-              'ℹ️ <strong>Self-Tracking Disclaimer:</strong> This score is an automated browser estimate designed for personal practice tracking. It is not human grading.' +
+            '<strong style="font-family:\'Fredoka\',cursive; font-size:13px; color:#52635B; display:block; margin-bottom:4px;">💬 What did you speak:</strong>' +
+            '<div style="font-size:12.5px; color:#52635B; font-style:italic; background:#F8FAF9; padding:8px 10px; border-radius:8px; border:1px solid #E2E8E5; max-height:85px; overflow-y:auto; line-height:1.45; margin-bottom:10px;">"' + cleanTranscript + '"</div>' +
+            '<div style="background:#FFFDF5; border:1px dashed #E6C875; border-radius:8px; padding:8px 10px; font-size:11.5px; color:#785E14; line-height:1.45;">' +
+              'ℹ️ <strong>Estimate Disclaimer:</strong> This score is an automated browser estimate for self-tracking and daily habit building. It is not human grading or an exact test.' +
             '</div>' +
           '</div>';
         } else {
-          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:16px; padding:16px; margin:16px 0; text-align:left;">' +
-            '<strong style="font-family:\'Fredoka\',cursive; font-size:16px; color:#105666; display:block; margin-bottom:8px;">📊 Quick Self-Check:</strong>' +
-            '<div style="font-size:14px; color:#293830; line-height:1.65;">' +
-              '• Did you complete your thought before time ran out?<br>' +
-              '• Did you state a clear reason and example?<br>' +
-              '<span style="display:block; margin-top:6px; color:#52635B;"><em>(Tip: Speak clearly into your microphone to enable automatic pace and score tracking.)</em></span>' +
-            '</div>' +
+          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:12px 0; text-align:left;">' +
+            '<strong style="font-family:\'Fredoka\',cursive; font-size:13px; color:#105666; display:block; margin-bottom:4px;">📊 Quick Self-Check:</strong>' +
+            '<div style="font-size:12.5px; color:#293830; line-height:1.55;">• Did you complete your thought before time ran out?<br>• Did you structure your reason and example clearly?<br>• <em>(Allow microphone access to unlock automatic pace, word, and score tracking!)</em></div>' +
           '</div>';
         }
 
         if (currentAge === 'teen') {
           if (modalDesc) {
             modalDesc.innerHTML = encouragement + streakBanner + metricsCard +
-              '<div style="background:#EDF3EF; border-radius:16px; padding:18px; text-align:left; border:1px solid #E2E8E5;">' +
-                '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:16.5px; display:block; margin-bottom:6px;">Want to speak up with natural confidence?</strong>' +
-                '<span style="font-size:14px; color:#52635B; line-height:1.6; display:block; margin-bottom:10px;">Our live <strong>Communication & Confidence Program</strong> trains tweens and teens how to structure spontaneous arguments, debate dilemmas, and eliminate hesitations.</span>' +
-                '<div style="font-size:13.5px; font-weight:600; color:#105666; line-height:1.5;">• Strictly 5–6 students per batch • Classes run 2 days a week</div>' +
+              '<div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">' +
+                '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">Want to speak up with natural confidence?</strong>' +
+                '<span style="font-size:12.5px; color:#52635B; line-height:1.45; display:block; margin-bottom:8px;">Our live <strong>Communication & Confidence Program</strong> trains tweens and teens how to structure spontaneous arguments, debate dilemmas, and eliminate hesitations.</span>' +
+                '<div style="font-size:12px; font-weight:600; color:#105666;">• Strictly 5–6 students per batch • Classes run 2 days a week</div>' +
               '</div>';
           }
           if (waBtn) {
@@ -813,51 +2331,47 @@
         } else {
           if (modalDesc) {
             modalDesc.innerHTML = encouragement + streakBanner + metricsCard +
-              '<div style="background:#EDF3EF; border-radius:16px; padding:18px; text-align:left; border:1px solid #E2E8E5;">' +
-                '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:16px; display:block; margin-bottom:6px;">💡 Spontaneous Fluency Tip:</strong>' +
-                '<span style="font-size:14px; color:#52635B; line-height:1.6; font-style:italic; display:block;">"Natural fluency comes from trusting your structure rather than searching for perfect vocabulary. Keep practicing short, daily reps."</span>' +
+              '<div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">' +
+                '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">💡 Spontaneous Fluency Tip:</strong>' +
+                '<span style="font-size:13px; color:#52635B; line-height:1.5; font-style:italic; display:block;">"Natural fluency comes from trusting your structure rather than searching for perfect vocabulary. Keep practicing short, daily reps."</span>' +
               '</div>';
           }
           if (waBtn) waBtn.style.display = 'none';
         }
       }
-
-      document.getElementById('generalModal').style.display = 'flex';
+      
+      var modal = document.getElementById('generalModal');
+      if (modal) modal.style.display = 'flex';
     }
 
     function openLockedModal(categoryName) {
+      playTapSound();
       var modalTitle = document.getElementById('modalTitle');
       var modalDesc = document.getElementById('modalDesc');
-      var modalIcon = document.getElementById('modalIcon');
       var waBtn = document.getElementById('modalWaBtn');
+      var modal = document.getElementById('generalModal');
 
-      if (modalIcon) modalIcon.innerText = '🔒';
-      if (modalTitle) modalTitle.innerText = categoryName + ' is Pro!';
+      if (modalTitle) modalTitle.innerText = 'Unlock PopTalk Pro';
       if (modalDesc) {
-        modalDesc.innerHTML = '<div style="font-size:15px; color:#293830; line-height:1.6; text-align:left; padding:10px 0;">' +
-          'Unlock <strong>' + categoryName + '</strong> along with 5 other advanced speaking modes, full prompt banks, and priority access to new exercises.' +
-          '<div style="margin-top:14px; padding:12px; background:#FFF7ED; border:1px solid #FFEDD5; border-radius:10px; font-weight:700; color:#C2410C; font-size:14px;">' +
-          '🚀 PopTalk Pro Lifetime Pass: Regional pricing available at checkout!' +
-          '</div></div>';
+        modalDesc.innerHTML = '<strong>' + categoryName + '</strong> is part of the PopTalk Pro Practice Pack.<br><br>Unlock all 7 exclusive modes including <strong>Finish It, Echo Story, Act It Out, and The Big Pitch</strong>, with 200+ prompt cards across all age tracks.<br><br>✨ <em>New creative categories and weekly challenge packs are added regularly!</em>';
       }
       if (waBtn) {
         waBtn.style.display = 'block';
-        waBtn.innerText = '⚡ Unlock PopTalk Pro';
-        waBtn.href = 'https://poptalk.lemonsqueezy.com/buy';
+        waBtn.innerText = '⚡ Get PopTalk Pro Access';
+        waBtn.href = 'https://wa.me/?text=Hi!%20I%20want%20to%20unlock%20PopTalk%20Pro%20access%20for%20all%20speaking%20categories.';
       }
-      document.getElementById('generalModal').style.display = 'flex';
+      if (modal) modal.style.display = 'flex';
     }
 
     function closeModal() {
-      document.getElementById('generalModal').style.display = 'none';
+      playTapSound();
+      var modal = document.getElementById('generalModal');
+      if (modal) modal.style.display = 'none';
     }
 
-    // Initialize on page load
     window.addEventListener('DOMContentLoaded', function() {
-      updateTargetDuration();
-      setTimeout(function() {
-        spinPrompt();
-      }, 100);
+      initStreak();
+      initSpeechRecognition();
     });
   </script>
 </body>
