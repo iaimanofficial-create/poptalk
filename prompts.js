@@ -593,16 +593,12 @@ const allPrompts = [
   }
 ];
 
-// Attach to window for global browser availability
-// Ensure global compatibility across index.html naming conventions
+// Assign to every common variable name PopTalk looks for
 if (typeof window !== 'undefined') {
-  window.allPrompts = allPrompts;
-  window.prompts = allPrompts;
   window.masterPrompts = allPrompts;
+  window.prompts = allPrompts;
+  window.allPrompts = allPrompts;
 }
-var prompts = allPrompts;
 
-// Support ES/CommonJS modules if imported
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { allPrompts };
-}
+var masterPrompts = allPrompts;
+var prompts = allPrompts;
