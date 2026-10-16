@@ -1559,7 +1559,7 @@
       if (p) p.style.width = pct + '%';
     }
 
-    function openCelebrationModal(seconds, transcript, streak) {
+        function openCelebrationModal(seconds, transcript, streak) {
       var modalDesc = document.getElementById('modalDesc');
       var modalTitle = document.getElementById('modalTitle');
       var modalIcon = document.getElementById('modalIcon');
@@ -1569,18 +1569,18 @@
       if (modalTitle) modalTitle.innerText = (seconds < 15) ? 'Good Effort!' : 'Practice Complete!';
       
       var encouragement = (seconds < 15)
-        ? 'You spoke for <strong>' + seconds + ' seconds</strong>. Keep practicing to build out your thoughts!' 
-        : 'Great work speaking out loud for <strong>' + seconds + ' seconds</strong> today!';
+        ? '<div style="font-size:16px; color:#293830; line-height:1.5;">You spoke for <strong>' + seconds + ' seconds</strong>. Keep practicing to build out your thoughts!</div>' 
+        : '<div style="font-size:16px; color:#293830; line-height:1.5;">Great work speaking out loud for <strong>' + seconds + ' seconds</strong> today!</div>';
 
-      var streakBanner = '<div style="background:#FFF3E6; border:1.5px solid #FBD0A7; border-radius:12px; padding:10px; margin:12px 0 14px 0; color:#B45309; font-weight:700; font-family:\'Fredoka\',cursive; font-size:14px;">🔥 ' + streak + ' Day Practice Streak Kept!</div>';
+      var streakBanner = '<div style="background:#FFF3E6; border:1.5px solid #FBD0A7; border-radius:12px; padding:12px; margin:14px 0; color:#B45309; font-weight:700; font-family:\'Fredoka\',cursive; font-size:16px; text-align:center;">🔥 ' + streak + ' Day Practice Streak Kept!</div>';
 
       if (currentAge === 'junior') {
         if (modalDesc) {
           modalDesc.innerHTML = encouragement + streakBanner +
-            '<div style="background:#EDF3EF; border-radius:14px; padding:16px; margin-top:14px; text-align:left; border:1px solid #E2E8E5;">' +
-              '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:15px; display:block; margin-bottom:6px;">Finding it difficult to turn thoughts into words?</strong>' +
-              '<span style="font-size:13.5px; color:#52635B; line-height:1.5; display:block; margin-bottom:10px;">If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.</span>' +
-              '<div style="font-size:12.5px; font-weight:600; color:#105666; line-height:1.45;">• Small interactive batches (strictly 5–6 students)<br>• Classes run 2 days a week<br>• Pure practical techniques — zero grammar drills</div>' +
+            '<div style="background:#EDF3EF; border-radius:16px; padding:18px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">' +
+              '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:17px; display:block; margin-bottom:8px;">Finding it difficult to turn thoughts into words?</strong>' +
+              '<span style="font-size:14.5px; color:#52635B; line-height:1.6; display:block; margin-bottom:12px;">If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.</span>' +
+              '<div style="font-size:13.5px; font-weight:600; color:#105666; line-height:1.6;">• Small interactive batches (strictly 5–6 students)<br>• Classes run 2 days a week<br>• Pure practical techniques — zero grammar drills</div>' +
             '</div>';
         }
         if (waBtn) {
@@ -1589,77 +1589,95 @@
           waBtn.href = 'https://wa.me/?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
         }
       } else {
-        var cleanTranscript = transcript.replace(/\s+/g, ' ').trim();
-        var wordsArray = cleanTranscript.length > 0 ? cleanTranscript.split(' ') : [];
+        var cleanText = transcript ? transcript.trim() : '';
+        var wordsArray = cleanText.length > 0 ? cleanText.split(/\s+/) : [];
         var wordCount = wordsArray.length;
         
         var safeSeconds = Math.max(1, seconds);
-        var wpm = Math.round((wordCount / safeSeconds) * 60);
+        var wpm = wordCount >= 5 ? Math.round((wordCount / safeSeconds) * 60) : 0;
+
+        var vocabFound = false;
+        var vocabBadge = '';
+        if (currentMode === 'vocab' && activePrompt && activePrompt.vocab) {
+          var targetWord = activePrompt.vocab.word.toLowerCase();
+          var regex = new RegExp('\\b' + targetWord + '\\b', 'i');
+          vocabFound = regex.test(cleanText);
+
+          if (vocabFound) {
+            vocabBadge = '<div style="background:#EAF0E1; color:var(--moss-green); padding:6px 12px; border-radius:8px; font-weight:700; margin-top:8px; font-size:14px;">✅ Power Word Used: \'' + activePrompt.vocab.word + '\'</div>';
+          } else {
+            vocabBadge = '<div style="background:#FFF1F0; color:#B91C1C; padding:6px 12px; border-radius:8px; font-weight:600; margin-top:8px; font-size:14px;">⚠️ Power word \'' + activePrompt.vocab.word + '\' was not detected — try again!</div>';
+          }
+        }
 
         var fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
         var fillerCount = 0;
         wordsArray.forEach(function(w) {
-          var cleanWord = w.toLowerCase().replace(/[^a-z]/g, '');
-          if (fillerList.indexOf(cleanWord) !== -1) fillerCount++;
+          var lower = w.toLowerCase().replace(/[^a-z]/g, '');
+          if (fillerList.indexOf(lower) !== -1) fillerCount++;
         });
 
         var timeScore = Math.min(40, Math.round((seconds / targetTime) * 40));
-        
-        var paceScore = 15;
+        var paceScore = 10;
         if (wpm >= 120 && wpm <= 160) {
           paceScore = 30;
-        } else if ((wpm >= 100 && wpm < 120) || (wpm > 160 && wpm <= 180)) {
+        } else if ((wpm >= 95 && wpm < 120) || (wpm > 160 && wpm <= 185)) {
           paceScore = 22;
         } else if (wpm > 0) {
-          paceScore = 15;
+          paceScore = 14;
         }
 
-        var fillerScore = Math.max(0, 20 - (fillerCount * 5));
-        var bonusScore = (currentMode === 'vocab' || currentLevel === 'hard') ? 10 : 8;
+        var fillerScore = Math.max(5, 20 - (fillerCount * 4));
+        var bonusScore = vocabFound ? 10 : (currentLevel === 'hard' ? 8 : 5);
         var totalScore = Math.min(100, timeScore + paceScore + fillerScore + bonusScore);
 
-        var paceLabel = 'Conversational & Balanced';
+        var paceLabel = 'Balanced / Natural';
         var paceColor = 'var(--moss-green)';
         if (wpm < 110 && wpm > 0) {
           paceLabel = 'Thoughtful / Deliberate';
           paceColor = 'var(--midnight-green)';
         } else if (wpm > 165) {
-          paceLabel = 'Energetic / Fast';
+          paceLabel = 'Fast / High Energy';
           paceColor = '#D97706';
         }
 
         var metricsCard = '';
-        if (wordCount > 0) {
-          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:16px; margin:14px 0; text-align:left;">' +
-            '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1.5px solid #F3F5F4; padding-bottom:8px;">' +
-              '<span style="font-family:\'Fredoka\',cursive; font-size:16px; color:#0A3323; font-weight:700;">🏆 Session Score:</span>' +
-              '<span style="font-family:\'Fredoka\',cursive; font-size:18px; color:#105666; font-weight:700;">' + totalScore + ' / 100</span>' +
+        if (wordCount >= 4) {
+          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:16px; padding:18px; margin:16px 0; text-align:left;">' +
+            '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1.5px solid #F3F5F4; padding-bottom:10px;">' +
+              '<span style="font-family:\'Fredoka\',cursive; font-size:18px; color:#0A3323; font-weight:700;">🏆 Session Score</span>' +
+              '<span style="font-family:\'Fredoka\',cursive; font-size:24px; color:#105666; font-weight:700;">' + totalScore + ' / 100</span>' +
             '</div>' +
-            '<div style="font-size:13px; color:#293830; line-height:1.6; margin-bottom:10px;">' +
-              '• <strong>Pace:</strong> ' + wpm + ' WPM <span style="font-weight:600; color:' + paceColor + ';">(' + paceLabel + ')</span><br>' +
-              '• <strong>Words Spoken:</strong> ' + wordCount + ' words in ' + seconds + 's<br>' +
-              '• <strong>Filler Words Detected:</strong> ' + fillerCount +
+            '<div style="font-size:15px; color:#293830; line-height:1.7; margin-bottom:14px;">' +
+              '• <strong>Pace:</strong> ' + wpm + ' WPM <span style="font-weight:700; color:' + paceColor + ';">(' + paceLabel + ')</span><br>' +
+              '• <strong>Words Recorded:</strong> ' + wordCount + ' words in ' + seconds + 's<br>' +
+              '• <strong>Filler Words:</strong> ' + fillerCount +
+              vocabBadge +
             '</div>' +
-            '<strong style="font-family:\'Fredoka\',cursive; font-size:13px; color:#52635B; display:block; margin-bottom:4px;">💬 What did you speak:</strong>' +
-            '<div style="font-size:12.5px; color:#52635B; font-style:italic; background:#F8FAF9; padding:8px 10px; border-radius:8px; border:1px solid #E2E8E5; max-height:85px; overflow-y:auto; line-height:1.45; margin-bottom:10px;">"' + cleanTranscript + '"</div>' +
-            '<div style="background:#FFFDF5; border:1px dashed #E6C875; border-radius:8px; padding:8px 10px; font-size:11.5px; color:#785E14; line-height:1.45;">' +
-              'ℹ️ <strong>Estimate Disclaimer:</strong> This score is an automated browser estimate for self-tracking and daily habit building. It is not human grading or an exact test.' +
+            '<strong style="font-family:\'Fredoka\',cursive; font-size:15px; color:#0A3323; display:block; margin-bottom:6px;">💬 What did you speak:</strong>' +
+            '<div style="font-size:14.5px; color:#293830; font-style:italic; background:#F8FAF9; padding:12px 14px; border-radius:10px; border:1px solid #E2E8E5; max-height:110px; overflow-y:auto; line-height:1.6; margin-bottom:12px;">"' + cleanText + '"</div>' +
+            '<div style="background:#FFFDF5; border:1px dashed #E6C875; border-radius:10px; padding:10px 12px; font-size:13px; color:#785E14; line-height:1.5;">' +
+              'ℹ️ <strong>Self-Tracking Disclaimer:</strong> This score is an automated browser estimate designed for personal practice tracking. It is not human grading.' +
             '</div>' +
           '</div>';
         } else {
-          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:14px; padding:12px 14px; margin:12px 0; text-align:left;">' +
-            '<strong style="font-family:\'Fredoka\',cursive; font-size:13px; color:#105666; display:block; margin-bottom:4px;">📊 Quick Self-Check:</strong>' +
-            '<div style="font-size:12.5px; color:#293830; line-height:1.55;">• Did you complete your thought before time ran out?<br>• Did you structure your reason and example clearly?<br>• <em>(Allow microphone access to unlock automatic pace, word, and score tracking!)</em></div>' +
+          metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:16px; padding:16px; margin:16px 0; text-align:left;">' +
+            '<strong style="font-family:\'Fredoka\',cursive; font-size:16px; color:#105666; display:block; margin-bottom:8px;">📊 Quick Self-Check:</strong>' +
+            '<div style="font-size:14px; color:#293830; line-height:1.65;">' +
+              '• Did you complete your thought before time ran out?<br>' +
+              '• Did you state a clear reason and example?<br>' +
+              '<span style="display:block; margin-top:6px; color:#52635B;"><em>(Tip: Speak clearly into your microphone to enable automatic pace and score tracking.)</em></span>' +
+            '</div>' +
           '</div>';
         }
 
         if (currentAge === 'teen') {
           if (modalDesc) {
             modalDesc.innerHTML = encouragement + streakBanner + metricsCard +
-              '<div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">' +
-                '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">Want to speak up with natural confidence?</strong>' +
-                '<span style="font-size:12.5px; color:#52635B; line-height:1.45; display:block; margin-bottom:8px;">Our live <strong>Communication & Confidence Program</strong> trains tweens and teens how to structure spontaneous arguments, debate dilemmas, and eliminate hesitations.</span>' +
-                '<div style="font-size:12px; font-weight:600; color:#105666;">• Strictly 5–6 students per batch • Classes run 2 days a week</div>' +
+              '<div style="background:#EDF3EF; border-radius:16px; padding:18px; text-align:left; border:1px solid #E2E8E5;">' +
+                '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:16.5px; display:block; margin-bottom:6px;">Want to speak up with natural confidence?</strong>' +
+                '<span style="font-size:14px; color:#52635B; line-height:1.6; display:block; margin-bottom:10px;">Our live <strong>Communication & Confidence Program</strong> trains tweens and teens how to structure spontaneous arguments, debate dilemmas, and eliminate hesitations.</span>' +
+                '<div style="font-size:13.5px; font-weight:600; color:#105666; line-height:1.5;">• Strictly 5–6 students per batch • Classes run 2 days a week</div>' +
               '</div>';
           }
           if (waBtn) {
@@ -1670,9 +1688,9 @@
         } else {
           if (modalDesc) {
             modalDesc.innerHTML = encouragement + streakBanner + metricsCard +
-              '<div style="background:#EDF3EF; border-radius:14px; padding:14px; text-align:left; border:1px solid #E2E8E5;">' +
-                '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:14px; display:block; margin-bottom:4px;">💡 Spontaneous Fluency Tip:</strong>' +
-                '<span style="font-size:13px; color:#52635B; line-height:1.5; font-style:italic; display:block;">"Natural fluency comes from trusting your structure rather than searching for perfect vocabulary. Keep practicing short, daily reps."</span>' +
+              '<div style="background:#EDF3EF; border-radius:16px; padding:18px; text-align:left; border:1px solid #E2E8E5;">' +
+                '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:16px; display:block; margin-bottom:6px;">💡 Spontaneous Fluency Tip:</strong>' +
+                '<span style="font-size:14px; color:#52635B; line-height:1.6; font-style:italic; display:block;">"Natural fluency comes from trusting your structure rather than searching for perfect vocabulary. Keep practicing short, daily reps."</span>' +
               '</div>';
           }
           if (waBtn) waBtn.style.display = 'none';
