@@ -1,3 +1,4 @@
+alert("TEST 1: prompts.js loaded successfully!");
 // ==========================================
 // POPTALK MASTER PROMPTS BANK (prompts.js)
 // ==========================================
