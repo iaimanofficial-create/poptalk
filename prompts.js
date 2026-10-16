@@ -1,133 +1,293 @@
-// ============================================================================
-// POPTALK MASTER PROMPT BANK
-// (This is the ONLY file you ever edit to add, remove, or tweak prompts!)
-// ============================================================================
+// ==========================================
+// POPTALK MASTER PROMPTS BANK (prompts.js)
+// ==========================================
 
-window.promptBank = [
+const allPrompts = [
   // ==========================================
-  // JUNIOR (5-8) - PICTURE TALK (5 Prompts)
+  // 1. PICTURE TALK (mode: 'scene')
   // ==========================================
+  // --- JUNIOR (Ages 5-8) ---
   {
-    age: 'junior', mode: 'picture',
-    text: 'A fluffy cat wearing a chef hat making pizza.',
-    image: 'cat.jpg',
-    fallbackImage: 'cat.png',
-    easy: '<strong>1. Who:</strong> A cat wearing a tall white chef hat.<br><strong>2. Doing:</strong> Rolling out pizza dough on the kitchen counter.<br><strong>3. Ending:</strong> Putting funny toppings on top for his friends!',
-    medium: 'Start with the cat rolling the dough, then tell what happens when flour puffs into his face!',
-    hardTwist: 'A little brown mouse runs across the table to grab the cheese!',
-    starter: 'In the kitchen, the chef cat is...',
-    words: ['Giant', 'Messy', 'Yummy'],
-    tip: 'Describe what toppings are sitting on the counter.'
+    age: 'junior', mode: 'scene',
+    text: 'A busy treehouse workshop full of chattering woodland creatures building miniature wooden toys.',
+    easy: '<strong>1. Look:</strong> Name two animals you see in the workshop.<br><strong>2. Action:</strong> What kind of toy are they building right now?<br><strong>3. Imagine:</strong> What is the funniest sound coming from inside the treehouse?',
+    medium: 'Describe what the animals are building and what happens if a toy accidentally rolls out the door!',
+    hardTwist: 'One of the creatures accidentally glued their paws to a tabletop—how do they solve it?',
+    starter: 'Looking into this busy treehouse, I can see...',
+    words: ['Busy', 'Careful'],
+    tip: 'Look closely at the table and describe the tools they are using.'
   },
   {
-    age: 'junior', mode: 'picture',
-    text: 'A giant rainbow treehouse with tire swings and a long slide.',
-    image: 'treehouse.jpg',
-    fallbackImage: 'treehouse.png',
-    easy: '<strong>1. Who:</strong> Tell who climbs the wooden ladder to the top.<br><strong>2. Doing:</strong> Playing games and sharing snacks in the secret clubhouse.<br><strong>3. Ending:</strong> Zooming down the green slide back to the soft grass!',
-    medium: 'Tell a story about spotting a friendly squirrel peeking through the window!',
-    hardTwist: 'A bird lands on the roof and drops a shiny golden key!',
-    starter: 'When I climb to the top of the treehouse, I see...',
-    words: ['High', 'Secret', 'Fast'],
-    tip: 'Describe what games you would play inside.'
+    age: 'junior', mode: 'scene',
+    text: 'A colorful playground where the swings fly extra high into fluffy, cotton-candy clouds.',
+    easy: '<strong>1. Look:</strong> What bright colors do you notice first?<br><strong>2. Action:</strong> How does it feel when the swing pushes into the cloud?<br><strong>3. Imagine:</strong> What flavor does the cloud taste like?',
+    medium: 'Describe who is on the swings and what the whole park looks like from high above!',
+    hardTwist: 'A friendly flying bird stops on your swing chain to ask for directions!',
+    starter: 'As I swing higher and higher, the clouds look...',
+    words: ['Fluffy', 'Soaring'],
+    tip: 'Close your eyes for one second and imagine the breeze on your face.'
   },
   {
-    age: 'junior', mode: 'picture',
-    text: 'A friendly elephant trying to balance on roller skates in the park.',
-    image: 'elephant.jpg',
-    fallbackImage: 'elephant.png',
-    easy: '<strong>1. Who:</strong> An elephant putting on four big red roller skates.<br><strong>2. Doing:</strong> Wobbling down the park path while other animals watch.<br><strong>3. Ending:</strong> Trying to brake before rolling right into the duck pond!',
-    medium: 'Tell a story about the elephant shouting "Whoa!" as he tries to turn a corner!',
-    hardTwist: 'He almost bumps right into a shiny ice cream cart!',
-    starter: 'On the park path, the big elephant is...',
-    words: ['Wobbly', 'Heavy', 'Happy'],
-    tip: 'Tell if his skates make a loud rumbling sound or a quiet sound.'
+    age: 'junior', mode: 'scene',
+    text: 'An underwater coral reef school where baby turtles and clownfish learn how to swim in formation.',
+    easy: '<strong>1. Look:</strong> What sea creatures are sitting together in the coral classroom?<br><strong>2. Action:</strong> What skill is the teacher demonstrating right now?<br><strong>3. Imagine:</strong> What happens when a tickly bubble floats past?',
+    medium: 'Describe the underwater school and explain the most important ocean rule they are learning.',
+    hardTwist: 'A curious dolphin accidentally splashes through the classroom window during lesson time!',
+    starter: 'Down beneath the blue waves, the turtle teacher is...',
+    words: ['Sparkling', 'Gliding'],
+    tip: 'Think about how fish move their fins smoothly together.'
   },
   {
-    age: 'junior', mode: 'picture',
-    text: 'A tiny magical door hidden behind teddy bears on a shelf.',
-    image: 'door.jpg',
-    fallbackImage: 'door.png',
-    easy: '<strong>1. Who:</strong> Tell who discovers the tiny glowing door behind the bears.<br><strong>2. Doing:</strong> Turning the shiny golden key in the lock.<br><strong>3. Ending:</strong> Stepping inside to see what room is on the other side!',
-    medium: 'Tell a story about knocking on the door: "Knock knock! Anyone inside?"',
-    hardTwist: 'The tiny door slowly begins to close all by itself!',
-    starter: 'Tucked behind the bears on the shelf, I see...',
-    words: ['Tiny', 'Shiny', 'Secret'],
-    tip: 'Tell what color the glowing light looks like.'
+    age: 'junior', mode: 'scene',
+    text: 'A lively kitchen counter where breakfast ingredients have come to life and are organizing the morning meal.',
+    easy: '<strong>1. Look:</strong> Which breakfast food is wearing the chef hat?<br><strong>2. Action:</strong> What job did the berries and toast get assigned?<br><strong>3. Imagine:</strong> Where is the orange juice hurrying to go?',
+    medium: 'Tell the story of how the breakfast team gets everything plated before the family wakes up!',
+    hardTwist: 'The honey jar spilled a sticky puddle right in the center of the walkway!',
+    starter: 'On the kitchen counter, the morning food crew is...',
+    words: ['Cheerful', 'Hustling'],
+    tip: 'Imagine eggs, spoons, and fruit working together like little builders.'
   },
   {
-    age: 'junior', mode: 'picture',
-    text: 'A baby dinosaur having juice and cookies in the garden.',
-    image: 'dino.jpg',
-    fallbackImage: 'dino.png',
-    easy: '<strong>1. Who:</strong> A baby dinosaur sitting at a tiny garden table.<br><strong>2. Doing:</strong> Sipping sweet juice through a curly loop-de-loop straw.<br><strong>3. Ending:</strong> Sharing the plate of cookies with a garden friend!',
-    medium: 'Tell a story about his giant, happy slurps: "Gulp, gulp!"',
-    hardTwist: 'His long tail accidentally knocks over the cookie plate!',
-    starter: 'Out in the sunny garden, the little dinosaur is...',
-    words: ['Green', 'Sweet', 'Friendly'],
-    tip: 'Tell what flavor of juice he is drinking.'
+    age: 'junior', mode: 'scene',
+    text: 'A starry campsite where a group of young campers gather around a glowing lantern to read a map.',
+    easy: '<strong>1. Look:</strong> What items are resting near the tent door?<br><strong>2. Action:</strong> What path are their fingers tracing on the map?<br><strong>3. Imagine:</strong> What nocturnal animal is peeking from the bushes?',
+    medium: 'Describe the scene and explain what treasure or secret viewpoint the campers hope to reach tomorrow!',
+    hardTwist: 'A sudden friendly breeze picks up the map and carries it into the branches above!',
+    starter: 'Under the glow of the lantern, the campsite feels...',
+    words: ['Quiet', 'Mysterious'],
+    tip: 'Describe the contrast between the dark forest and the warm lantern glow.'
   },
 
-  // ==========================================
-  // JUNIOR (5-8) - PICK A SIDE (5 Prompts)
-  // ==========================================
+  // --- TEEN (Ages 9-17) ---
   {
-    age: 'junior', mode: 'wyr',
-    text: 'Would you rather have a pet penguin that eats ice cream or a monkey that cleans your room?',
-    easy: '<strong>1. Pick:</strong> Choose the penguin or the monkey.<br><strong>2. Fun Part:</strong> What is the funniest trick they do in your house?<br><strong>3. Big Plan:</strong> What is the first thing you two do together?',
-    medium: 'Pick your pet and explain what makes them fun to have at home!',
-    hardTwist: 'Tell one funny reason why a friend might pick the other pet!',
-    starter: 'I would definitely choose the... because...',
-    words: ['Silly', 'Clean', 'Cute'],
-    tip: 'Tell where your new pet would sleep at night.'
+    age: 'teen', mode: 'scene',
+    text: 'A frantic backstage dressing room two minutes before the opening curtain of the annual school theater production.',
+    easy: '<strong>1. Focus:</strong> Describe the energy and noise in the room.<br><strong>2. Detail:</strong> Point out one missing prop someone is searching for.<br><strong>3. Outcome:</strong> How does the director calm everyone down before the buzzer?',
+    medium: 'Paint a vivid picture of the backstage chaos and explain how the team recovers before lights up.',
+    hardTwist: 'The main lead suddenly loses their voice thirty seconds before their opening line!',
+    starter: 'Backstage was pure organized chaos, with people running in every direction...',
+    words: ['Frantic', 'Preparation'],
+    tip: 'Use sensory words: rustling costumes, bright stage lights, hushed whispers.'
   },
   {
-    age: 'junior', mode: 'wyr',
-    text: 'Would you rather have shoes that jump over houses or a jacket that makes you invisible?',
-    easy: '<strong>1. Pick:</strong> Choose the jumping shoes or the invisibility jacket.<br><strong>2. Fun Part:</strong> What is the coolest thing your item can do?<br><strong>3. Big Plan:</strong> Where is the very first place you travel using it?',
-    medium: 'Pick your item and explain how you would use it on an adventure!',
-    hardTwist: 'Tell one tricky problem that could happen while using your item!',
-    starter: 'Between the two, I choose the... because...',
-    words: ['Magic', 'Sneaky', 'Super'],
-    tip: 'Tell what color your shoes or jacket would be.'
+    age: 'teen', mode: 'scene',
+    text: 'A high school robotics laboratory late on a Friday evening, scattered with circuits, gears, and unfinished prototypes.',
+    easy: '<strong>1. Focus:</strong> What part of the robot is being tested right now?<br><strong>2. Detail:</strong> Describe the whiteboard covered in equations in the corner.<br><strong>3. Outcome:</strong> What goal must the team reach before competition tomorrow?',
+    medium: 'Describe the workspace atmosphere and explain why this project means so much to the students.',
+    hardTwist: 'A motor suddenly burns out, leaving the team with only spare parts from a recycling bin!',
+    starter: 'Walking into the robotics lab, the smell of soldering irons and focus hits you...',
+    words: ['Prototype', 'Calibrate'],
+    tip: 'Contrast the quiet clock ticking on the wall with the focused energy of the team.'
   },
   {
-    age: 'junior', mode: 'wyr',
-    text: 'Would you rather have it rain warm chocolate milk or shiny rainbow glitter from the sky?',
-    easy: '<strong>1. Pick:</strong> Choose chocolate milk rain or glitter rain.<br><strong>2. Fun Part:</strong> What does your street look like when it falls?<br><strong>3. Big Plan:</strong> What boots or gear do you put on before running outside?',
-    medium: 'Pick your choice and describe what you do when you see the sky change!',
-    hardTwist: 'Tell how everyone works together to clean up after the storm ends!',
-    starter: 'If it could rain anything outside today, I want...',
-    words: ['Sweet', 'Sparkly', 'Messy'],
-    tip: 'Tell if you catch it in a cup or jump in puddles.'
+    age: 'teen', mode: 'scene',
+    text: 'A crowded subway car during peak rush hour where an unexpected busker starts playing a captivating acoustic song.',
+    easy: '<strong>1. Focus:</strong> Describe how people look before the music starts.<br><strong>2. Detail:</strong> Notice how one commuter slowly takes out an earphone to listen.<br><strong>3. Outcome:</strong> How does the atmosphere in the train change as doors close?',
+    medium: 'Describe the contrast between tired, silent commuters and the sudden uplifting acoustic rhythm.',
+    hardTwist: 'The train gets delayed in a tunnel just as the musician reaches the final chorus!',
+    starter: 'At first, the subway car was filled with tired, silent stares until...',
+    words: ['Commute', 'Resonance'],
+    tip: 'Pay attention to how body language shifts when unexpected art enters an ordinary place.'
   },
   {
-    age: 'junior', mode: 'wyr',
-    text: 'Would you rather be able to talk to all animals or be able to fly anywhere like a bird?',
-    easy: '<strong>1. Pick:</strong> Choose talking to animals or soaring in the sky.<br><strong>2. Fun Part:</strong> What is the best thing about having that power?<br><strong>3. Big Plan:</strong> Who is the first creature you chat with, or where do you fly first?',
-    medium: 'Pick your power and explain why it makes every day an adventure!',
-    hardTwist: 'Tell one funny reason why someone might pick the other power!',
-    starter: 'I would much rather... because...',
-    words: ['Brave', 'High', 'Fun'],
-    tip: 'Name your favorite animal or a landmark you would look down on.'
+    age: 'teen', mode: 'scene',
+    text: 'A community farmers market early on a crisp Saturday morning, full of crates of fresh produce and artisan bakeries.',
+    easy: '<strong>1. Focus:</strong> Describe the sounds, smells, and colors of the stalls.<br><strong>2. Detail:</strong> Point out a vendor explaining how their family recipe is made.<br><strong>3. Outcome:</strong> What makes this market feel different from a typical grocery store?',
+    medium: 'Describe the lively morning market and explain how community connections make it special.',
+    hardTwist: 'A family’s golden retriever gets loose and weaves through the fruit displays without breaking anything!',
+    starter: 'The morning air at the market was crisp and filled with the scent of fresh bread...',
+    words: ['Vibrant', 'Handcrafted'],
+    tip: 'Incorporate sounds: crates clattering, friendly bargaining, steam from coffee carts.'
+  },
+
+  // --- ADULT (Ages 18+) ---
+  {
+    age: 'adult', mode: 'scene',
+    text: 'A bustling co-working lounge at 3 PM on a Tuesday, filled with remote workers, espresso machines, and quiet negotiations.',
+    easy: '<strong>1. Anchor:</strong> Describe the visual layout and ambient noise.<br><strong>2. Observation:</strong> Highlight the contrast between someone on a high-stakes call and someone quietly reading.<br><strong>3. Reflection:</strong> What does this space reveal about modern work culture?',
+    medium: 'Describe the environment and analyze how modern professional spaces balance collaboration with individual isolation.',
+    hardTwist: 'The building’s high-speed Wi-Fi cuts out completely during the middle of everyone’s afternoon calls!',
+    starter: 'Stepping into the shared workspace, the hum of laptop fans and low chatter creates...',
+    words: ['Atmospheric', 'Autonomous'],
+    tip: 'Focus on small behavioral cues: body language on video calls, coffee cup arrangements.'
   },
   {
-    age: 'junior', mode: 'wyr',
-    text: 'Would you rather eat cake for dinner every night or play at recess all day at school?',
-    easy: '<strong>1. Pick:</strong> Choose cake for dinner or endless recess.<br><strong>2. Fun Part:</strong> What favorite flavor or playground game fills your day?<br><strong>3. Big Plan:</strong> What is the first thing you do when you get to start?',
-    medium: 'Pick your choice and describe the best part of your new daily routine!',
-    hardTwist: 'Tell what someone who disagrees with you would say!',
-    starter: 'My top choice is definitely... because...',
-    words: ['Sweet', 'Tired', 'Excited'],
-    tip: 'Name your favorite dessert or playground tag game.'
+    age: 'adult', mode: 'scene',
+    text: 'An international airport transit gate during an unexpected four-hour flight delay at 1:00 AM.',
+    easy: '<strong>1. Anchor:</strong> Describe the tired passengers, charging stations, and closed duty-free shops.<br><strong>2. Observation:</strong> How are two strangers passing the time together?<br><strong>3. Reflection:</strong> How does shared waiting break down barriers between people?',
+    medium: 'Describe the nocturnal transit lounge and reflect on how unexpected travel delays bring out different human behaviors.',
+    hardTwist: 'A gate agent announces that luggage must be re-checked due to a system switch!',
+    starter: 'Under the dim fluorescent lights of Gate 42 at 1 AM, the room was suspended in time...',
+    words: ['Liminal', 'Resilience'],
+    tip: 'Describe the stillness of a transit terminal late at night.'
+  },
+  {
+    age: 'adult', mode: 'scene',
+    text: 'A quiet, long-standing neighborhood bookstore holding an intimate evening reading for a newly published local author.',
+    easy: '<strong>1. Anchor:</strong> Describe the smell of old paper, wooden folding chairs, and rain on the window.<br><strong>2. Observation:</strong> Describe the author’s hands turning the manuscript page.<br><strong>3. Reflection:</strong> Why do independent spaces like this hold enduring cultural value?',
+    medium: 'Paint the intimate scene and discuss the lasting emotional appeal of tangible books and neighborhood community.',
+    hardTwist: 'An audience member asks a surprisingly sharp question that challenges the core thesis of the book!',
+    starter: 'The bookstore was packed wall-to-wall with folding chairs and attentive faces...',
+    words: ['Intimate', 'Preservation'],
+    tip: 'Notice the physical textures: creaky wooden floorboards, soft lighting, quiet pages turning.'
+  },
+  {
+    age: 'adult', mode: 'scene',
+    text: 'An urban rooftop garden overlooking a glowing skyline at dusk as the city transitions from work to evening.',
+    easy: '<strong>1. Anchor:</strong> Describe the fresh green planter boxes set against concrete and glass towers.<br><strong>2. Observation:</strong> How does the soundscape change as traffic below starts to hum with evening commuters?<br><strong>3. Reflection:</strong> What balance does green space provide inside dense urban centers?',
+    medium: 'Describe the sensory contrast between rooftop greenery and the sprawling city lights below at twilight.',
+    hardTwist: 'A sudden summer thunder shower forces everyone to scramble under the small glass gazebo canopy!',
+    starter: 'Standing on the rooftop at twilight, the city below seemed to slow down for a brief moment...',
+    words: ['Panoramic', 'Sanctuary'],
+    tip: 'Contrast natural elements (damp soil, herbs) with industrial elements (steel, headlights).'
   },
 
   // ==========================================
-  // JUNIOR (5-8) - HOT TAKES (5 Prompts)
+  // 2. PICK A SIDE (mode: 'dilemma')
   // ==========================================
+  // --- JUNIOR (Ages 5-8) ---
+  {
+    age: 'junior', mode: 'dilemma',
+    text: 'Would you rather be able to fly like an eagle or breathe underwater like a friendly dolphin?',
+    easy: '<strong>1. Choice:</strong> Pick flying or swimming.<br><strong>2. Reason:</strong> Why is that power cooler?<br><strong>3. Adventure:</strong> Where is the first place you would travel to explore?',
+    medium: 'Choose your superpower and explain how your daily life would change with it!',
+    hardTwist: 'You can only use your superpower for ten minutes each morning—how do you spend it?',
+    starter: 'If I had to choose between the two, I would definitely pick...',
+    words: ['Glide', 'Splash'],
+    tip: 'Tell about what you would see looking down from the sky or down in the sea.'
+  },
+  {
+    age: 'junior', mode: 'dilemma',
+    text: 'Would you rather have a pet dragon the size of a kitten, or a pet kitten the size of an elephant?',
+    easy: '<strong>1. Choice:</strong> Pick the tiny dragon or giant kitten.<br><strong>2. Reason:</strong> What makes that pet more fun to care for?<br><strong>3. Adventure:</strong> What games would you play together in your backyard?',
+    medium: 'Pick your giant or tiny pet and describe what taking them for a walk would look like!',
+    hardTwist: 'Your pet accidentally knocked over your favorite toy tower—how do you teach them to be gentle?',
+    starter: 'I would definitely pick the... because taking care of it would be...',
+    words: ['Gentle', 'Playful'],
+    tip: 'Think about feeding time and where this pet would sleep at night.'
+  },
+  {
+    age: 'junior', mode: 'dilemma',
+    text: 'Would you rather always live in a snowy winter wonderland or in a sunny tropical beach town?',
+    easy: '<strong>1. Choice:</strong> Pick snow or beach.<br><strong>2. Reason:</strong> Which weather makes you happiest?<br><strong>3. Activity:</strong> Name your favorite game to play outside in that weather.',
+    medium: 'Choose your weather world and explain what clothes and snacks make that place awesome!',
+    hardTwist: 'The temperature suddenly flips for one week only—how do you adapt?',
+    starter: 'Given the choice between snow and sunshine, I would live in...',
+    words: ['Breezy', 'Cozy'],
+    tip: 'Compare building snow forts with making sandcastles.'
+  },
+  {
+    age: 'junior', mode: 'dilemma',
+    text: 'Would you rather speak every language in the world or be able to talk directly to all animals?',
+    easy: '<strong>1. Choice:</strong> Human languages or animal talking.<br><strong>2. Reason:</strong> Who is the first creature or person you would talk to?<br><strong>3. Story:</strong> What question would you ask them first?',
+    medium: 'Choose your communication superpower and describe the first conversation you would have!',
+    hardTwist: 'The animals all talk at once and are very loud—how do you ask them to take turns?',
+    starter: 'Between speaking all human languages and talking to animals, I choose...',
+    words: ['Curious', 'Communicate'],
+    tip: 'Imagine asking your neighborhood birds or pets what they do all day.'
+  },
+  {
+    age: 'junior', mode: 'dilemma',
+    text: 'Would you rather eat pizza for dinner every night or eat delicious dessert first before every meal?',
+    easy: '<strong>1. Choice:</strong> Pizza forever or dessert first.<br><strong>2. Reason:</strong> What is your favorite topping or dessert?<br><strong>3. Balance:</strong> How would you keep your body feeling strong and energetic?',
+    medium: 'Make your delicious choice and explain what your dream menu looks like for a full week!',
+    hardTwist: 'Your favorite restaurant runs out of that food for three days—what is your backup meal?',
+    starter: 'If I were in charge of the menu, I would choose...',
+    words: ['Tasty', 'Crunchy'],
+    tip: 'Think about whether you would ever get tired of eating the same thing.'
+  },
+
+  // --- TEEN (Ages 9-17) ---
+  {
+    age: 'teen', mode: 'dilemma',
+    text: 'Would you rather excel in every sport without practicing, or master every musical instrument instantly?',
+    easy: '<strong>1. Choice:</strong> Athletics or musical mastery.<br><strong>2. Reason:</strong> Why is that talent more valuable to your goals?<br><strong>3. Application:</strong> How would you use this skill to help a team or perform for others?',
+    medium: 'Select your mastery and explain how it would change your school experience and future ambitions.',
+    hardTwist: 'You can never teach your technique to anyone else—does that change your satisfaction?',
+    starter: 'If I had to choose between peak athletics and musical mastery, I would select...',
+    words: ['Discipline', 'Rhythm'],
+    tip: 'Think about whether you enjoy team competition or creative artistic expression more.'
+  },
+  {
+    age: 'teen', mode: 'dilemma',
+    text: 'Would you rather travel 200 years into the future or 200 years into the past?',
+    easy: '<strong>1. Choice:</strong> The year 2226 or the year 1826.<br><strong>2. Reason:</strong> What curiosity pulls you there first?<br><strong>3. Discovery:</strong> What single artifact or answer would you bring back with you?',
+    medium: 'Pick your era and explain how you would navigate daily life and communication with the people there.',
+    hardTwist: 'You can only stay for 48 hours and cannot bring any electronic device—how do you record your journey?',
+    starter: 'If given a one-way ticket through time, I would choose to go...',
+    words: ['Historical', 'Innovation'],
+    tip: 'Weigh curiosity about technological marvels against witnessing real history firsthand.'
+  },
+  {
+    age: 'teen', mode: 'dilemma',
+    text: 'Would you rather have unlimited free concert and event tickets for life, or free airline flights anywhere in the world?',
+    easy: '<strong>1. Choice:</strong> Live entertainment or global flights.<br><strong>2. Reason:</strong> Which experience gives you richer memories?<br><strong>3. Itinerary:</strong> What is your first destination or concert?',
+    medium: 'Make your choice and outline the dream year of experiences you would plan with this privilege.',
+    hardTwist: 'You can only invite one friend to come along—how do you choose who joins you?',
+    starter: 'Between unlimited live events and unlimited air travel, I would take...',
+    words: ['Wanderlust', 'Performance'],
+    tip: 'Compare seeing your favorite performers live with exploring cultures worldwide.'
+  },
+  {
+    age: 'teen', mode: 'dilemma',
+    text: 'Would you rather attend a school that has no grades (only detailed feedback) or no homework (only exams)?',
+    easy: '<strong>1. Choice:</strong> No grades (feedback only) or no homework (exams only).<br><strong>2. Reason:</strong> Which system helps you truly learn better without burning out?<br><strong>3. Reality:</strong> How would students stay motivated day-to-day?',
+    medium: 'Defend your educational model and explain how it shapes student mental health and academic rigor.',
+    hardTwist: 'Universities demand a standardized score from your school—how do you prove your readiness?',
+    starter: 'Looking at school pressure, I believe an educational system with... is far superior because...',
+    words: ['Accountability', 'Evaluation'],
+    tip: 'Think about what causes you more stress: daily assignments or high-stakes final tests.'
+  },
+
+  // --- ADULT (Ages 18+) ---
+  {
+    age: 'adult', mode: 'dilemma',
+    text: 'Would you rather work a 4-day work week with 10-hour days, or a 5-day work week with 6-hour days?',
+    easy: '<strong>1. Choice:</strong> 4x10 or 5x6.<br><strong>2. Rationale:</strong> Which model better protects your focus, energy, and work-life balance?<br><strong>3. Practicality:</strong> How would you spend the recovered free time?',
+    medium: 'Evaluate the two working models and defend which one creates higher sustainable productivity over decades.',
+    hardTwist: 'Your client base refuses to adjust to your off-days—how do you handle client boundaries?',
+    starter: 'From a sustainable productivity standpoint, I would strongly prefer...',
+    words: ['Equilibrium', 'Exhaustion'],
+    tip: 'Weigh a full extra day of recovery against having shorter, more energized evenings every weekday.'
+  },
+  {
+    age: 'adult', mode: 'dilemma',
+    text: 'Would you rather earn an executive salary in a high-stress role or a comfortable, modest salary doing work you love?',
+    easy: '<strong>1. Choice:</strong> High-stress executive compensation or modest, purpose-aligned work.<br><strong>2. Rationale:</strong> How do you define financial security versus personal well-being?<br><strong>3. Trade-off:</strong> What compromises are you willing to accept in either path?',
+    medium: 'Examine the trade-offs between wealth accumulation and emotional well-being across different stages of life.',
+    hardTwist: 'The modest-salary organization is undergoing budget restructuring—how do you protect your peace of mind?',
+    starter: 'When balancing career compensation against daily quality of life, I choose...',
+    words: ['Compensation', 'Fulfillment'],
+    tip: 'Consider how stress affects health, relationships, and identity over long horizons.'
+  },
+  {
+    age: 'adult', mode: 'dilemma',
+    text: 'Would you rather live in a vibrant, dense metropolis with a compact apartment or in a quiet rural setting with an acre of land?',
+    easy: '<strong>1. Choice:</strong> City density or rural acreage.<br><strong>2. Rationale:</strong> Which environment feeds your daily energy and clarity?<br><strong>3. Lifestyle:</strong> Describe what a typical Sunday morning looks like in that choice.',
+    medium: 'Analyze how physical surroundings influence mindset, social interaction, and daily habits.',
+    hardTwist: 'Your primary professional industry only operates in the environment you chose not to pick—how do you adapt?',
+    starter: 'For long-term health and personal energy, I would choose to live in...',
+    words: ['Proximity', 'Seclusion'],
+    tip: 'Compare the friction of commutes and crowds against the friction of isolation and distance from services.'
+  },
+  {
+    age: 'adult', mode: 'dilemma',
+    text: 'Would you rather always know the blunt, unfiltered truth of what others think of you, or live in comfortable social polite ambiguity?',
+    easy: '<strong>1. Choice:</strong> Total radical transparency or standard social politeness.<br><strong>2. Rationale:</strong> Which dynamic builds deeper, more durable human relationships?<br><strong>3. Consequence:</strong> How would you handle hearing harsh criticism from someone you admire?',
+    medium: 'Examine the psychological cost of absolute transparency versus social harmony in professional and personal spheres.',
+    hardTwist: 'A close colleague’s unfiltered feedback reveals they question your core competence—how do you respond?',
+    starter: 'While honesty is widely praised, I believe that...',
+    words: ['Candor', 'Diplomacy'],
+    tip: 'Think about whether constructive relationships require some degree of protective social cushioning.'
+  },
+
+  // ==========================================
+  // 3. HOT TAKES / OPINIONS (mode: 'opinions')
+  // ==========================================
+  // --- JUNIOR (Ages 5-8) ---
   {
     age: 'junior', mode: 'opinions',
-    text: 'Ice cream should be allowed as a normal breakfast food every single day.',
+    text: 'Ice cream should be allowed as a normal breakfast food every single day. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what you usually eat in the morning to start your day.',
     medium: 'Give your answer and explain whether you like cold treats or warm food in the morning!',
     hardTwist: 'Tell what a parent or doctor would say about this idea!',
@@ -137,7 +297,7 @@ window.promptBank = [
   },
   {
     age: 'junior', mode: 'opinions',
-    text: 'Dogs make better pets at home than cats.',
+    text: 'Dogs make better pets at home than cats. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Share a fun memory of playing with or seeing a pet.',
     medium: 'Pick your side and explain what makes a great pet to have at home!',
     hardTwist: 'Give one nice compliment to the other animal!',
@@ -147,7 +307,7 @@ window.promptBank = [
   },
   {
     age: 'junior', mode: 'opinions',
-    text: 'Kids should stay up one hour later on the night before a school holiday.',
+    text: 'Kids should stay up one hour later on the night before a school holiday. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what game, movie, or book you would enjoy with that extra hour.',
     medium: 'Give your answer and explain how you like to spend the night before a day off!',
     hardTwist: 'Tell what a tired parent would say to this idea!',
@@ -157,8 +317,8 @@ window.promptBank = [
   },
   {
     age: 'junior', mode: 'opinions',
-    text: 'Rainy days indoors are more fun than sunny days outside.',
-    easy: '<strong>1. Stance:</strong> Pick whether you prefer rainy days inside or sunny days outside.<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Describe your favorite thing to do on that kind of day.',
+    text: 'Rainy days indoors are more fun than sunny days outside. Agree or disagree?',
+    easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Describe your favorite thing to do on that kind of day.',
     medium: 'Choose your side and describe how you spend your favorite weather!',
     hardTwist: 'Tell what you do if the weather suddenly changes in the middle of your game!',
     starter: 'Between rain and sunshine, I prefer... because...',
@@ -167,8 +327,8 @@ window.promptBank = [
   },
   {
     age: 'junior', mode: 'opinions',
-    text: 'Kids should be allowed to watch cartoons in the morning before school.',
-    easy: '<strong>1. Stance:</strong> Say "Yes, allowed" or "No, not allowed".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what your morning routine looks like before you leave for school.',
+    text: 'Kids should be allowed to watch cartoons in the morning before school. Agree or disagree?',
+    easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what your morning routine looks like before you leave for school.',
     medium: 'Share your opinion on how you like to get ready in the morning!',
     hardTwist: 'Tell what you would say to someone who thinks morning shows cause delays!',
     starter: 'In the morning before school, I think...',
@@ -176,207 +336,10 @@ window.promptBank = [
     tip: 'Tell what is the first thing you do after getting out of bed.'
   },
 
-  // ==========================================
-  // JUNIOR (5-8) - VOCAB YAP (3 Prompts)
-  // ==========================================
-  {
-    age: 'junior', mode: 'vocab',
-    vocab: { word: 'CURIOUS', pos: 'adjective', meaning: 'Wanting to know or learn about something new.', example: 'The curious kitten peeked inside the open box.' },
-    text: 'Tell a story about a very curious puppy or person who went exploring somewhere new!',
-    easy: '<strong>1. Who:</strong> Tell who was feeling very curious today.<br><strong>2. Explore:</strong> What strange door, box, or sound did they find?<br><strong>3. Surprise:</strong> Use the word CURIOUS as you tell what they discovered!',
-    medium: 'Tell a story using the word CURIOUS to describe someone finding a secret treasure!',
-    hardTwist: 'Someone taps their shoulder and asks what they are doing!',
-    starter: 'One morning, a very curious little...',
-    words: ['Curious', 'Explore', 'Secret'],
-    tip: 'Make sure to say the word CURIOUS out loud in your story!'
-  },
-  {
-    age: 'junior', mode: 'vocab',
-    vocab: { word: 'GIGANTIC', pos: 'adjective', meaning: 'Incredibly huge, much bigger than normal.', example: 'We baked a gigantic chocolate chip cookie.' },
-    text: 'Tell a story about finding a gigantic object in your backyard or living room!',
-    easy: '<strong>1. What:</strong> What gigantic thing did you wake up and see?<br><strong>2. Reaction:</strong> How did you climb it or look at it?<br><strong>3. Ending:</strong> Use the word GIGANTIC to tell who helped you move it!',
-    medium: 'Describe trying to hide a gigantic watermelon or stuffed bear from your family!',
-    hardTwist: 'The gigantic object suddenly begins to wobble!',
-    starter: 'When I looked outside the window, I saw a gigantic...',
-    words: ['Gigantic', 'Huge', 'Heavy'],
-    tip: 'Say GIGANTIC in a loud, expressive voice!'
-  },
-  {
-    age: 'junior', mode: 'vocab',
-    vocab: { word: 'COURAGEOUS', pos: 'adjective', meaning: 'Brave; not afraid to try something difficult.', example: 'The courageous girl climbed to the top of the tall ladder.' },
-    text: 'Tell a story about someone who was courageous and tried something scary!',
-    easy: '<strong>1. The Fear:</strong> What was hard or scary to do (like swimming or a dark room)?<br><strong>2. The Brave Step:</strong> How did they take a deep breath and do it anyway?<br><strong>3. Celebration:</strong> Use COURAGEOUS to describe how proud they felt!',
-    medium: 'Tell a story about a courageous little bird learning to fly from a high branch!',
-    hardTwist: 'A sudden gust of wind blows past them!',
-    starter: 'Even though my hands were shaking, I decided to be courageous and...',
-    words: ['Courageous', 'Brave', 'Strong'],
-    tip: 'Describe what it feels like right before you do something brave.'
-  },
-
-  // ==========================================
-  // TEEN (9-17) - PICTURE TALK / SITUATIONS (10 Prompts)
-  // ==========================================
-  {
-    age: 'teen', mode: 'picture',
-    text: 'You find an unlocked phone buzzing on an empty cafeteria table after school.',
-    easy: '<strong>1. Pick-up:</strong> You pick it up and see 5 missed calls from "MOM".<br><strong>2. Choice:</strong> Do you answer it, search contacts, or hand it to lost-and-found?<br><strong>3. The Twist:</strong> A new text pops up: "Please don\'t move it."',
-    medium: 'Tell what you do in the next 30 seconds before anyone walks into the room!',
-    hardTwist: 'Footsteps are coming fast down the hallway!',
-    starter: 'The cafeteria was completely quiet when I spotted the phone buzzing...',
-    words: ['Panic', 'Suspicious'],
-    tip: 'Describe the buzzing vibration on the empty plastic table.'
-  },
-  {
-    age: 'teen', mode: 'picture',
-    text: 'It is 8:00 PM before a major presentation, and your project partner has not replied.',
-    easy: '<strong>1. Problem:</strong> You open the shared document and see only 1 blank slide.<br><strong>2. Choice:</strong> Do you stay up late finishing it alone, or report it tomorrow?<br><strong>3. The Talk:</strong> What do you say when they walk into class smiling?',
-    medium: 'Tell what text message you send them right now to get an answer!',
-    hardTwist: 'Your laptop battery drops to 2% and your charger is missing!',
-    starter: 'Looking at the clock at 8:00 PM, I had two clear choices...',
-    words: ['Deadline', 'Frustrated'],
-    tip: 'Tell how many slides were supposed to be done.'
-  },
-  {
-    age: 'teen', mode: 'picture',
-    text: 'You accidentally knock over and shatter an expensive glass display shelf in a busy store.',
-    easy: '<strong>1. Accident:</strong> What did your elbow or backpack bump into?<br><strong>2. Reaction:</strong> Do you freeze, or look around for an employee immediately?<br><strong>3. Conversation:</strong> What do you say to the manager when they walk over?',
-    medium: 'Explain how you stay calm, admit the mistake, and offer to help clean up!',
-    hardTwist: 'Another customer points at you and calls loudly for security!',
-    starter: 'The sound of glass breaking was loud enough that everyone stopped talking...',
-    words: ['Accident', 'Responsible'],
-    tip: 'Describe the broken items scattered on the floor.'
-  },
-  {
-    age: 'teen', mode: 'picture',
-    text: 'You type an honest complaint about a rule, but send it to the official group chat by accident.',
-    easy: '<strong>1. Mistake:</strong> The second you hit Send and notice the group name.<br><strong>2. Reaction:</strong> Do you try to delete it for everyone, or type an apology?<br><strong>3. Facing Class:</strong> How do you handle things the next morning?',
-    medium: 'Tell how you handle the first two minutes when you see "3 people are typing..."!',
-    hardTwist: 'The group admin replies: "Please see me first thing tomorrow."',
-    starter: 'My stomach dropped the second I saw the message go through...',
-    words: ['Instant', 'Apology'],
-    tip: 'Tell what the complaint was about.'
-  },
-  {
-    age: 'teen', mode: 'picture',
-    text: 'You were listening to music on the bus and realize you stayed on way past your stop.',
-    easy: '<strong>1. Realization:</strong> You look out the window and see streets you do not recognize.<br><strong>2. Plan:</strong> Do you get off at the next stop, or talk to the driver?<br><strong>3. Heading Back:</strong> How do you navigate back home before dark?',
-    medium: 'Tell what you check on your phone map to figure out where you are!',
-    hardTwist: 'Your phone screen flickers and shuts down with 0% battery!',
-    starter: 'I took off my headphones and realized this was definitely not my neighborhood...',
-    words: ['Unfamiliar', 'Route'],
-    tip: 'Describe what unfamiliar buildings or signs you see.'
-  },
-  {
-    age: 'teen', mode: 'picture',
-    text: 'An underground subway platform that local kids turned into a secret DIY skatepark.',
-    easy: '<strong>1. The Space:</strong> Describe the smooth concrete platform and ramps between the tracks.<br><strong>2. The Crew:</strong> Who hangs out here after school and what music is playing?<br><strong>3. The Catch:</strong> What do people do when someone unfamiliar walks down the stairs?',
-    medium: 'Describe the sound of wheels rolling on concrete and the one rule everyone follows!',
-    hardTwist: 'Someone spots a security flashlight turning the corner at the stairs!',
-    starter: 'Walking down the old station stairs, the first thing you hear is...',
-    words: ['Underground', 'Echo'],
-    tip: 'Describe the colorful graffiti art on the brick walls.'
-  },
-  {
-    age: 'teen', mode: 'picture',
-    text: 'An empty school hallway at 6:00 PM with one locker showing a bright light through its vents.',
-    easy: '<strong>1. The Setting:</strong> Why are you still in the building after hours?<br><strong>2. The Locker:</strong> What color is the light, and whose locker is it?<br><strong>3. Opening It:</strong> What normal item was left inside that was making the glow?',
-    medium: 'Explain whether you walk over to check it or just head straight for the exit!',
-    hardTwist: 'The locker door suddenly pops open all by itself!',
-    starter: 'The hallway was completely empty, but as I passed locker 42...',
-    words: ['Quiet', 'Curious'],
-    tip: 'Mention the squeak of your shoes on the polished floor.'
-  },
-  {
-    age: 'teen', mode: 'picture',
-    text: 'An unexpected garden with lush plants and benches on top of an ordinary office building.',
-    easy: '<strong>1. Finding It:</strong> How did you discover the door leading to this quiet rooftop?<br><strong>2. The View:</strong> Contrast looking down at traffic while standing in quiet greenery.<br><strong>3. Your Routine:</strong> Why is this your favorite place to study or think?',
-    medium: 'Describe sitting on the bench watching the sunset over the city buildings!',
-    hardTwist: 'The heavy rooftop door clicks shut and locks from the inside!',
-    starter: 'Most people take the elevator down to the lobby, but if you go up to the roof...',
-    words: ['Peaceful', 'Skyline'],
-    tip: 'Describe the cool breeze or the view of cars below.'
-  },
-  {
-    age: 'teen', mode: 'picture',
-    text: 'A package left on your porch with a label that says: "Do Not Open Until Next Year".',
-    easy: '<strong>1. The Box:</strong> What size is the box, and is there a return address?<br><strong>2. The Curiosity:</strong> Do you keep it hidden in your room, or ask your family?<br><strong>3. The Guess:</strong> What harmless thing do you think is actually inside?',
-    medium: 'Explain how hard it is to walk past that box every day without tearing off the tape!',
-    hardTwist: 'You hear a faint ticking or buzzing sound coming from inside the box!',
-    starter: 'Sitting right by the door was a box with no return address...',
-    words: ['Curious', 'Patience'],
-    tip: 'Describe the thick packing tape or the heavy cardboard.'
-  },
-  {
-    age: 'teen', mode: 'picture',
-    text: 'An old, forgotten table on the top floor of a library with books stacked high.',
-    easy: '<strong>1. The Spot:</strong> Describe finding a hidden desk between tall wooden shelves.<br><strong>2. The Stack:</strong> What interesting topic or old map is in the book you pick up?<br><strong>3. Time Flying:</strong> Why is it so easy to sit there for hours without checking your phone?',
-    medium: 'Explain why old paper books and quiet rooms feel so rare compared to scrolling online!',
-    hardTwist: 'The overhead lights flicker off as the intercom announces closing time in 5 minutes!',
-    starter: 'Tucked in the back corner of the third floor, there is a desk where...',
-    words: ['Quiet', 'Focus'],
-    tip: 'Describe the smell of old paper or the dust floating in the window light.'
-  },
-
-  // ==========================================
-  // TEEN (9-17) - PICK A SIDE (5 Prompts)
-  // ==========================================
-  {
-    age: 'teen', mode: 'wyr',
-    text: 'Would you rather have your phone taken away every night at 8:00 PM, or keep it 24/7 with a location tracking app installed by your parents?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Share how this rule would affect your typical evening.',
-    medium: 'State your choice clearly and explain why it feels easier for you to manage.',
-    hardTwist: 'Address a parent who claims having a smartphone in the bedroom ruins sleep quality!',
-    starter: 'Between the two options, I would choose... because...',
-    words: ['Privacy', 'Boundary'],
-    tip: 'Think about what you usually do on your phone late in the evening.'
-  },
-  {
-    age: 'teen', mode: 'wyr',
-    text: 'Would you rather lead a 4-person group project where everyone shares the same grade, or do the entire assignment completely by yourself?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Share a past project experience that illustrates your point.',
-    medium: 'State your choice clearly and explain why it protects your grade better.',
-    hardTwist: 'Defend your choice against someone who claims you are either controlling or uncooperative!',
-    starter: 'When it comes to school projects, I prefer to... because...',
-    words: ['Teamwork', 'Control'],
-    tip: 'Think about whether you prefer sharing work or working at your own speed.'
-  },
-  {
-    age: 'teen', mode: 'wyr',
-    text: 'Would you rather have a 2-month summer break with zero responsibilities, or attend a demanding summer program that helps your future career?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Describe what a typical week in your chosen summer looks like.',
-    medium: 'State your choice clearly and explain what makes it the smarter use of your time.',
-    hardTwist: 'Defend your choice to a critic who says you are either being lazy or taking life too seriously!',
-    starter: 'If I had to plan my summer right now, I would choose...',
-    words: ['Recharge', 'Future'],
-    tip: 'Think about whether you get bored easily during long school holidays.'
-  },
-  {
-    age: 'teen', mode: 'wyr',
-    text: 'Would you rather have friends who always tell you the brutal truth, or friends who tell polite white lies to protect your feelings?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Describe a situation where your chosen approach builds stronger trust.',
-    medium: 'State your choice clearly and explain what kind of communication you value most.',
-    hardTwist: 'Address someone who argues that your chosen communication style causes unnecessary friction!',
-    starter: 'In my friendships, I value... because...',
-    words: ['Honest', 'Feelings'],
-    tip: 'Think about how you react when someone gives you direct feedback.'
-  },
-  {
-    age: 'teen', mode: 'wyr',
-    text: 'Would you rather finish high school ranked at the very top of your class with zero close friends, or be an average student surrounded by great friends?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Explain your primary reason.<br><strong>3. Example:</strong> Share which asset you believe matters more for your long-term success.',
-    medium: 'State your choice clearly and explain why that outcome is harder to achieve.',
-    hardTwist: 'Refute the argument that your chosen path leaves you unprepared for real-world adulthood!',
-    starter: 'Looking at high school life, I would rather have... because...',
-    words: ['Grades', 'Friends'],
-    tip: 'Think about whether academic marks or relationships matter more five years later.'
-  },
-
-  // ==========================================
-  // TEEN (9-17) - HOT TAKES (5 Prompts)
-  // ==========================================
+  // --- TEEN (Ages 9-17) ---
   {
     age: 'teen', mode: 'opinions',
-    text: 'Traditional daily homework does more harm to students than good.',
+    text: 'Traditional daily homework does more harm to students than good. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share how homework affects your evenings and schedule.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Answer an objection from a teacher who says homework is necessary to pass exams!',
@@ -386,8 +349,8 @@ window.promptBank = [
   },
   {
     age: 'teen', mode: 'opinions',
-    text: 'Nobody under the age of 16 should be allowed to have personal social media accounts.',
-    easy: '<strong>1. Stance:</strong> State whether you agree or disagree with setting the age at 16.<br><strong>2. Key Point:</strong> Does early access cause stress, or help teens stay connected and learn?<br><strong>3. Counterpoint:</strong> Is an age limit realistic to enforce, or should parents set the rules?',
+    text: 'Nobody under the age of 16 should be allowed to have personal social media accounts. Agree or disagree?',
+    easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe how people your age use these platforms in daily life.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Address the argument that restricting teens leaves them socially isolated!',
     starter: 'On the topic of social media age limits, I think...',
@@ -396,7 +359,7 @@ window.promptBank = [
   },
   {
     age: 'teen', mode: 'opinions',
-    text: 'School uniforms are better than letting students wear whatever they want.',
+    text: 'School uniforms are better than letting students wear whatever they want. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe what getting ready for school looks like under both systems.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Address an administrator who argues that your stance creates discipline or equality issues!',
@@ -406,7 +369,7 @@ window.promptBank = [
   },
   {
     age: 'teen', mode: 'opinions',
-    text: 'Using AI tools to help with schoolwork is smart studying, not cheating.',
+    text: 'Using AI tools to help with schoolwork is smart studying, not cheating. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share a practical example of how AI can be used for learning.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Address the concern that relying on AI tools weakens independent problem-solving skills!',
@@ -416,166 +379,19 @@ window.promptBank = [
   },
   {
     age: 'teen', mode: 'opinions',
-    text: 'Timed exams only test how much you can memorize, not how smart you are.',
-    easy: '<strong>1. Stance:</strong> Say whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share which assessment format best reflects your true capabilities.',
+    text: 'Timed exams only test how much you can memorize, not how smart you are. Agree or disagree?',
+    easy: '<strong>1. Stance:</strong> Say clearly whether you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share which assessment format best reflects your true capabilities.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Explain how schools or universities could evaluate applicants fairly without standardized scores!',
     starter: 'Looking at how students are tested, I believe...',
     words: ['Memory', 'Skills'],
-    tip: 'Think about whether you perform better on written tests or hands-on projects.'
+    tip: 'Think about whether you perform better on written tests or practical projects.'
   },
 
-  // ==========================================
-  // TEEN (9-17) - VOCAB YAP (3 Prompts)
-  // ==========================================
-  {
-    age: 'teen', mode: 'vocab',
-    vocab: { word: 'RELUCTANT', pos: 'adjective', meaning: 'Hesitant, unwilling, or holding back from doing something.', example: 'He was reluctant to lend his favorite jacket to his younger brother.' },
-    text: 'Weave the word RELUCTANT into a story about someone hesitating to make a big decision!',
-    easy: '<strong>1. The Situation:</strong> What was someone invited or asked to do?<br><strong>2. The Hesitation:</strong> Why were they so reluctant to say yes?<br><strong>3. What Happened:</strong> Did they finally do it, and was it worth it?',
-    medium: 'Use RELUCTANT to describe a person who refused to join a competition or try something new!',
-    hardTwist: 'Their best friend tries to peer-pressure them into changing their mind!',
-    starter: 'At first, everyone was excited, but Mark was extremely reluctant because...',
-    words: ['Reluctant', 'Hesitant', 'Choice'],
-    tip: 'Use the word RELUCTANT at least once in your first two sentences.'
-  },
-  {
-    age: 'teen', mode: 'vocab',
-    vocab: { word: 'SKEPTICAL', pos: 'adjective', meaning: 'Doubtful; not easily convinced having reservations.', example: 'The class was skeptical when the teacher promised zero homework for a month.' },
-    text: 'Weave the word SKEPTICAL into an argument or story about a rumor or wild promise!',
-    easy: '<strong>1. The Claim:</strong> What crazy story, rumor, or deal did someone pitch?<br><strong>2. The Doubt:</strong> Why were you immediately skeptical of their words?<br><strong>3. The Proof:</strong> How did the truth finally come out in the end?',
-    medium: 'Use SKEPTICAL to explain why you should never trust viral life hacks online!',
-    hardTwist: 'The person claiming the story shows you a photoshopped image as proof!',
-    starter: 'When I first heard the announcement, I was deeply skeptical because...',
-    words: ['Skeptical', 'Doubt', 'Evidence'],
-    tip: 'Contrast what sounded believable against what sounded fake.'
-  },
-  {
-    age: 'teen', mode: 'vocab',
-    vocab: { word: 'AUTHENTIC', pos: 'adjective', meaning: 'Genuine, real, and true to one\'s own personality rather than copied.', example: 'People respected her because she was always authentic on camera.' },
-    text: 'Weave the word AUTHENTIC into a speech about online trends vs. staying true to yourself!',
-    easy: '<strong>1. The Trend:</strong> What popular style or trend did everyone suddenly start copying?<br><strong>2. The Contrast:</strong> Why does being authentic stand out so much more?<br><strong>3. The Conclusion:</strong> Why is keeping an authentic voice harder than copying others?',
-    medium: 'Use AUTHENTIC to defend why honest flaws are better than fake perfection online!',
-    hardTwist: 'Someone accuses an influencer of being completely staged!',
-    starter: 'In a world where everyone copies viral trends, being truly authentic means...',
-    words: ['Authentic', 'Genuine', 'Original'],
-    tip: 'Emphasize the word AUTHENTIC when you reach your main conclusion.'
-  },
-
-  // ==========================================
-  // ADULT (18+) - PICTURE TALK (5 Prompts)
-  // ==========================================
-  {
-    age: 'adult', mode: 'picture',
-    text: 'The night before a trip, your suitcase will not zip shut and is bursting open with clothes.',
-    easy: '<strong>1. The Problem:</strong> What clothes and shoes are spilling over the sides?<br><strong>2. Hard Choice:</strong> What is the one item you refuse to leave behind?<br><strong>3. The Fix:</strong> Do you sit on the bag to zip it, or take half the clothes out?',
-    medium: 'Tell why packing for a trip is always more stressful than the trip itself!',
-    hardTwist: 'You suddenly realize your passport is not in your bag!',
-    starter: 'Every time I pack for a trip, I make the exact same mistake...',
-    words: ['Overpacked', 'Essentials'],
-    tip: 'Describe the messy clothes and jackets sitting on the bed.'
-  },
-  {
-    age: 'adult', mode: 'picture',
-    text: 'The waiter brings a plate with food you did not order, but they look very busy and tired.',
-    easy: '<strong>1. The Surprise:</strong> What did you order vs. what is actually on the plate?<br><strong>2. The Dilemma:</strong> Do you just eat it quietly, or wave the waiter over?<br><strong>3. What You Say:</strong> How do you politely explain the mistake without sounding rude?',
-    medium: 'Explain why sending food back at a restaurant feels so awkward and uncomfortable!',
-    hardTwist: 'Your friend takes a bite and says: "Wait, this is actually delicious!"',
-    starter: 'When the waiter set the plate down, I looked at it and thought...',
-    words: ['Polite', 'Mistake'],
-    tip: 'Describe what dish is sitting on the table in front of you.'
-  },
-  {
-    age: 'adult', mode: 'picture',
-    text: 'You wake up, look at the sunlight through the window, and realize your phone alarm never went off.',
-    easy: '<strong>1. The Shock:</strong> You look at the clock and see it is already 8:30 AM.<br><strong>2. The Rush:</strong> What is the very first thing you grab as you jump out of bed?<br><strong>3. The Excuse:</strong> What text message do you type to explain why you are running late?',
-    medium: 'Describe the crazy 5-minute rush to get dressed and run out the front door!',
-    hardTwist: 'You check your calendar and realize... today is actually a public holiday!',
-    starter: 'The second I opened my eyes and saw the sun, I knew something was wrong...',
-    words: ['Overslept', 'Panicked'],
-    tip: 'Describe frantically looking for your shoes or keys.'
-  },
-  {
-    age: 'adult', mode: 'picture',
-    text: 'You went to the supermarket for only milk and bread, but your shopping cart is completely full.',
-    easy: '<strong>1. The Plan:</strong> What was the one thing you actually walked into the store to buy?<br><strong>2. The Temptation:</strong> What snacks or items did you end up tossing in the cart?<br><strong>3. The Register:</strong> How much did you expect to spend vs. the final bill?',
-    medium: 'Explain why you should never walk into a grocery store when you are hungry!',
-    hardTwist: 'You reach the cashier and realize you left your wallet at home!',
-    starter: 'I only walked in for two minutes to grab one thing, but then...',
-    words: ['Tempting', 'Budget'],
-    tip: 'Name two of your favorite snacks sitting in the cart.'
-  },
-  {
-    age: 'adult', mode: 'picture',
-    text: 'You are walking down the street and suddenly see someone you have not spoken to in 5 years.',
-    easy: '<strong>1. The Spot:</strong> Do you recognize them immediately or squint to make sure?<br><strong>2. The Catch-Up:</strong> What is the very first question you ask each other?<br><strong>3. The Promise:</strong> Do you make real plans to meet, or just say "Let\'s catch up soon!"?',
-    medium: 'Describe how awkward or exciting those first 30 seconds of small talk feel!',
-    hardTwist: 'You completely blank on their name while talking to them!',
-    starter: 'Out of nowhere, someone tapped my shoulder and called out my name...',
-    words: ['Surprise', 'Familiar'],
-    tip: 'Describe what street, café, or shop you are standing outside of.'
-  },
-
-  // ==========================================
-  // ADULT (18+) - PICK A SIDE (5 Prompts)
-  // ==========================================
-  {
-    age: 'adult', mode: 'wyr',
-    text: 'Would you rather be an early settler on Mars, or explore the deepest uncharted oceans on Earth?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Name one specific challenge or environment that influences your decision.',
-    medium: 'State your choice clearly and explain what makes it the more compelling frontier.',
-    hardTwist: 'Address a skeptic who says exploring either one is an irresponsible use of resources!',
-    starter: 'Between space and the deep sea, I choose...',
-    words: ['Exploration', 'Isolation'],
-    tip: 'Focus on whether extreme heights or deep waters feel more daunting to you.'
-  },
-  {
-    age: 'adult', mode: 'wyr',
-    text: 'Would you rather remember every single detail of your life, or be able to erase memories at will?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Describe a situation where that ability would provide the most value.',
-    medium: 'State your choice clearly and explain how it shapes long-term mental clarity.',
-    hardTwist: 'Explain how your choice could create complications in your personal relationships!',
-    starter: 'Looking at how memory affects us, I would rather...',
-    words: ['Recall', 'Perspective'],
-    tip: 'Consider whether having total control over memory helps or hinders growth.'
-  },
-  {
-    age: 'adult', mode: 'wyr',
-    text: 'Would you rather upload your consciousness into a computer to exist indefinitely, or live a natural 80-year lifespan?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Describe how this choice influences your everyday priorities.',
-    medium: 'State your choice clearly and contrast digital continuity against biological life.',
-    hardTwist: 'Defend your choice to someone who argues that your option takes away what makes us human!',
-    starter: 'When considering the nature of life, I choose...',
-    words: ['Continuity', 'Existence'],
-    tip: 'Think about how finite time limits shape human meaning.'
-  },
-  {
-    age: 'adult', mode: 'wyr',
-    text: 'Would you rather see a clear snapshot of your life 10 years from now, or re-live one full day from your past?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Share what specific detail or moment you would look for.',
-    medium: 'State your choice clearly and compare certainty about the future with revisiting a memory.',
-    hardTwist: 'Address someone who argues that your choice would make you miss out on living in the present moment!',
-    starter: 'Given this choice, I would decide to...',
-    words: ['Foresight', 'Reflection'],
-    tip: 'Consider how knowing what lies ahead impacts day-to-day motivation.'
-  },
-  {
-    age: 'adult', mode: 'wyr',
-    text: 'Would you rather live in a society where work happens from 4:00 AM to 12:00 PM, or one that runs from 8:00 PM to 4:00 AM?',
-    easy: '<strong>1. Stance:</strong> State clearly which option you choose.<br><strong>2. Why:</strong> Tell your primary reason.<br><strong>3. Example:</strong> Describe your typical energy levels during the morning versus late in the evening.',
-    medium: 'State your choice clearly and explain how it aligns with your lifestyle.',
-    hardTwist: 'Address the argument that your chosen schedule makes maintaining relationships difficult!',
-    starter: 'In terms of schedule preference, I lean toward...',
-    words: ['Routine', 'Schedule'],
-    tip: 'Think about when during a 24-hour cycle you feel most alert.'
-  },
-
-  // ==========================================
-  // ADULT (18+) - HOT TAKES (5 Prompts)
-  // ==========================================
+  // --- ADULT (Ages 18+) ---
   {
     age: 'adult', mode: 'opinions',
-    text: 'Renting a home gives you much more freedom in life than buying one.',
+    text: 'Renting a home gives you much more freedom in life than buying one. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share an observation from your own living situation or friends.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
@@ -585,7 +401,7 @@ window.promptBank = [
   },
   {
     age: 'adult', mode: 'opinions',
-    text: 'Large family or community group chats create more stress than real connection.',
+    text: 'Large family or community group chats create more stress than real connection. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe how you manage your notifications and messages day-to-day.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
@@ -595,7 +411,7 @@ window.promptBank = [
   },
   {
     age: 'adult', mode: 'opinions',
-    text: 'Cooking meals at home every day is not worth the time and effort for busy adults.',
+    text: 'Cooking meals at home every day is not worth the time and effort for busy adults. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Share how you typically handle meals after a tiring day.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
@@ -605,7 +421,7 @@ window.promptBank = [
   },
   {
     age: 'adult', mode: 'opinions',
-    text: 'Calling someone on the phone without sending a text first has become rude.',
+    text: 'Calling someone on the phone without sending a text first has become rude. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Describe how you react when an unscheduled call rings your phone.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
@@ -615,7 +431,7 @@ window.promptBank = [
   },
   {
     age: 'adult', mode: 'opinions',
-    text: 'A completely cashless society does more harm than good.',
+    text: 'A completely cashless society does more harm than good. Agree or disagree?',
     easy: '<strong>1. Stance:</strong> Say clearly if you agree or disagree.<br><strong>2. Why:</strong> State your primary reason.<br><strong>3. Example:</strong> Give a quick example of how you pay for items day-to-day.',
     medium: 'State your view clearly and explain why you feel that way.',
     hardTwist: 'Respond to someone who strongly disagrees with your perspective!',
@@ -625,39 +441,164 @@ window.promptBank = [
   },
 
   // ==========================================
-  // ADULT (18+) - VOCAB YAP (3 Prompts)
+  // 4. VOCAB YAP (mode: 'vocab')
   // ==========================================
+  // --- JUNIOR (Ages 5-8) ---
+  {
+    age: 'junior', mode: 'vocab',
+    text: 'Talk about a time you tried something totally new, and naturally use the word: <strong>Curious</strong>.',
+    vocab: { word: 'Curious', meaning: 'Eager to learn or know about something.' },
+    easy: '<strong>1. Define:</strong> What does feeling curious feel like in your brain?<br><strong>2. Story:</strong> Tell what new thing you wanted to learn about.<br><strong>3. Reveal:</strong> Use the word "Curious" clearly in your sentence!',
+    medium: 'Tell the story of an exciting discovery you made when you were curious.',
+    hardTwist: 'Your friend was too shy to look—how did your curious energy help them join in?',
+    starter: 'I felt so curious the day I decided to...',
+    words: ['Explore', 'Wonder'],
+    tip: 'Think about asking lots of questions when you see something interesting.'
+  },
+  {
+    age: 'junior', mode: 'vocab',
+    text: 'Tell a story about making a big messy art project, and naturally use the word: <strong>Splendid</strong>.',
+    vocab: { word: 'Splendid', meaning: 'Magnificent, wonderful, or very impressive.' },
+    easy: '<strong>1. Setup:</strong> What colors of paint or paper did you use?<br><strong>2. Action:</strong> What did you create on the table or floor?<br><strong>3. Reveal:</strong> Say why your final artwork looked splendid!',
+    medium: 'Describe your colorful art project and explain why the result was splendid.',
+    hardTwist: 'A bowl of glitter spilled everywhere—how did that make it even more splendid?',
+    starter: 'When I finished painting, my picture looked absolutely splendid because...',
+    words: ['Bright', 'Artwork'],
+    tip: 'Use splendid when something turns out even better than you planned.'
+  },
+  {
+    age: 'junior', mode: 'vocab',
+    text: 'Talk about a day you had to wait patiently for a surprise, and naturally use the word: <strong>Eager</strong>.',
+    vocab: { word: 'Eager', meaning: 'Wanting to do or have something very much.' },
+    easy: '<strong>1. Setup:</strong> What special surprise were you waiting for?<br><strong>2. Feeling:</strong> How did your feet tap while you waited?<br><strong>3. Reveal:</strong> Explain how eager you were to open the door or gift!',
+    medium: 'Tell about a day you felt super eager and how you handled the wait.',
+    hardTwist: 'The surprise got delayed by thirty minutes—how did you distract yourself while eager?',
+    starter: 'I was so eager to see what was inside the box that...',
+    words: ['Excited', 'Waiting'],
+    tip: 'Eager describes feeling full of bubbly excitement before something happens.'
+  },
+  {
+    age: 'junior', mode: 'vocab',
+    text: 'Describe helping a friend or family member clean up, and naturally use the word: <strong>Teamwork</strong>.',
+    vocab: { word: 'Teamwork', meaning: 'Working together with others to get a job done.' },
+    easy: '<strong>1. Setup:</strong> What needed to be cleaned or organized?<br><strong>2. Action:</strong> Who did which job to help?<br><strong>3. Reveal:</strong> Explain how teamwork made the job fast and fun!',
+    medium: 'Describe the messy job and explain how good teamwork solved it in half the time.',
+    hardTwist: 'You and your partner wanted to do the same task—how did you share it fairly?',
+    starter: 'We realized that with good teamwork, cleaning up was...',
+    words: ['Together', 'Helpful'],
+    tip: 'Teamwork means nobody has to do all the hard work alone.'
+  },
+  {
+    age: 'junior', mode: 'vocab',
+    text: 'Talk about a hike, nature walk, or park visit, and naturally use the word: <strong>Enormous</strong>.',
+    vocab: { word: 'Enormous', meaning: 'Extremely large in size or scale.' },
+    easy: '<strong>1. Setup:</strong> Where were you walking?<br><strong>2. Sighting:</strong> What giant tree, rock, or building did you spot?<br><strong>3. Reveal:</strong> Describe how enormous it looked standing next to you!',
+    medium: 'Describe your nature walk and bring the enormous object to life with words.',
+    hardTwist: 'A tiny insect was sitting right on the enormous object—compare their sizes!',
+    starter: 'As we walked around the trail corner, we saw an enormous...',
+    words: ['Giant', 'Nature'],
+    tip: 'Enormous means way bigger than an ordinary big thing.'
+  },
+
+  // --- TEEN (Ages 9-17) ---
+  {
+    age: 'teen', mode: 'vocab',
+    text: 'Discuss a time when an unexpected change forced you to adjust plans, and naturally use the word: <strong>Adapt</strong>.',
+    vocab: { word: 'Adapt', meaning: 'To adjust or modify oneself to new conditions.' },
+    easy: '<strong>1. Incident:</strong> What plan went off the rails?<br><strong>2. Pivot:</strong> How did you adapt your mindset in the moment?<br><strong>3. Outcome:</strong> What was the ultimate result of adapting quickly?',
+    medium: 'Narrate a story of having to adapt quickly when things went sideways.',
+    hardTwist: 'Someone in your group refused to adapt—how did you bring them on board?',
+    starter: 'When our original plan fell through, we had to adapt immediately by...',
+    words: ['Flexible', 'Strategy'],
+    tip: 'Highlight the difference between panicking and actively adapting.'
+  },
+  {
+    age: 'teen', mode: 'vocab',
+    text: 'Speak about why doing regular small habits beats cramming, and naturally use the word: <strong>Consistent</strong>.',
+    vocab: { word: 'Consistent', meaning: 'Acting or done in another way with regularity and reliability.' },
+    easy: '<strong>1. Premise:</strong> Name a skill (sports, instruments, study) where small effort pays off.<br><strong>2. Comparison:</strong> Contrast cramming with being consistent.<br><strong>3. Result:</strong> What long-term payoff does consistent effort deliver?',
+    medium: 'Deliver a persuasive talk on the power of remaining consistent over months.',
+    hardTwist: 'Address the temptation to skip days when motivation is completely gone!',
+    starter: 'The real secret to mastering any skill is being consistent, because...',
+    words: ['Habit', 'Progress'],
+    tip: 'Use concrete examples like pushups, scales on a guitar, or vocabulary cards.'
+  },
+  {
+    age: 'teen', mode: 'vocab',
+    text: 'Discuss a difficult moral or practical decision you or a character had to make, and naturally use the word: <strong>Dilemma</strong>.',
+    vocab: { word: 'Dilemma', meaning: 'A situation in which a difficult choice has to be made between two alternatives.' },
+    easy: '<strong>1. Problem:</strong> What were the two conflicting choices?<br><strong>2. Struggle:</strong> Why was neither option easy or perfect?<br><strong>3. Resolution:</strong> How was this dilemma finally navigated?',
+    medium: 'Analyze a tough dilemma and articulate the rationale behind the final decision.',
+    hardTwist: 'Both options had serious negative consequences—how did you weigh the lesser evil?',
+    starter: 'The situation presented a real dilemma because choosing one meant sacrificing...',
+    words: ['Conflict', 'Principles'],
+    tip: 'A true dilemma isn’t good vs. bad—it’s choosing between two competing priorities.'
+  },
+  {
+    age: 'teen', mode: 'vocab',
+    text: 'Explain why standing out from the crowd takes courage, and naturally use the word: <strong>Authentic</strong>.',
+    vocab: { word: 'Authentic', meaning: 'Genuine, real, and true to one’s own personality or character.' },
+    easy: '<strong>1. Pressure:</strong> Describe the social pressure to blend into the background.<br><strong>2. Courage:</strong> What does choosing to be authentic look like in school?<br><strong>3. Impact:</strong> How does staying authentic earn deeper, real respect?',
+    medium: 'Give a passionate mini-speech on the power of remaining authentic despite peer pressure.',
+    hardTwist: 'Someone criticizes your authentic choice—how do you stay grounded without attacking back?',
+    starter: 'It takes real bravery to remain authentic when everyone around you is...',
+    words: ['Identity', 'Integrity'],
+    tip: 'Contrast wearing a social mask with speaking from your real beliefs.'
+  },
+
+  // --- ADULT (Ages 18+) ---
   {
     age: 'adult', mode: 'vocab',
-    vocab: { word: 'NUANCED', pos: 'adjective', meaning: 'Characterized by subtle distinctions or complexity, not simple black-and-white.', example: 'The debate around remote work requires a nuanced perspective.' },
-    text: 'Weave the word NUANCED into a speech explaining why modern dilemmas cannot be solved with simple answers!',
-    easy: '<strong>1. The Issue:</strong> Pick a topic people argue about in black-and-white terms.<br><strong>2. The Layers:</strong> Explain why the reality is actually much more nuanced.<br><strong>3. The Balance:</strong> Conclude by stating what compromise works best.',
-    medium: 'Use NUANCED to challenge someone who gives an oversimplified opinion on a complex topic!',
-    hardTwist: 'A listener demands a simple YES or NO answer from you!',
-    starter: 'People love simple slogans, but the truth is far more nuanced because...',
-    words: ['Nuanced', 'Complexity', 'Balance'],
-    tip: 'Use NUANCED when pointing out the grey areas between extremes.'
+    text: 'Discuss navigating professional setbacks or personal burnout, and naturally use the word: <strong>Resilience</strong>.',
+    vocab: { word: 'Resilience', meaning: 'The capacity to withstand or recover quickly from difficulties.' },
+    easy: '<strong>1. Adversity:</strong> Describe a challenging obstacle or season of high pressure.<br><strong>2. Internal Shift:</strong> What habits or perspectives built your resilience?<br><strong>3. Perspective:</strong> How has resilience redefined how you view future challenges?',
+    medium: 'Deliver an articulate talk on how real-world resilience is cultivated through deliberate recovery, not just brute perseverance.',
+    hardTwist: 'Distinguish between genuine resilience and toxic overwork that leads to total collapse!',
+    starter: 'True resilience is not about never failing; it is about...',
+    words: ['Fortitude', 'Equanimity'],
+    tip: 'Emphasize that resilience includes knowing when to pause, pivot, and recharge.'
   },
   {
     age: 'adult', mode: 'vocab',
-    vocab: { word: 'PRAGMATIC', pos: 'adjective', meaning: 'Dealing with things sensibly and realistically based on practical results.', example: 'She took a pragmatic approach by prioritizing budget over perfection.' },
-    text: 'Weave the word PRAGMATIC into a story or reflection about choosing what works over an impossible ideal!',
-    easy: '<strong>1. The Goal:</strong> What project or plan was getting too complicated or idealistic?<br><strong>2. The Shift:</strong> Why was taking a pragmatic approach the only way forward?<br><strong>3. The Outcome:</strong> How did focusing on practical results save time or money?',
-    medium: 'Use PRAGMATIC to defend why an imperfect solution delivered on time beats a perfect dream!',
-    hardTwist: 'Someone accuses you of settling for less and abandoning the original dream!',
-    starter: 'While others argued about perfection, we had to be pragmatic and...',
-    words: ['Pragmatic', 'Realistic', 'Execution'],
-    tip: 'Contrast theoretical ideals with pragmatic reality.'
+    text: 'Discuss managing competing priorities in leadership or daily life, and naturally use the word: <strong>Pragmatic</strong>.',
+    vocab: { word: 'Pragmatic', meaning: 'Dealing with things sensibly and realistically based on practical considerations.' },
+    easy: '<strong>1. Conflict:</strong> Set up a situation where idealistic theory collided with practical reality.<br><strong>2. Action:</strong> What pragmatic compromise or decision did you make?<br><strong>3. Takeaway:</strong> Why is a pragmatic approach essential for execution?',
+    medium: 'Reflect on a high-stakes decision where adopting a pragmatic stance allowed a team to move forward.',
+    hardTwist: 'A purist on your team accuses your pragmatic solution of compromising core values—how do you answer?',
+    starter: 'When facing complex realities, being pragmatic often means accepting that...',
+    words: ['Viable', 'Practicality'],
+    tip: 'Pragmatism means focusing on what works in practice over what looks good on paper.'
   },
   {
     age: 'adult', mode: 'vocab',
-    vocab: { word: 'BOTTLENECK', pos: 'noun', meaning: 'A point of congestion that slows down an entire process or workflow.', example: 'Slow approval times created a massive bottleneck in the project.' },
-    text: 'Weave the word BOTTLENECK into an analysis of what slows down productivity in daily routines!',
-    easy: '<strong>1. The Process:</strong> What daily routine or workflow always takes too long?<br><strong>2. The Bottleneck:</strong> What is the single bottleneck slowing everything down?<br><strong>3. The Fix:</strong> What simple change would instantly clear the delay?',
-    medium: 'Use BOTTLENECK to explain why working longer hours does not fix a broken system!',
-    hardTwist: 'A colleague argues that hiring more people is the only solution!',
-    starter: 'The problem was never the team effort; the real bottleneck was...',
-    words: ['Bottleneck', 'Delay', 'Efficiency'],
-    tip: 'Identify the exact pinch-point that causes the backlog.'
+    text: 'Discuss how misunderstandings escalate in communication, and naturally use the word: <strong>Nuance</strong>.',
+    vocab: { word: 'Nuance', meaning: 'A subtle distinction or variation in meaning, tone, or expression.' },
+    easy: '<strong>1. Breakdown:</strong> Where did an oversimplified message or email go wrong?<br><strong>2. Depth:</strong> What critical nuance was lost in the initial exchange?<br><strong>3. Resolution:</strong> How does listening for nuance elevate discussions?',
+    medium: 'Deliver a thoughtful reflection on why modern digital discourse urgently requires an appreciation for nuance.',
+    hardTwist: 'Explain why algorithms and social feeds are systematically designed to destroy conversational nuance!',
+    starter: 'In today’s fast-paced communication, the very first thing we lose is nuance, because...',
+    words: ['Subtlety', 'Complexity'],
+    tip: 'Show how black-and-white thinking misses the subtle middle ground where truth usually sits.'
+  },
+  {
+    age: 'adult', mode: 'vocab',
+    text: 'Speak about navigating uncertain projects where outcomes are unpredictable, and naturally use the word: <strong>Ambiguity</strong>.',
+    vocab: { word: 'Ambiguity', meaning: 'The quality of being open to more than one interpretation; inexactness.' },
+    easy: '<strong>1. Unknowns:</strong> Describe a situation where instructions or future outcomes were unclear.<br><strong>2. Leadership:</strong> How did you keep moving forward despite high ambiguity?<br><strong>3. Principle:</strong> What rule of thumb helps you operate in ambiguous environments?',
+    medium: 'Discuss why the ability to tolerate and navigate ambiguity is the single most critical leadership skill today.',
+    hardTwist: 'Stakeholders demand certainty when none exists—how do you communicate honestly without inciting panic?',
+    starter: 'Operating in high-stakes environments requires getting comfortable with ambiguity, because...',
+    words: ['Uncertainty', 'Decisiveness'],
+    tip: 'Focus on how making reversible decisions keeps momentum alive when information is incomplete.'
   }
 ];
+
+// Attach to window for global browser availability
+if (typeof window !== 'undefined') {
+  window.allPrompts = allPrompts;
+}
+
+// Support ES/CommonJS modules if imported
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { allPrompts };
+}
