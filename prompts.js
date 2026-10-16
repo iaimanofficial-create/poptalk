@@ -9,7 +9,6 @@ const allPrompts = [
   // --- JUNIOR (Ages 5-8) ---
   {
     age: 'junior', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
     text: 'A busy treehouse workshop full of chattering woodland creatures building miniature wooden toys.',
     easy: '<strong>1. Look:</strong> Name two animals you see in the workshop.<br><strong>2. Action:</strong> What kind of toy are they building right now?<br><strong>3. Imagine:</strong> What is the funniest sound coming from inside the treehouse?',
     medium: 'Describe what the animals are building and what happens if a toy accidentally rolls out the door!',
@@ -20,7 +19,6 @@ const allPrompts = [
   },
   {
     age: 'junior', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?auto=format&fit=crop&w=800&q=80',
     text: 'A colorful playground where the swings fly extra high into fluffy, cotton-candy clouds.',
     easy: '<strong>1. Look:</strong> What bright colors do you notice first?<br><strong>2. Action:</strong> How does it feel when the swing pushes into the cloud?<br><strong>3. Imagine:</strong> What flavor does the cloud taste like?',
     medium: 'Describe who is on the swings and what the whole park looks like from high above!',
@@ -31,7 +29,6 @@ const allPrompts = [
   },
   {
     age: 'junior', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80',
     text: 'An underwater coral reef school where baby turtles and clownfish learn how to swim in formation.',
     easy: '<strong>1. Look:</strong> What sea creatures are sitting together in the coral classroom?<br><strong>2. Action:</strong> What skill is the teacher demonstrating right now?<br><strong>3. Imagine:</strong> What happens when a tickly bubble floats past?',
     medium: 'Describe the underwater school and explain the most important ocean rule they are learning.',
@@ -42,7 +39,6 @@ const allPrompts = [
   },
   {
     age: 'junior', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80',
     text: 'A lively kitchen counter where breakfast ingredients have come to life and are organizing the morning meal.',
     easy: '<strong>1. Look:</strong> Which breakfast food is wearing the chef hat?<br><strong>2. Action:</strong> What job did the berries and toast get assigned?<br><strong>3. Imagine:</strong> Where is the orange juice hurrying to go?',
     medium: 'Tell the story of how the breakfast team gets everything plated before the family wakes up!',
@@ -53,7 +49,6 @@ const allPrompts = [
   },
   {
     age: 'junior', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=800&q=80',
     text: 'A starry campsite where a group of young campers gather around a glowing lantern to read a map.',
     easy: '<strong>1. Look:</strong> What items are resting near the tent door?<br><strong>2. Action:</strong> What path are their fingers tracing on the map?<br><strong>3. Imagine:</strong> What nocturnal animal is peeking from the bushes?',
     medium: 'Describe the scene and explain what treasure or secret viewpoint the campers hope to reach tomorrow!',
@@ -66,7 +61,6 @@ const allPrompts = [
   // --- TEEN (Ages 9-17) ---
   {
     age: 'teen', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=800&q=80',
     text: 'A frantic backstage dressing room two minutes before the opening curtain of the annual school theater production.',
     easy: '<strong>1. Focus:</strong> Describe the energy and noise in the room.<br><strong>2. Detail:</strong> Point out one missing prop someone is searching for.<br><strong>3. Outcome:</strong> How does the director calm everyone down before the buzzer?',
     medium: 'Paint a vivid picture of the backstage chaos and explain how the team recovers before lights up.',
@@ -77,7 +71,6 @@ const allPrompts = [
   },
   {
     age: 'teen', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
     text: 'A high school robotics laboratory late on a Friday evening, scattered with circuits, gears, and unfinished prototypes.',
     easy: '<strong>1. Focus:</strong> What part of the robot is being tested right now?<br><strong>2. Detail:</strong> Describe the whiteboard covered in equations in the corner.<br><strong>3. Outcome:</strong> What goal must the team reach before competition tomorrow?',
     medium: 'Describe the workspace atmosphere and explain why this project means so much to the students.',
@@ -88,7 +81,6 @@ const allPrompts = [
   },
   {
     age: 'teen', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80',
     text: 'A crowded subway car during peak rush hour where an unexpected busker starts playing a captivating acoustic song.',
     easy: '<strong>1. Focus:</strong> Describe how people look before the music starts.<br><strong>2. Detail:</strong> Notice how one commuter slowly takes out an earphone to listen.<br><strong>3. Outcome:</strong> How does the atmosphere in the train change as doors close?',
     medium: 'Describe the contrast between tired, silent commuters and the sudden uplifting acoustic rhythm.',
@@ -99,7 +91,6 @@ const allPrompts = [
   },
   {
     age: 'teen', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80',
     text: 'A community farmers market early on a crisp Saturday morning, full of crates of fresh produce and artisan bakeries.',
     easy: '<strong>1. Focus:</strong> Describe the sounds, smells, and colors of the stalls.<br><strong>2. Detail:</strong> Point out a vendor explaining how their family recipe is made.<br><strong>3. Outcome:</strong> What makes this market feel different from a typical grocery store?',
     medium: 'Describe the lively morning market and explain how community connections make it special.',
@@ -112,7 +103,6 @@ const allPrompts = [
   // --- ADULT (Ages 18+) ---
   {
     age: 'adult', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
     text: 'A bustling co-working lounge at 3 PM on a Tuesday, filled with remote workers, espresso machines, and quiet negotiations.',
     easy: '<strong>1. Anchor:</strong> Describe the visual layout and ambient noise.<br><strong>2. Observation:</strong> Highlight the contrast between someone on a high-stakes call and someone quietly reading.<br><strong>3. Reflection:</strong> What does this space reveal about modern work culture?',
     medium: 'Describe the environment and analyze how modern professional spaces balance collaboration with individual isolation.',
@@ -123,7 +113,6 @@ const allPrompts = [
   },
   {
     age: 'adult', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=800&q=80',
     text: 'An international airport transit gate during an unexpected four-hour flight delay at 1:00 AM.',
     easy: '<strong>1. Anchor:</strong> Describe the tired passengers, charging stations, and closed duty-free shops.<br><strong>2. Observation:</strong> How are two strangers passing the time together?<br><strong>3. Reflection:</strong> How does shared waiting break down barriers between people?',
     medium: 'Describe the nocturnal transit lounge and reflect on how unexpected travel delays bring out different human behaviors.',
@@ -134,7 +123,6 @@ const allPrompts = [
   },
   {
     age: 'adult', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1507842229451-7f01be7fe0ab?auto=format&fit=crop&w=800&q=80',
     text: 'A quiet, long-standing neighborhood bookstore holding an intimate evening reading for a newly published local author.',
     easy: '<strong>1. Anchor:</strong> Describe the smell of old paper, wooden folding chairs, and rain on the window.<br><strong>2. Observation:</strong> Describe the author’s hands turning the manuscript page.<br><strong>3. Reflection:</strong> Why do independent spaces like this hold enduring cultural value?',
     medium: 'Paint the intimate scene and discuss the lasting emotional appeal of tangible books and neighborhood community.',
@@ -145,7 +133,6 @@ const allPrompts = [
   },
   {
     age: 'adult', mode: 'picture',
-    imageUrl: 'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&w=800&q=80',
     text: 'An urban rooftop garden overlooking a glowing skyline at dusk as the city transitions from work to evening.',
     easy: '<strong>1. Anchor:</strong> Describe the fresh green planter boxes set against concrete and glass towers.<br><strong>2. Observation:</strong> How does the soundscape change as traffic below starts to hum with evening commuters?<br><strong>3. Reflection:</strong> What balance does green space provide inside dense urban centers?',
     medium: 'Describe the sensory contrast between rooftop greenery and the sprawling city lights below at twilight.',
@@ -616,4 +603,5 @@ if (typeof window !== 'undefined') {
 
 var promptBank = allPrompts;
 var masterPrompts = allPrompts;
+var allPromptsVar = allPrompts;
 var prompts = allPrompts;
