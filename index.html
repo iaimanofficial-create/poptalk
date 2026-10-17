@@ -2240,7 +2240,7 @@
           waBtn.innerText = '💬 Book a Free Demo on WhatsApp';
           waBtn.href = 'https://wa.me/966548208412?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
         }
-      } else {
+            } else {
         var cleanTranscript = transcript ? transcript.trim() : '';
         var wordsArray = cleanTranscript.length > 0 ? cleanTranscript.split(/\s+/) : [];
         var wordCount = wordsArray.length;
@@ -2255,56 +2255,48 @@
           if (fillerList.indexOf(cleanWord) !== -1) fillerCount++;
         });
 
-        var timeScore = Math.min(40, Math.round((seconds / targetTime) * 40));
-        
-        var paceScore = 15;
-        if (wpm >= 120 && wpm <= 160) {
-          paceScore = 30;
-        } else if ((wpm >= 100 && wpm < 120) || (wpm > 160 && wpm <= 180)) {
-          paceScore = 22;
-        } else if (wpm > 0) {
-          paceScore = 15;
-        }
+        // --- TRANSPARENT XP CALCULATOR ---
+        var durationXp = seconds * 2;
+        var wordXp = wordCount * 3;
+        var hardBonus = (currentLevel === 'hard') ? 50 : 0;
+        var streakMultiplier = 1 + (Math.max(1, streak) * 0.1);
+        var sessionXp = Math.round((durationXp + wordXp + hardBonus) * streakMultiplier);
 
-        var fillerScore = Math.max(5, 20 - (fillerCount * 4));
-        var bonusScore = (currentMode === 'vocab' || currentLevel === 'hard') ? 10 : 8;
-        var totalScore = Math.min(100, timeScore + paceScore + fillerScore + bonusScore);
+        var careerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10) + sessionXp;
+        localStorage.setItem('poptalk_total_xp', careerXp.toString());
 
-        var paceLabel = 'Balanced / Natural';
+        var paceLabel = 'Balanced & Steady';
         var paceColor = 'var(--moss-green)';
         if (wpm < 110 && wpm > 0) {
           paceLabel = 'Thoughtful / Deliberate';
           paceColor = 'var(--midnight-green)';
         } else if (wpm > 165) {
-          paceLabel = 'Fast / High Energy';
+          paceLabel = 'High Energy / Fast';
           paceColor = '#D97706';
         }
 
         var metricsCard = '';
-        if (wordCount >= 4) {
+        if (wordCount >= 2) {
           metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:16px; padding:18px; margin:16px 0; text-align:left;">' +
             '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1.5px solid #F3F5F4; padding-bottom:10px;">' +
-              '<span style="font-family:\'Fredoka\',cursive; font-size:18px; color:#0A3323; font-weight:700;">🏆 Session Score</span>' +
-              '<span style="font-family:\'Fredoka\',cursive; font-size:24px; color:#105666; font-weight:700;">' + totalScore + ' / 100</span>' +
+              '<span style="font-family:\'Fredoka\',cursive; font-size:18px; color:#0A3323; font-weight:700;">⭐ XP Earned</span>' +
+              '<span style="font-family:\'Fredoka\',cursive; font-size:24px; color:#E85D04; font-weight:700;">+' + sessionXp + ' XP</span>' +
             '</div>' +
             '<div style="font-size:15px; color:#293830; line-height:1.7; margin-bottom:14px;">' +
+              '• <strong>Speaking Time:</strong> ' + seconds + 's (' + durationXp + ' XP)<br>' +
+              '• <strong>Word Power:</strong> ' + wordCount + ' words (' + wordXp + ' XP)<br>' +
               '• <strong>Pace:</strong> ' + wpm + ' WPM <span style="font-weight:700; color:' + paceColor + ';">(' + paceLabel + ')</span><br>' +
-              '• <strong>Words Recorded:</strong> ' + wordCount + ' words in ' + seconds + 's<br>' +
-              '• <strong>Filler Words:</strong> ' + fillerCount +
+              '• <strong>Total Career XP:</strong> <span style="font-family:\'Fredoka\',cursive; color:#105666; font-weight:700;">' + careerXp.toLocaleString() + ' XP</span>' +
             '</div>' +
-            '<strong style="font-family:\'Fredoka\',cursive; font-size:15px; color:#0A3323; display:block; margin-bottom:6px;">💬 What did you speak:</strong>' +
+            '<strong style="font-family:\'Fredoka\',cursive; font-size:15px; color:#0A3323; display:block; margin-bottom:6px;">💬 What you spoke:</strong>' +
             '<div style="font-size:14.5px; color:#293830; font-style:italic; background:#F8FAF9; padding:12px 14px; border-radius:10px; border:1px solid #E2E8E5; max-height:110px; overflow-y:auto; line-height:1.6; margin-bottom:12px;">"' + cleanTranscript + '"</div>' +
-            '<div style="background:#FFFDF5; border:1px dashed #E6C875; border-radius:10px; padding:10px 12px; font-size:13px; color:#785E14; line-height:1.5;">' +
-              'ℹ️ <strong>Self-Tracking Disclaimer:</strong> This score is an automated browser estimate designed for personal practice tracking. It is not human grading.' +
-            '</div>' +
           '</div>';
         } else {
           metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:16px; padding:16px; margin:16px 0; text-align:left;">' +
-            '<strong style="font-family:\'Fredoka\',cursive; font-size:16px; color:#105666; display:block; margin-bottom:8px;">📊 Quick Self-Check:</strong>' +
+            '<strong style="font-family:\'Fredoka\',cursive; font-size:16px; color:#105666; display:block; margin-bottom:8px;">⚠️ Quiet Session Detected</strong>' +
             '<div style="font-size:14px; color:#293830; line-height:1.65;">' +
-              '• Did you complete your thought before time ran out?<br>' +
-              '• Did you state a clear reason and example?<br>' +
-              '<span style="display:block; margin-top:6px; color:#52635B;"><em>(Tip: Speak clearly into your microphone to enable automatic pace and score tracking.)</em></span>' +
+              'We didn’t pick up enough words to award full XP. Make sure your microphone is enabled and speak clearly!<br>' +
+              '<span style="display:block; margin-top:6px; font-family:\'Fredoka\',cursive; color:#E85D04;">+10 XP Participation Bonus Awarded</span>' +
             '</div>' +
           '</div>';
         }
