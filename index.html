@@ -2020,12 +2020,18 @@
           if (timeRemaining > 0) {
             var pct = (timeRemaining / targetTime) * 100;
             updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🎙️ Speaking Time (' + targetTime + 's Goal)', pct);
-          } else {
+                    } else {
             timerState = 'overtime';
             playGoalChime();
             updateTimerDisplay('00:00', '🌟 Goal Reached! Wrap up your thought', 0);
             var badge = document.getElementById('overtimeBadge');
             if (badge) badge.style.display = 'inline-block';
+
+            // Ensure mic pill remains visible and active during overtime
+            var micPill = document.getElementById('micLivePill');
+            if (micPill && isSpeakingActive) {
+              micPill.style.display = 'inline-block';
+            }
           }
         } else if (timerState === 'overtime') {
           overtimeSeconds++;
@@ -2035,7 +2041,7 @@
       }, 1000);
     }
 
-    function finishSpeech() {
+        function finishSpeech() {
       playFanfare();
       clearInterval(timerInterval);
       isSpeakingActive = false;
@@ -2043,11 +2049,13 @@
       var micPill = document.getElementById('micLivePill');
       if (micPill) micPill.style.display = 'none';
 
+      // CHECK 1: Grab any remaining interim words
       if (currentInterim && currentInterim !== lastAddedSentence) {
         completedSentences.push(currentInterim);
         currentInterim = '';
       }
 
+      // CHECK 2: Stop the microphone cleanly
       if (recognition) {
         try { recognition.stop(); } catch(e) {}
       }
@@ -2057,12 +2065,26 @@
 
       setTimeout(function() {
         var rawCombined = completedSentences.join(' ') + ' ' + currentInterim;
-        var words = rawCombined.replace(/\s+/g, ' ').trim().split(' ');
-        var uniqueWords = [];
+        var cleanedText = rawCombined.replace(/\s+/g, ' ').trim();
         
+        // Stutter & loop cleaner filter
+        var words = cleanedText.split(' ');
+        var filteredWords = [];
         for (var k = 0; k < words.length; k++) {
-          if (k === 0 || words[k].toLowerCase() !== words[k-1].toLowerCase()) {
-            uniqueWords.push(words[k]);
+          var currentWord = words[k].toLowerCase();
+          var prevWord = (k > 0) ? words[k - 1].toLowerCase() : '';
+          var prevTwo = (k > 1) ? words[k - 2].toLowerCase() : '';
+          
+          if (currentWord === prevWord && currentWord === prevTwo) {
+            continue;
+          }
+          filteredWords.push(words[k]);
+        }
+        
+        var uniqueWords = [];
+        for (var m = 0; m < filteredWords.length; m++) {
+          if (m === 0 || filteredWords[m].toLowerCase() !== filteredWords[m-1].toLowerCase()) {
+            uniqueWords.push(filteredWords[m]);
           }
         }
         var fullTranscript = uniqueWords.join(' ');
