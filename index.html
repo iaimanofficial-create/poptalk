@@ -1848,7 +1848,11 @@
               }
             };
             picImg.src = activePrompt.image;
+                      if (currentAge === 'junior' && activePrompt.image) {
             picFrame.style.display = 'block';
+          } else {
+            picFrame.style.display = 'none';
+          }
           } else {
             if (picFrame) picFrame.style.display = 'none'; // <--- Hides frame for Teen/Adult
           }
