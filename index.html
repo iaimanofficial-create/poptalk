@@ -1690,9 +1690,12 @@
         var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
           recognition = new SpeechRecognition();
-          recognition.continuous = false;
+                    recognition.continuous = true;
           recognition.interimResults = true;
-          recognition.lang = 'en-US';
+          
+          var deviceLang = navigator.language || navigator.userLanguage || 'en-IN';
+          recognition.lang = (deviceLang.indexOf('en') === 0) ? deviceLang : 'en-IN';
+          recognition.maxAlternatives = 1;
 
           recognition.onresult = function(event) {
             var interimChunk = '';
@@ -1714,10 +1717,11 @@
             var countNow = fullNow.length > 0 ? fullNow.split(/\s+/).length : 0;
             var pill = document.getElementById('micLivePill');
             if (pill && isSpeakingActive) {
-              pill.innerText = '🔴 Mic Listening... (' + countNow + ' words caught)';
+              pill.innerText = '🔴 Mic Active... (' + countNow + ' words)';
             }
           };
 
+          var restartTimeout = null;
           recognition.onend = function() {
             if (currentInterim && currentInterim !== lastAddedSentence) {
               completedSentences.push(currentInterim);
@@ -1725,11 +1729,12 @@
               currentInterim = '';
             }
             if (isSpeakingActive) {
-              setTimeout(function() {
+              clearTimeout(restartTimeout);
+              restartTimeout = setTimeout(function() {
                 if (isSpeakingActive && recognition) {
                   try { recognition.start(); } catch(e) {}
                 }
-              }, 200);
+              }, 600);
             }
           };
         }
