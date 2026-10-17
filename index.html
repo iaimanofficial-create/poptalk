@@ -1157,6 +1157,12 @@
         var careerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10);
         var xpBadge = document.getElementById('totalXpCount');
         if (xpBadge) xpBadge.innerText = careerXp.toLocaleString();
+        // --- LOAD CURRENT LEVEL TIER ---
+        var activeTier = localStorage.getItem('poptalk_user_tier_' + currentAge + '_' + currentMode) || '1';
+        var lvlText = document.getElementById('currentLevelText');
+        if (lvlText) {
+          lvlText.innerText = 'Lvl ' + activeTier;
+        }
 
         var reminder = document.getElementById('dailyReminder');
         if (reminder) {
@@ -1408,7 +1414,8 @@
       isSpinning = true;
 
       resetAllTimers();
-      
+            updateHeaderLevelBadge();
+
       var scaffoldBox = document.getElementById('scaffoldBox');
       if (scaffoldBox) scaffoldBox.style.display = 'none';
       var ideasBtn = document.getElementById('ideasBtn');
@@ -1972,7 +1979,14 @@
       }
       if (modal) modal.style.display = 'flex';
     }
-            
+        function updateHeaderLevelBadge() {
+      var activeTier = localStorage.getItem('poptalk_user_tier_' + currentAge + '_' + currentMode) || '1';
+      var lvlText = document.getElementById('currentLevelText');
+      if (lvlText) {
+        lvlText.innerText = 'Lvl ' + activeTier;
+      }
+    }
+        
     window.addEventListener('DOMContentLoaded', function() {
       var savedName = localStorage.getItem('poptalk_username');
       if (!savedName) {
