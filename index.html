@@ -1619,7 +1619,7 @@
       } catch(e) {}
     }
 
-    function initStreak() {
+        function initStreak() {
       try {
         var today = new Date().toISOString().slice(0, 10);
         var lastPractice = localStorage.getItem('poptalk_last_date');
@@ -1637,6 +1637,11 @@
 
         var badge = document.getElementById('streakCount');
         if (badge) badge.innerText = count;
+
+        // --- LOAD CAREER XP ON STARTUP ---
+        var careerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10);
+        var xpBadge = document.getElementById('totalXpCount');
+        if (xpBadge) xpBadge.innerText = careerXp.toLocaleString();
 
         var reminder = document.getElementById('dailyReminder');
         if (reminder) {
@@ -2164,15 +2169,20 @@
       var totalSpoken = (targetTime - Math.max(0, timeRemaining)) + overtimeSeconds;
       var streak = recordStreakCompletion();
 
-      setTimeout(function() {
+            setTimeout(function() {
         var fullTranscript = completedSentences.join(' ').replace(/\s+/g, ' ').trim();
+        
+        // --- UPDATE XP BADGE LIVE ---
+        var currentCareerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10);
+        var liveXpBadge = document.getElementById('totalXpCount');
+        if (liveXpBadge) liveXpBadge.innerText = currentCareerXp.toLocaleString();
+
         openCelebrationModal(totalSpoken, fullTranscript, streak);
         resetAllTimers();
         
         var tryAgainBtn = document.getElementById('tryAgainBtn');
         if (tryAgainBtn) tryAgainBtn.style.display = 'block';
       }, 350);
-    }
 
     function resetAllTimers() {
       clearInterval(timerInterval);
