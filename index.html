@@ -740,10 +740,10 @@
   <script>
     const promptBank = [
       // ==========================================
-      // JUNIOR (5-8) - PICTURE TALK (5 Prompts)
+      // JUNIOR (5-8) - PICTURE TALK (Level 1)
       // ==========================================
       {
-        age: 'junior', mode: 'picture',
+        age: 'junior', mode: 'picture', level: 1, //
         text: 'A fluffy cat wearing a chef hat making pizza.',
         image: 'cat.jpg',
         fallbackImage: 'cat.png',
@@ -755,7 +755,7 @@
         tip: 'Describe what toppings are sitting on the counter.'
       },
       {
-        age: 'junior', mode: 'picture',
+        age: 'junior', mode: 'picture', level: 1, //
         text: 'A giant rainbow treehouse with tire swings and a long slide.',
         image: 'treehouse.jpg',
         fallbackImage: 'treehouse.png',
@@ -767,7 +767,7 @@
         tip: 'Describe what games you would play inside.'
       },
       {
-        age: 'junior', mode: 'picture',
+        age: 'junior', mode: 'picture', level: 1, //
         text: 'A friendly elephant trying to balance on roller skates in the park.',
         image: 'elephant.jpg',
         fallbackImage: 'elephant.png',
@@ -779,7 +779,7 @@
         tip: 'Tell if his skates make a loud rumbling sound or a quiet sound.'
       },
       {
-        age: 'junior', mode: 'picture',
+        age: 'junior', mode: 'picture', level: 1, // 
         text: 'A tiny magical door hidden behind teddy bears on a shelf.',
         image: 'door.jpg',
         fallbackImage: 'door.png',
@@ -791,7 +791,7 @@
         tip: 'Tell what color the glowing light looks like.'
       },
       {
-        age: 'junior', mode: 'picture',
+        age: 'junior', mode: 'picture', level: 1, //
         text: 'A baby dinosaur having juice and cookies in the garden.',
         image: 'dino.jpg',
         fallbackImage: 'dino.png',
@@ -804,10 +804,10 @@
       },
 
       // ==========================================
-      // JUNIOR (5-8) - PICK A SIDE (5 Prompts)
+      // JUNIOR (5-8) - PICK A SIDE (Level 1)
       // ==========================================
       {
-        age: 'junior', mode: 'wyr',
+        age: 'junior', mode: 'wyr', level: 1, //
         text: 'Would you rather have a pet penguin that eats ice cream or a monkey that cleans your room?',
         easy: '<strong>1. Pick:</strong> Choose the penguin or the monkey.<br><strong>2. Fun Part:</strong> What is the funniest trick they do in your house?<br><strong>3. Big Plan:</strong> What is the first thing you two do together?',
         medium: 'Pick your pet and explain what makes them fun to have at home!',
@@ -817,7 +817,7 @@
         tip: 'Tell where your new pet would sleep at night.'
       },
       {
-        age: 'junior', mode: 'wyr',
+        age: 'junior', mode: 'wyr', level: 1, //
         text: 'Would you rather have shoes that jump over houses or a jacket that makes you invisible?',
         easy: '<strong>1. Pick:</strong> Choose the jumping shoes or the invisibility jacket.<br><strong>2. Fun Part:</strong> What is the coolest thing your item can do?<br><strong>3. Big Plan:</strong> Where is the very first place you travel using it?',
         medium: 'Pick your item and explain how you would use it on an adventure!',
@@ -827,7 +827,7 @@
         tip: 'Tell what color your shoes or jacket would be.'
       },
       {
-        age: 'junior', mode: 'wyr',
+        age: 'junior', mode: 'wyr', level: 1, //
         text: 'Would you rather have it rain warm chocolate milk or shiny rainbow glitter from the sky?',
         easy: '<strong>1. Pick:</strong> Choose chocolate milk rain or glitter rain.<br><strong>2. Fun Part:</strong> What does your street look like when it falls?<br><strong>3. Big Plan:</strong> What boots or gear do you put on before running outside?',
         medium: 'Pick your choice and describe what you do when you see the sky change!',
@@ -837,7 +837,7 @@
         tip: 'Tell if you catch it in a cup or jump in puddles.'
       },
       {
-        age: 'junior', mode: 'wyr',
+        age: 'junior', mode: 'wyr', level: 1, //
         text: 'Would you rather be able to talk to all animals or be able to fly anywhere like a bird?',
         easy: '<strong>1. Pick:</strong> Choose talking to animals or soaring in the sky.<br><strong>2. Fun Part:</strong> What is the best thing about having that power?<br><strong>3. Big Plan:</strong> Who is the first creature you chat with, or where do you fly first?',
         medium: 'Pick your power and explain why it makes every day an adventure!',
@@ -847,7 +847,7 @@
         tip: 'Name your favorite animal or a landmark you would look down on.'
       },
       {
-        age: 'junior', mode: 'wyr',
+        age: 'junior', mode: 'wyr', level: 1, //
         text: 'Would you rather eat cake for dinner every night or play at recess all day at school?',
         easy: '<strong>1. Pick:</strong> Choose cake for dinner or endless recess.<br><strong>2. Fun Part:</strong> What favorite flavor or playground game fills your day?<br><strong>3. Big Plan:</strong> What is the first thing you do when you get to start?',
         medium: 'Pick your choice and describe the best part of your new daily routine!',
@@ -858,10 +858,10 @@
       },
 
       // ==========================================
-      // JUNIOR (5-8) - HOT TAKES (5 Prompts)
+      // JUNIOR (5-8) - HOT TAKES (Level 1)
       // ==========================================
       {
-        age: 'junior', mode: 'opinions',
+        age: 'junior', mode: 'opinions', level: 1, //
         text: 'Ice cream should be allowed as a normal breakfast food every single day. Agree or disagree?',
         easy: '<strong>1. Stance:</strong> Say clearly "I agree" or "I disagree".<br><strong>2. Why:</strong> Tell your main reason.<br><strong>3. Example:</strong> Tell what you usually eat in the morning to start your day.',
         medium: 'Give your answer and explain whether you like cold treats or warm food in the morning!',
@@ -1910,9 +1910,14 @@
       var vocabCard = document.getElementById('vocabCard');
       if (vocabCard) vocabCard.style.display = 'none';
 
-      var pool = promptBank.filter(function(p) {
-        return p.age === currentAge && p.mode === currentMode;
+            var currentLevelTier = parseInt(localStorage.getItem('poptalk_user_tier_' + currentAge + '_' + currentMode) || '1', 10);
+
+      var pool = promptBank.filter(function(p, index) {
+        if (p.age !== currentAge || p.mode !== currentMode) return false;
+        var pLevel = p.level || (index < 5 ? 1 : 2);
+        return pLevel === currentLevelTier;
       });
+
       if (pool.length === 0) {
         isSpinning = false;
         return;
@@ -2178,13 +2183,38 @@
       var totalSpoken = (targetTime - Math.max(0, timeRemaining)) + overtimeSeconds;
       var streak = recordStreakCompletion();
 
-            setTimeout(function() {
-        var fullTranscript = completedSentences.join(' ').replace(/\s+/g, ' ').trim();
+                  setTimeout(function() {
+        // --- CLEAN DEDUPLICATION FILTER ---
+        var rawCombined = completedSentences.join(' ') + ' ' + currentInterim;
+        var words = rawCombined.replace(/\s+/g, ' ').trim().split(' ');
+        var uniqueWords = [];
         
-        // --- UPDATE XP BADGE LIVE ---
-        var currentCareerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10);
-        var liveXpBadge = document.getElementById('totalXpCount');
-        if (liveXpBadge) liveXpBadge.innerText = currentCareerXp.toLocaleString();
+        // Remove immediate consecutive duplicate words (e.g., "hello hello" -> "hello")
+        for (var k = 0; k < words.length; k++) {
+          if (k === 0 || words[k].toLowerCase() !== words[k-1].toLowerCase()) {
+            uniqueWords.push(words[k]);
+          }
+        }
+              setTimeout(function() {
+        var fullTranscript = completedSentences.join(' ').replace(/\s+/g, ' ').trim();
+
+        // --- TRACK LEVEL PROGRESSION & UNLOCK LEVEL 2 ---
+        var tierKey = 'poptalk_user_tier_' + currentAge + '_' + currentMode;
+        var currentTier = parseInt(localStorage.getItem(tierKey) || '1', 10);
+        
+        var countKey = 'poptalk_completed_count_' + currentAge + '_' + currentMode + '_lvl' + currentTier;
+        var completedCount = parseInt(localStorage.getItem(countKey) || '0', 10) + 1;
+        localStorage.setItem(countKey, completedCount.toString());
+
+        if (currentTier === 1 && completedCount >= 5) {
+          // Finished Level 1! Bump them up to Level 2
+          localStorage.setItem(tierKey, '2');
+          localStorage.setItem('poptalk_completed_count_' + currentAge + '_' + currentMode + '_lvl2', '0');
+          openLevelClearedModal(currentMode, 1);
+        } else if (currentTier === 2 && completedCount >= 5) {
+          // Finished Level 2 / Mastery! Trigger Club Invite
+          openLevelClearedModal(currentMode, 2);
+        }
 
         openCelebrationModal(totalSpoken, fullTranscript, streak);
         resetAllTimers();
@@ -2415,6 +2445,29 @@
       }
     }
 
+            function openLevelClearedModal(modeName, levelNum) {
+      playTapSound();
+      var modalTitle = document.getElementById('modalTitle');
+      var modalDesc = document.getElementById('modalDesc');
+      var waBtn = document.getElementById('modalWaBtn');
+      var modal = document.getElementById('generalModal');
+
+      if (modalTitle) modalTitle.innerText = '👑 Level ' + levelNum + ' Mastered!';
+      if (modalDesc) {
+        if (levelNum === 1) {
+          modalDesc.innerHTML = 'Fantastic job! You completed Level 1 in <strong>' + modeName.toUpperCase() + '</strong>.<br><br><strong>Level 2 is now unlocked!</strong> Keep going to step up your spontaneous speaking.';
+        } else {
+          modalDesc.innerHTML = 'Incredible milestone! You have mastered all levels in <strong>' + modeName.toUpperCase() + '</strong>.<br><br>Ready to take it further? Join our live small-group conversation sessions with fellow speakers.<br><br>✨ <em>Join the Think & Speak Club today!</em>';
+        }
+      }
+      if (waBtn) {
+        waBtn.style.display = 'block';
+        waBtn.innerText = '💬 Join the Think & Speak Club';
+        waBtn.href = 'https://wa.me/966548208412?text=Hi!%20I%20just%20mastered%20Level%20' + levelNum%20 + '%20on%20PopTalk%20and%20want%20to%20join%20the%20Think%20and%20Speak%20Club.';
+      }
+      if (modal) modal.style.display = 'flex';
+    }
+            
     window.addEventListener('DOMContentLoaded', function() {
       // Check if username exists, if not prompt once
       var savedName = localStorage.getItem('poptalk_username');
