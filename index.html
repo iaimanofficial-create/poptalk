@@ -1342,11 +1342,17 @@
         window.event.target.classList.add('active');
       }
       
-      var labels = { 
+            var labels = { 
         picture: 'PICTURE TALK', 
         wyr: 'PICK A SIDE', 
         opinions: 'HOT TAKES',
-        vocab: 'VOCAB YAP'
+        vocab: 'VOCAB YAP',
+        finish: 'FINISH IT',
+        echo: 'ECHO STORY',
+        act: 'ACT IT OUT',
+        pitch: 'THE BIG PITCH',
+        sell: 'SELL THIS!',
+        whatif: 'WHAT IF?'
       };
       var badge = document.getElementById('categoryBadge');
       if (badge) badge.innerText = labels[mode] || 'PRACTICE';
