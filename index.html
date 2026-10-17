@@ -2226,14 +2226,36 @@
 
       var streakBanner = '<div style="background:#FFF3E6; border:1.5px solid #FBD0A7; border-radius:12px; padding:12px; margin:14px 0; color:#B45309; font-weight:700; font-family:\'Fredoka\',cursive; font-size:16px; text-align:center;">🔥 ' + streak + ' Day Practice Streak Kept!</div>';
 
-      if (currentAge === 'junior') {
+            if (currentAge === 'junior') {
+        // --- JUNIOR XP & ENCOURAGEMENT CARD ---
+        var juniorXp = (seconds * 2) + 40;
+        var careerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10) + juniorXp;
+        localStorage.setItem('poptalk_total_xp', careerXp.toString());
+
+        var metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:16px; padding:18px; margin:16px 0; text-align:left;">' +
+          '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1.5px solid #F3F5F4; padding-bottom:10px;">' +
+            '<span style="font-family:\'Fredoka\',cursive; font-size:18px; color:#0A3323; font-weight:700;">🌟 Junior Practice XP</span>' +
+            '<span style="font-family:\'Fredoka\',cursive; font-size:24px; color:#E85D04; font-weight:700;">+' + juniorXp + ' XP</span>' +
+          '</div>' +
+          '<div style="font-size:15px; color:#293830; line-height:1.7; margin-bottom:14px;">' +
+            '• <strong>Practice Time:</strong> ' + seconds + 's (' + (seconds * 2) + ' XP)<br>' +
+            '• <strong>Session Completion:</strong> +40 XP<br>' +
+            '• <strong>Total Career XP:</strong> <span style="font-family:\'Fredoka\',cursive; color:#105666; font-weight:700;">' + careerXp.toLocaleString() + ' XP</span>' +
+          '</div>' +
+        '</div>';
+
         if (modalDesc) {
-          modalDesc.innerHTML = encouragement + streakBanner +
-            '<div style="background:#EDF3EF; border-radius:16px; padding:18px; margin-top:16px; text-align:left; border:1px solid #E2E8E5;">' +
+          modalDesc.innerHTML = encouragement + streakBanner + metricsCard +
+            '<div style="background:#EDF3EF; border-radius:16px; padding:18px; text-align:left; border:1px solid #E2E8E5;">' +
               '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:17px; display:block; margin-bottom:8px;">Finding it difficult to turn thoughts into words?</strong>' +
               '<span style="font-size:14.5px; color:#52635B; line-height:1.6; display:block; margin-bottom:12px;">If your child freezes or struggles to organize ideas under time pressure, our live <strong>Communication & Confidence Program</strong> teaches the exact techniques to overcome brain freeze, structure thoughts, and turn ideas into clear sentences.</span>' +
               '<div style="font-size:13.5px; font-weight:600; color:#105666; line-height:1.6;">• Small interactive batches (strictly 5–6 students)<br>• Classes run 2 days a week<br>• Pure practical techniques — zero grammar drills</div>' +
             '</div>';
+        }
+        if (waBtn) {
+          waBtn.style.display = 'block';
+          waBtn.innerText = '💬 Book a Free Demo on WhatsApp';
+          waBtn.href = 'https://wa.me/966548208412?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
         }
         if (waBtn) {
           waBtn.style.display = 'block';
