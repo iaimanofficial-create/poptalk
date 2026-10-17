@@ -573,14 +573,23 @@
 <body>
   <div class="container">
     <header>
+        <header>
       <h1>PopTalk</h1>
       <p class="tagline">Think. Organize. Express.</p>
-            <div class="streak-container" style="display: flex; gap: 8px; justify-content: center;">
-        <div class="streak-pill" id="streakBadge" title="Practice every day to keep your streak alive!">
-          🔥 <span id="streakCount">0</span> Day Streak
+      
+      <!-- PLAYER STATUS & GAMIFIED HEADER -->
+      <div style="margin-top: 12px; background: var(--surface-white); border: 1.5px solid var(--border-soft); border-radius: 16px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(10, 51, 35, 0.04);">
+        <div style="text-align: left; cursor: pointer;" onclick="promptForUsername()" title="Tap to change your speaker name">
+          <div style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Speaker</div>
+          <div style="font-family: 'Fredoka', cursive; font-size: 15px; font-weight: 600; color: var(--dark-green);" id="displayUsername">Speaker</div>
         </div>
-        <div class="streak-pill" id="xpBadge" title="Total Career XP Earned" style="background:#EBF3F5; border-color:#B8D0D8; color:#105666;">
-          ⭐ <span id="totalXpCount">0</span> XP
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div class="streak-pill" id="streakBadge" style="margin:0; padding: 4px 10px; font-size: 12.5px;">
+            🔥 <span id="streakCount">0</span>
+          </div>
+          <div class="streak-pill" id="xpBadge" style="margin:0; padding: 4px 10px; font-size: 12.5px; background:#EBF3F5; border-color:#B8D0D8; color:#105666;">
+            ⭐ <span id="totalXpCount">0</span> XP
+          </div>
         </div>
       </div>
     </header>
@@ -2395,7 +2404,27 @@
       if (modal) modal.style.display = 'none';
     }
 
+        function promptForUsername() {
+      var currentName = localStorage.getItem('poptalk_username') || 'Speaker';
+      var newName = prompt("What should your speaker name be?", currentName);
+      if (newName && newName.trim().length > 0) {
+        var cleanName = newName.trim().substring(0, 15);
+        localStorage.setItem('poptalk_username', cleanName);
+        var nameDisplay = document.getElementById('displayUsername');
+        if (nameDisplay) nameDisplay.innerText = cleanName;
+      }
+    }
+
     window.addEventListener('DOMContentLoaded', function() {
+      // Check if username exists, if not prompt once
+      var savedName = localStorage.getItem('poptalk_username');
+      if (!savedName) {
+        setTimeout(promptForUsername, 500);
+      } else {
+        var nameDisplay = document.getElementById('displayUsername');
+        if (nameDisplay) nameDisplay.innerText = savedName;
+      }
+
       initStreak();
       initSpeechRecognition();
     });
