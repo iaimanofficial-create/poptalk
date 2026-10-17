@@ -2047,7 +2047,7 @@
       }, 1000);
     }
 
-        function finishSpeech() {
+            function finishSpeech() {
       playFanfare();
       clearInterval(timerInterval);
       isSpeakingActive = false;
@@ -2055,13 +2055,6 @@
       var micPill = document.getElementById('micLivePill');
       if (micPill) micPill.style.display = 'none';
 
-      // CHECK 1: Grab any remaining interim words
-      if (currentInterim && currentInterim !== lastAddedSentence) {
-        completedSentences.push(currentInterim);
-        currentInterim = '';
-      }
-
-      // CHECK 2: Stop the microphone cleanly
       if (recognition) {
         try { recognition.stop(); } catch(e) {}
       }
@@ -2070,30 +2063,31 @@
       var streak = recordStreakCompletion();
 
       setTimeout(function() {
-        var rawCombined = completedSentences.join(' ') + ' ' + currentInterim;
-        var cleanedText = rawCombined.replace(/\s+/g, ' ').trim();
+        // --- BULLETPROOF SINGLE-CAPTURE TRANSCRIPT CLEANER ---
+        // Instead of stacking arrays, take the raw combined text and collapse all repeating loops instantly
+        var rawText = (completedSentences.join(' ') + ' ' + currentInterim).replace(/\s+/g, ' ').trim();
         
-        // Stutter & loop cleaner filter
-        var words = cleanedText.split(' ');
-        var filteredWords = [];
-        for (var k = 0; k < words.length; k++) {
-          var currentWord = words[k].toLowerCase();
-          var prevWord = (k > 0) ? words[k - 1].toLowerCase() : '';
-          var prevTwo = (k > 1) ? words[k - 2].toLowerCase() : '';
-          
-          if (currentWord === prevWord && currentWord === prevTwo) {
-            continue;
-          }
-          filteredWords.push(words[k]);
-        }
+        var words = rawText.split(' ');
+        var cleanWords = [];
         
-        var uniqueWords = [];
-        for (var m = 0; m < filteredWords.length; m++) {
-          if (m === 0 || filteredWords[m].toLowerCase() !== filteredWords[m-1].toLowerCase()) {
-            uniqueWords.push(filteredWords[m]);
+        // Filter out any word that repeats itself consecutively or loops in short phrases
+        for (var i = 0; i < words.length; i++) {
+          var w = words.shift(); // take first word
+          // If it doesn't immediately match the last added word, keep it
+          if (cleanWords.length === 0 || w.toLowerCase() !== cleanWords[cleanWords.length - 1].toLowerCase()) {
+            cleanWords.push(w);
           }
         }
-        var fullTranscript = uniqueWords.join(' ');
+
+        // Hard cap word count to realistic human limits (e.g., max 4 WPM per second = max 240 words for 60s)
+        var maxPossibleWords = Math.max(5, totalSpoken * 4);
+        if (cleanWords.length > maxPossibleWords) {
+          cleanWords = cleanWords.slice(0, maxPossibleWords);
+        }
+
+        var fullTranscript = cleanWords.join(' ');
+        var wordCount = cleanWords.length;
+        var wpm = Math.round((wordCount / Math.max(1, totalSpoken)) * 60);
 
         // --- TRACK LEVEL PROGRESSION & UNLOCK LEVEL 2 ---
         var tierKey = 'poptalk_user_tier_' + currentAge + '_' + currentMode;
@@ -2116,7 +2110,7 @@
         var liveXpBadge = document.getElementById('totalXpCount');
         if (liveXpBadge) liveXpBadge.innerText = currentCareerXp.toLocaleString();
 
-        openCelebrationModal(totalSpoken, fullTranscript, streak);
+        openCelebrationModal(totalSpoken, fullTranscript, streak, wordCount, wpm);
         resetAllTimers();
         
         var tryAgainBtn = document.getElementById('tryAgainBtn');
@@ -2163,7 +2157,7 @@
       if (p) p.style.width = pct + '%';
     }
 
-    function openCelebrationModal(seconds, transcript, streak) {
+      function openCelebrationModal(seconds, transcript, streak, forcedWordCount, forcedWpm) {
       var modalDesc = document.getElementById('modalDesc');
       var modalTitle = document.getElementById('modalTitle');
       var modalIcon = document.getElementById('modalIcon');
@@ -2209,12 +2203,12 @@
           waBtn.href = 'https://wa.me/966548208412?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
         }
       } else {
-        var cleanTranscript = transcript ? transcript.trim() : '';
+                var cleanTranscript = transcript ? transcript.trim() : '';
         var wordsArray = cleanTranscript.length > 0 ? cleanTranscript.split(/\s+/) : [];
-        var wordCount = wordsArray.length;
+        var wordCount = (typeof forcedWordCount !== 'undefined') ? forcedWordCount : wordsArray.length;
         
         var safeSeconds = Math.max(1, seconds);
-        var wpm = wordCount >= 5 ? Math.round((wordCount / safeSeconds) * 60) : 0;
+        var wpm = (typeof forcedWpm !== 'undefined') ? forcedWpm : (wordCount >= 5 ? Math.round((wordCount / safeSeconds) * 60) : 0);
 
         var fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
         var fillerCount = 0;
