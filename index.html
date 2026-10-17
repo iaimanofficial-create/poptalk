@@ -1683,7 +1683,7 @@
       return count;
     }
 
-    function initSpeechRecognition() {
+            function initSpeechRecognition() {
       try {
         var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
@@ -1701,9 +1701,12 @@
               var res = event.results[i];
               var textPiece = res[0].transcript.trim();
               if (res.isFinal) {
-                if (textPiece && textPiece !== lastAddedSentence) {
-                  completedSentences.push(textPiece);
-                  lastAddedSentence = textPiece;
+                if (textPiece) {
+                  var lastEntry = completedSentences[completedSentences.length - 1];
+                  if (lastEntry !== textPiece) {
+                    completedSentences.push(textPiece);
+                    lastAddedSentence = textPiece;
+                  }
                 }
               } else {
                 interimChunk += textPiece + ' ';
