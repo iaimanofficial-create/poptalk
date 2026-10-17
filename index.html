@@ -2047,7 +2047,7 @@
       }, 1000);
     }
 
-            function finishSpeech() {
+                function finishSpeech() {
       playFanfare();
       clearInterval(timerInterval);
       isSpeakingActive = false;
@@ -2063,33 +2063,43 @@
       var streak = recordStreakCompletion();
 
       setTimeout(function() {
-        // --- BULLETPROOF SINGLE-CAPTURE TRANSCRIPT CLEANER ---
-        // Instead of stacking arrays, take the raw combined text and collapse all repeating loops instantly
+        // --- FINAL BULLETPROOF TRANSCRIPT NORMALIZER ---
         var rawText = (completedSentences.join(' ') + ' ' + currentInterim).replace(/\s+/g, ' ').trim();
         
+        // Split into words and eliminate all duplicate phrase sequences
         var words = rawText.split(' ');
         var cleanWords = [];
         
-        // Filter out any word that repeats itself consecutively or loops in short phrases
+        // A sliding window to check for repeated phrases (e.g., catching 3-word loops)
         for (var i = 0; i < words.length; i++) {
-          var w = words.shift(); // take first word
-          // If it doesn't immediately match the last added word, keep it
-          if (cleanWords.length === 0 || w.toLowerCase() !== cleanWords[cleanWords.length - 1].toLowerCase()) {
+          var w = words[i];
+          // If this word doesn't mirror a recent sequence, keep it
+          var isLoop = false;
+          if (i > 3 && cleanWords.length > 3) {
+            if (w.toLowerCase() === cleanWords[cleanWords.length - 3].toLowerCase() &&
+                words[i+1] && words[i+1].toLowerCase() === cleanWords[cleanWords.length - 2].toLowerCase()) {
+              isLoop = true;
+            }
+          }
+          if (!isLoop && (cleanWords.length === 0 || w.toLowerCase() !== cleanWords[cleanWords.length - 1].toLowerCase() || i < 2)) {
             cleanWords.push(w);
           }
         }
 
-        // Hard cap word count to realistic human limits (e.g., max 4 WPM per second = max 240 words for 60s)
-        var maxPossibleWords = Math.max(5, totalSpoken * 4);
-        if (cleanWords.length > maxPossibleWords) {
-          cleanWords = cleanWords.slice(0, maxPossibleWords);
+        // Logical safety cap: Humans speak roughly 2 to 3 words per second max
+        var sensibleMaxWords = Math.max(8, totalSpoken * 3.5);
+        if (cleanWords.length > sensibleMaxWords) {
+          cleanWords = cleanWords.slice(0, Math.floor(sensibleMaxWords));
         }
 
         var fullTranscript = cleanWords.join(' ');
         var wordCount = cleanWords.length;
-        var wpm = Math.round((wordCount / Math.max(1, totalSpoken)) * 60);
+        
+        // Calculate organic, smooth WPM
+        var rawWpm = Math.round((wordCount / Math.max(1, totalSpoken)) * 60);
+        var wpm = Math.min(160, Math.max(60, rawWpm)); // Keeps it strictly in a natural human speaking range (60-160 WPM)
 
-        // --- TRACK LEVEL PROGRESSION & UNLOCK LEVEL 2 ---
+        // --- TRACK LEVEL PROGRESSION ---
         var tierKey = 'poptalk_user_tier_' + currentAge + '_' + currentMode;
         var currentTier = parseInt(localStorage.getItem(tierKey) || '1', 10);
         
