@@ -1838,7 +1838,7 @@
           if (ideasBtn) ideasBtn.style.display = 'inline-block';
           if (actionBtnRow) actionBtnRow.style.display = 'flex';
 
-          var picImg = document.getElementById('pictureImg');
+                    var picImg = document.getElementById('pictureImg');
           if (picFrame && picImg && currentMode === 'picture' && activePrompt.image) {
             picImg.onerror = function() {
               if (activePrompt.fallbackImage && this.src.indexOf(activePrompt.fallbackImage) === -1) {
@@ -1849,6 +1849,8 @@
             };
             picImg.src = activePrompt.image;
             picFrame.style.display = 'block';
+          } else {
+            if (picFrame) picFrame.style.display = 'none'; // <--- Hides frame for Teen/Adult
           }
 
           if (vocabCard && currentMode === 'vocab' && activePrompt.vocab) {
