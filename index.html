@@ -1248,7 +1248,7 @@
       }
     ]; 
 
-    var currentAge = 'junior';
+           var currentAge = 'junior';
     var currentMode = 'picture';
     var currentLevel = 'easy';
 
@@ -1258,27 +1258,9 @@
     var targetTime = 30;
     var overtimeSeconds = 0;
     var bufferUsed = false;
-    twistTriggered = false;
-curveballAccepted = false;
-var cbBtn = document.getElementById('curveballBtn');
-if (cbBtn) cbBtn.style.display = 'none';
-var curveballAccepted = false;
+    var twistTriggered = false;
+    var curveballAccepted = false;
 
-function acceptCurveball() {
-  if (!activePrompt || !activePrompt.hardTwist) return;
-  curveballAccepted = true;
-  playCurveballAlert();
-  var cbBtn = document.getElementById('curveballBtn');
-  if (cbBtn) cbBtn.style.display = 'none';
-  var banner = document.getElementById('twistBanner');
-  if (banner) {
-    var isStoryMode = (currentMode === 'picture');
-    var prefix = isStoryMode ? '⚡ PLOT TWIST (+50 XP):' : '⚡ CURVEBALL CHALLENGE (+50 XP):';
-    var instruction = isStoryMode ? 'Weave this into your story now!' : 'Address this challenge before finishing!';
-    banner.innerHTML = prefix + ' ' + activePrompt.hardTwist + '<br><span style="font-size:12.5px;font-weight:500;">(' + instruction + ')</span>';
-    banner.style.display = 'block';
-  }
-}
     var activePrompt = null;
     var categoryDecks = {};
     var isSpinning = false;
@@ -1290,6 +1272,22 @@ function acceptCurveball() {
     var isSpeakingActive = false;
 
     var audioCtx = null;
+
+    function acceptCurveball() {
+      if (!activePrompt || !activePrompt.hardTwist) return;
+      curveballAccepted = true;
+      playCurveballAlert();
+      var cbBtn = document.getElementById('curveballBtn');
+      if (cbBtn) cbBtn.style.display = 'none';
+      var banner = document.getElementById('twistBanner');
+      if (banner) {
+        var isStoryMode = (currentMode === 'picture');
+        var prefix = isStoryMode ? '⚡ PLOT TWIST (+50 XP):' : '⚡ CURVEBALL CHALLENGE (+50 XP):';
+        var instruction = isStoryMode ? 'Weave this into your story now!' : 'Address this challenge before finishing!';
+        banner.innerHTML = prefix + ' ' + activePrompt.hardTwist + '<br><span style="font-size:12.5px;font-weight:500;">(' + instruction + ')</span>';
+        banner.style.display = 'block';
+      }
+    }
 
     function getAudioContext() {
       if (!audioCtx) {
@@ -1521,7 +1519,7 @@ function acceptCurveball() {
         var careerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10);
         var xpBadge = document.getElementById('totalXpCount');
         if (xpBadge) xpBadge.innerText = careerXp.toLocaleString();
-        // --- LOAD CURRENT LEVEL TIER ---
+
         var activeTier = localStorage.getItem('poptalk_user_tier_' + currentAge + '_' + currentMode) || '1';
         var lvlText = document.getElementById('currentLevelText');
         if (lvlText) {
@@ -1576,7 +1574,6 @@ function acceptCurveball() {
       return count;
     }
 
-            // Global speech state for pause-safe, non-repeating recording
     var savedPauseSegments = [];
     var currentActiveSegment = '';
 
@@ -1588,7 +1585,6 @@ function acceptCurveball() {
       }
       if (pieces.length === 0) return '';
 
-      // Collapse Android Chrome's cumulative staircase ("I", "I am", "I am Ifrah")
       var merged = [pieces[0]];
       for (var j = 1; j < pieces.length; j++) {
         var prev = merged[merged.length - 1];
@@ -1597,16 +1593,12 @@ function acceptCurveball() {
         var currLower = curr.toLowerCase();
 
         if (currLower === prevLower) {
-          // Exact duplicate — ignore
           continue;
         } else if (currLower.indexOf(prevLower) === 0) {
-          // Current piece is a longer growth of previous piece -> replace previous!
           merged[merged.length - 1] = curr;
         } else if (prevLower.indexOf(currLower) === 0) {
-          // Previous piece already contains this shorter piece -> ignore
           continue;
         } else {
-          // Genuinely new words spoken -> add
           merged.push(curr);
         }
       }
@@ -1658,7 +1650,6 @@ function acceptCurveball() {
             }
           };
 
-          // When you pause to breathe or think, lock in the segment and keep listening
           recognition.onend = function() {
             if (currentActiveSegment && currentActiveSegment.trim().length > 0) {
               var seg = currentActiveSegment.trim();
@@ -1688,35 +1679,35 @@ function acceptCurveball() {
       } catch(e) {}
     }
 
-     function getTargetDuration(level) {
-   if (currentAge === 'teen' || currentAge === 'adult') {
-     return 60;
-   }
-   if (level === 'easy') return 30;
-   if (level === 'medium') return 45;
-   if (level === 'hard') return 60;
-   return 30;
- }
+    function getTargetDuration(level) {
+      if (currentAge === 'teen' || currentAge === 'adult') {
+        return 60;
+      }
+      if (level === 'easy') return 30;
+      if (level === 'medium') return 45;
+      if (level === 'hard') return 60;
+      return 30;
+    }
 
     function selectTrack(ageKey, displayLabel) {
-         playTapSound();
-   currentAge = ageKey;
+      playTapSound();
+      currentAge = ageKey;
 
-   var label = document.getElementById('currentTrackLabel');
-   if (label) label.innerText = displayLabel;
+      var label = document.getElementById('currentTrackLabel');
+      if (label) label.innerText = displayLabel;
 
-   var levelBtns = document.querySelectorAll('#levelGroup .pill');
-   if (levelBtns.length === 3) {
-     if (ageKey === 'junior') {
-       levelBtns[0].innerText = '🟢 Easy (30s)';
-       levelBtns[1].innerText = '🟡 Medium (45s)';
-       levelBtns[2].innerText = '🔴 Hard (60s)';
-     } else {
-       levelBtns[0].innerText = '🟢 Easy (60s)';
-       levelBtns[1].innerText = '🟡 Medium (60s)';
-       levelBtns[2].innerText = '🔴 Hard (60s)';
-     }
-   }
+      var levelBtns = document.querySelectorAll('#levelGroup .pill');
+      if (levelBtns.length === 3) {
+        if (ageKey === 'junior') {
+          levelBtns[0].innerText = '🟢 Easy (30s)';
+          levelBtns[1].innerText = '🟡 Medium (45s)';
+          levelBtns[2].innerText = '🔴 Hard (60s)';
+        } else {
+          levelBtns[0].innerText = '🟢 Easy (60s)';
+          levelBtns[1].innerText = '🟡 Medium (60s)';
+          levelBtns[2].innerText = '🔴 Hard (60s)';
+        }
+      }
       
       var landing = document.getElementById('landingScreen');
       var arena = document.getElementById('arenaScreen');
@@ -1747,9 +1738,11 @@ function acceptCurveball() {
       var vocabCard = document.getElementById('vocabCard');
       if (vocabCard) vocabCard.style.display = 'none';
 
+      updateHeaderLevelBadge();
       targetTime = getTargetDuration(currentLevel);
       timeRemaining = targetTime;
-      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
+      var initStr = (targetTime === 60) ? '01:00' : '00:' + (targetTime < 10 ? '0' : '') + targetTime;
+      updateTimerDisplay(initStr, 'Ready to begin', 100);
     }
 
     function returnToLanding() {
@@ -1776,7 +1769,8 @@ function acceptCurveball() {
       
       targetTime = getTargetDuration(currentLevel);
       timeRemaining = targetTime;
-      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
+      var initStr = (targetTime === 60) ? '01:00' : '00:' + (targetTime < 10 ? '0' : '') + targetTime;
+      updateTimerDisplay(initStr, 'Ready to begin', 100);
     }
 
     function setMode(mode) {
@@ -1789,7 +1783,7 @@ function acceptCurveball() {
         window.event.target.classList.add('active');
       }
       
-            var labels = { 
+      var labels = { 
         picture: 'PICTURE TALK', 
         wyr: 'PICK A SIDE', 
         opinions: 'HOT TAKES',
@@ -1827,6 +1821,7 @@ function acceptCurveball() {
       if (picFrame) picFrame.style.display = 'none';
       var vocabCard = document.getElementById('vocabCard');
       if (vocabCard) vocabCard.style.display = 'none';
+      updateHeaderLevelBadge();
     }
 
     function toggleIdeas() {
@@ -1852,7 +1847,7 @@ function acceptCurveball() {
       isSpinning = true;
 
       resetAllTimers();
-            updateHeaderLevelBadge();
+      updateHeaderLevelBadge();
 
       var scaffoldBox = document.getElementById('scaffoldBox');
       if (scaffoldBox) scaffoldBox.style.display = 'none';
@@ -1874,6 +1869,12 @@ function acceptCurveball() {
         var pLevel = p.level || (index < 5 ? 1 : 2);
         return pLevel === currentLevelTier;
       });
+
+      if (pool.length === 0) {
+        pool = promptBank.filter(function(p) {
+          return p.age === currentAge && p.mode === currentMode;
+        });
+      }
 
       if (pool.length === 0) {
         isSpinning = false;
@@ -1923,8 +1924,8 @@ function acceptCurveball() {
           if (ideasBtn) ideasBtn.style.display = 'inline-block';
           if (actionBtnRow) actionBtnRow.style.display = 'flex';
 
-                    var picImg = document.getElementById('pictureImg');
-          if (picFrame && picImg && currentMode === 'picture' && activePrompt.image) {
+          var picImg = document.getElementById('pictureImg');
+          if (picFrame && picImg && currentMode === 'picture' && currentAge === 'junior' && activePrompt.image) {
             picImg.onerror = function() {
               if (activePrompt.fallbackImage && this.src.indexOf(activePrompt.fallbackImage) === -1) {
                 this.src = activePrompt.fallbackImage;
@@ -1933,13 +1934,9 @@ function acceptCurveball() {
               }
             };
             picImg.src = activePrompt.image;
-                      if (currentAge === 'junior' && activePrompt.image) {
             picFrame.style.display = 'block';
           } else {
-            picFrame.style.display = 'none';
-          }
-          } else {
-            if (picFrame) picFrame.style.display = 'none'; // <--- Hides frame for Teen/Adult
+            if (picFrame) picFrame.style.display = 'none';
           }
 
           if (vocabCard && currentMode === 'vocab' && activePrompt.vocab) {
@@ -1952,7 +1949,8 @@ function acceptCurveball() {
 
           targetTime = getTargetDuration(currentLevel);
           timeRemaining = targetTime;
-          updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
+          var initStr = (targetTime === 60) ? '01:00' : '00:' + (targetTime < 10 ? '0' : '') + targetTime;
+          updateTimerDisplay(initStr, 'Ready to begin', 100);
           renderScaffold();
 
           isSpinning = false;
@@ -1975,7 +1973,8 @@ function acceptCurveball() {
       
       targetTime = getTargetDuration(currentLevel);
       timeRemaining = targetTime;
-      updateTimerDisplay('00:' + (targetTime < 10 ? '0' : '') + targetTime, 'Ready to begin', 100);
+      var initStr = (targetTime === 60) ? '01:00' : '00:' + (targetTime < 10 ? '0' : '') + targetTime;
+      updateTimerDisplay(initStr, 'Ready to begin', 100);
       renderScaffold();
     }
 
@@ -1999,7 +1998,7 @@ function acceptCurveball() {
           content.innerHTML = '<strong>The Spark Hook:</strong> ' + activePrompt.medium;
         } else {
           var challengeType = (currentMode === 'picture') ? 'Plot Twist' : 'Debate Challenge';
-          content.innerHTML = '<strong>Hard Challenge:</strong> Zero handrails! Speak for 60 seconds. A surprise ' + challengeType.toLowerCase() + ' will unlock halfway through!';
+          content.innerHTML = '<strong>Hard Challenge:</strong> Zero handrails! Speak for 60 seconds. A surprise ' + challengeType.toLowerCase() + ' option unlocks at 20 seconds!';
         }
       }
 
@@ -2013,34 +2012,33 @@ function acceptCurveball() {
     }
 
     function startThinking() {
-     function startThinking() {
-   playThinkingChime();
-   resetAllTimers();
-   timerState = 'thinking';
-   timeRemaining = 60;
-   bufferUsed = false;
+      playThinkingChime();
+      resetAllTimers();
+      timerState = 'thinking';
+      timeRemaining = 60;
+      bufferUsed = false;
 
-   var bufferBtn = document.getElementById('bufferBtn');
-   var thinkBtn = document.getElementById('thinkBtn');
-   var speakBtn = document.getElementById('speakBtn');
+      var bufferBtn = document.getElementById('bufferBtn');
+      var thinkBtn = document.getElementById('thinkBtn');
+      var speakBtn = document.getElementById('speakBtn');
 
-   if (bufferBtn) bufferBtn.style.display = 'none';
-   if (thinkBtn) thinkBtn.style.display = 'none';
-   if (speakBtn) speakBtn.innerText = "🚀 I'm Ready! Speak Now";
+      if (bufferBtn) bufferBtn.style.display = 'none';
+      if (thinkBtn) thinkBtn.style.display = 'none';
+      if (speakBtn) speakBtn.innerText = "🚀 I'm Ready! Speak Now";
 
-   updateTimerDisplay('01:00', '🧠 Thinking Time (60s)', 100);
+      updateTimerDisplay('01:00', '🧠 Thinking Time (60s)', 100);
 
-   timerInterval = setInterval(function() {
-     timeRemaining--;
-     var displayStr = (timeRemaining === 60) ? '01:00' : '00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining;
-     updateTimerDisplay(displayStr, '🧠 Thinking Time (60s)', (timeRemaining / 60) * 100);
+      timerInterval = setInterval(function() {
+        timeRemaining--;
+        var displayStr = (timeRemaining === 60) ? '01:00' : '00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining;
+        updateTimerDisplay(displayStr, '🧠 Thinking Time (60s)', (timeRemaining / 60) * 100);
 
-     if (timeRemaining <= 0) {
-       clearInterval(timerInterval);
-       startSpeaking();
-     }
-   }, 1000);
- }
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          startSpeaking();
+        }
+      }, 1000);
+    }
 
     function addBufferTime() {
       playAddTimeSound();
@@ -2057,24 +2055,32 @@ function acceptCurveball() {
       clearInterval(timerInterval);
       timerState = 'speaking';
       twistTriggered = false;
+      curveballAccepted = false;
       targetTime = getTargetDuration(currentLevel);
       timeRemaining = targetTime;
       overtimeSeconds = 0;
 
-   savedPauseSegments = [];
-   currentActiveSegment = '';
-   completedSentences = [];
-   currentInterim = '';
-   lastAddedSentence = '';
-   isSpeakingActive = true;
+      savedPauseSegments = [];
+      currentActiveSegment = '';
+      completedSentences = [];
+      currentInterim = '';
+      lastAddedSentence = '';
+      isSpeakingActive = true;
       
+      var cbBtn = document.getElementById('curveballBtn');
+      if (cbBtn) cbBtn.style.display = 'none';
+
       var micPill = document.getElementById('micLivePill');
-      if (micPill) {
-        micPill.innerText = '🔴 Mic Listening... (Speak clearly)';
-        micPill.style.display = 'inline-block';
-      }
-      if (recognition) {
-        try { recognition.start(); } catch(e) {}
+      if (currentAge === 'teen' || currentAge === 'adult') {
+        if (micPill) {
+          micPill.innerText = '🔴 Mic Listening... (Speak clearly)';
+          micPill.style.display = 'inline-block';
+        }
+        if (recognition) {
+          try { recognition.start(); } catch(e) {}
+        }
+      } else {
+        if (micPill) micPill.style.display = 'none';
       }
 
       var bufferBtn = document.getElementById('bufferBtn');
@@ -2093,56 +2099,55 @@ function acceptCurveball() {
       if (overtimeBadge) overtimeBadge.style.display = 'none';
       if (twistBanner) twistBanner.style.display = 'none';
 
-      updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🎙️ Speaking Time (' + targetTime + 's Goal)', 100);
+      var startDisp = (timeRemaining === 60) ? '01:00' : '00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining;
+      updateTimerDisplay(startDisp, '🎙️ Speaking Time (' + targetTime + 's Goal)', 100);
 
       timerInterval = setInterval(function() {
         if (timerState === 'speaking') {
           timeRemaining--;
 
-                 var secondsElapsed = targetTime - timeRemaining;
-       if (!twistTriggered && secondsElapsed >= 20 && activePrompt && activePrompt.hardTwist) {
-         twistTriggered = true;
-         var cbBtn = document.getElementById('curveballBtn');
-         if (cbBtn) cbBtn.style.display = 'block';
-       }
+          var secondsElapsed = targetTime - timeRemaining;
+          if (!twistTriggered && secondsElapsed >= 20 && activePrompt && activePrompt.hardTwist) {
+            twistTriggered = true;
+            var cbBtnLive = document.getElementById('curveballBtn');
+            if (cbBtnLive) cbBtnLive.style.display = 'block';
           }
 
           if (timeRemaining > 0) {
             var pct = (timeRemaining / targetTime) * 100;
             updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🎙️ Speaking Time (' + targetTime + 's Goal)', pct);
-                    } else {
+          } else {
             timerState = 'overtime';
             playGoalChime();
             updateTimerDisplay('00:00', '🌟 Goal Reached! Wrap up your thought', 0);
             var badge = document.getElementById('overtimeBadge');
             if (badge) badge.style.display = 'inline-block';
 
-            // Ensure mic pill remains visible and active during overtime
-            var micPill = document.getElementById('micLivePill');
-            if (micPill && isSpeakingActive) {
-              micPill.style.display = 'inline-block';
+            var micPillLive = document.getElementById('micLivePill');
+            if (micPillLive && isSpeakingActive && (currentAge === 'teen' || currentAge === 'adult')) {
+              micPillLive.style.display = 'inline-block';
             }
           }
-             } else if (timerState === 'overtime') {
-       overtimeSeconds++;
-       var badge = document.getElementById('overtimeBadge');
-       if (badge) {
-         if (currentAge === 'junior' || overtimeSeconds <= 10) {
-           badge.style.background = '#EAF0E1';
-           badge.style.color = 'var(--moss-green)';
-           badge.innerText = 'Wrap-up Grace Time: +0:' + (overtimeSeconds < 10 ? '0' : '') + overtimeSeconds + ' (Max XP!)';
-         } else {
-           var penaltySec = overtimeSeconds - 10;
-           badge.style.background = '#FFF1F0';
-           badge.style.color = '#B91C1C';
-           badge.innerText = '⚠️ Over Time Limit: +' + overtimeSeconds + 's (-' + (penaltySec * 2) + ' XP penalty)';
-         }
-       }
-     }
+        } else if (timerState === 'overtime') {
+          overtimeSeconds++;
+          var badge = document.getElementById('overtimeBadge');
+          if (badge) {
+            if (currentAge === 'junior' || overtimeSeconds <= 10) {
+              badge.style.background = '#EAF0E1';
+              badge.style.color = 'var(--moss-green)';
+              badge.innerText = 'Wrap-up Grace Time: +0:' + (overtimeSeconds < 10 ? '0' : '') + overtimeSeconds + ' (Max XP!)';
+            } else {
+              var penaltySec = overtimeSeconds - 10;
+              badge.style.background = '#FFF1F0';
+              badge.style.color = '#B91C1C';
+              badge.innerText = '⚠️ Over Time Limit: +' + overtimeSeconds + 's (-' + (penaltySec * 2) + ' XP penalty)';
+            }
+          }
+        }
       }, 1000);
     }
 
-                    function finishSpeech() {
+    function finishSpeech() {
       playFanfare();
       clearInterval(timerInterval);
       isSpeakingActive = false;
@@ -2162,11 +2167,9 @@ function acceptCurveball() {
         var wordsArray = fullTranscript.length > 0 ? fullTranscript.split(/\s+/) : [];
         var wordCount = wordsArray.length;
 
-        // 100% Real, Uncapped WPM Math across your total speaking time (including pauses & overtime)
         var safeSeconds = Math.max(1, totalSpoken);
         var wpm = wordCount > 0 ? Math.round((wordCount / safeSeconds) * 60) : 0;
 
-        // --- TRACK LEVEL PROGRESSION & UNLOCK LEVEL 2 ---
         var tierKey = 'poptalk_user_tier_' + currentAge + '_' + currentMode;
         var currentTier = parseInt(localStorage.getItem(tierKey) || '1', 10);
         
@@ -2174,17 +2177,14 @@ function acceptCurveball() {
         var completedCount = parseInt(localStorage.getItem(countKey) || '0', 10) + 1;
         localStorage.setItem(countKey, completedCount.toString());
 
+        openCelebrationModal(totalSpoken, fullTranscript, streak, wordCount, wpm);
+
         if (currentTier === 1 && completedCount >= 5) {
           localStorage.setItem(tierKey, '2');
           localStorage.setItem('poptalk_completed_count_' + currentAge + '_' + currentMode + '_lvl2', '0');
-          openLevelClearedModal(currentMode, 1);
-        } else if (currentTier === 2 && completedCount >= 5) {
-          openLevelClearedModal(currentMode, 2);
+          updateHeaderLevelBadge();
         }
 
-        function openCelebrationModal(seconds, transcript, streak, forcedWordCount, forcedWpm) {
-
-        // --- UPDATE XP BADGE LIVE ---
         var currentCareerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10);
         var liveXpBadge = document.getElementById('totalXpCount');
         if (liveXpBadge) liveXpBadge.innerText = currentCareerXp.toLocaleString();
@@ -2209,6 +2209,7 @@ function acceptCurveball() {
       var twistBanner = document.getElementById('twistBanner');
       var progressBar = document.getElementById('progressBar');
       var micPill = document.getElementById('micLivePill');
+      var cbBtn = document.getElementById('curveballBtn');
 
       if (thinkBtn) {
         thinkBtn.style.display = 'block';
@@ -2222,8 +2223,7 @@ function acceptCurveball() {
       if (bufferBtn) bufferBtn.style.display = 'none';
       if (overtimeBadge) overtimeBadge.style.display = 'none';
       if (twistBanner) twistBanner.style.display = 'none';
-var cbBtn = document.getElementById('curveballBtn');
-if (cbBtn) cbBtn.style.display = 'none';
+      if (cbBtn) cbBtn.style.display = 'none';
       if (micPill) micPill.style.display = 'none';
       if (progressBar) progressBar.style.width = '100%';
     }
@@ -2237,7 +2237,7 @@ if (cbBtn) cbBtn.style.display = 'none';
       if (p) p.style.width = pct + '%';
     }
 
-      function openCelebrationModal(seconds, transcript, streak, forcedWordCount, forcedWpm) {
+    function openCelebrationModal(seconds, transcript, streak, forcedWordCount, forcedWpm) {
       var modalDesc = document.getElementById('modalDesc');
       var modalTitle = document.getElementById('modalTitle');
       var modalIcon = document.getElementById('modalIcon');
@@ -2254,7 +2254,7 @@ if (cbBtn) cbBtn.style.display = 'none';
 
       if (currentAge === 'junior') {
         var juniorCurveballXp = curveballAccepted ? 50 : 0;
-var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
+        var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
         var careerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10) + juniorXp;
         localStorage.setItem('poptalk_total_xp', careerXp.toString());
 
@@ -2266,6 +2266,7 @@ var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
           '<div style="font-size:15px; color:#293830; line-height:1.7; margin-bottom:14px;">' +
             '• <strong>Practice Time:</strong> ' + seconds + 's (' + (seconds * 2) + ' XP)<br>' +
             '• <strong>Session Completion:</strong> +40 XP<br>' +
+            '• <strong>Curveball Twist:</strong> ' + (curveballAccepted ? '<span style="color:var(--moss-green); font-weight:700;">Accepted (+50 XP!)</span>' : 'Not used (+0 XP)') + '<br>' +
             '• <strong>Total Career XP:</strong> <span style="font-family:\'Fredoka\',cursive; color:#105666; font-weight:700;">' + careerXp.toLocaleString() + ' XP</span>' +
           '</div>' +
         '</div>';
@@ -2283,15 +2284,15 @@ var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
           waBtn.innerText = '💬 Book a Free Demo on WhatsApp';
           waBtn.href = 'https://wa.me/966548208412?text=Hi!%20My%20child%20just%20practiced%20on%20PopTalk%20and%20I%20would%20like%20to%20learn%20more%20about%20your%20Communication%20and%20Confidence%20live%20batches.';
         }
-         } else {
-     var cleanTranscript = transcript ? transcript.trim() : '';
-     var wordsArray = cleanTranscript.length > 0 ? cleanTranscript.split(/\s+/) : [];
-     var wordCount = (typeof forcedWordCount === 'number') ? forcedWordCount : wordsArray.length;
+      } else {
+        var cleanTranscript = transcript ? transcript.trim() : '';
+        var wordsArray = cleanTranscript.length > 0 ? cleanTranscript.split(/\s+/) : [];
+        var wordCount = (typeof forcedWordCount === 'number') ? forcedWordCount : wordsArray.length;
 
-     var safeSeconds = Math.max(1, seconds);
-     var wpm = (typeof forcedWpm === 'number') ? forcedWpm : (wordCount > 0 ? Math.round((wordCount / safeSeconds) * 60) : 0);
+        var safeSeconds = Math.max(1, seconds);
+        var wpm = (typeof forcedWpm === 'number') ? forcedWpm : (wordCount > 0 ? Math.round((wordCount / safeSeconds) * 60) : 0);
 
-                var fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
+        var fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
         var fillerCount = 0;
         var detectedFillers = [];
         wordsArray.forEach(function(w) {
@@ -2304,8 +2305,7 @@ var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
           }
         });
 
-        // --- TIME DISCIPLINE XP CALCULATOR (60s Max, 61-70s Grace, 71s+ Penalty) ---
-        var baseTimeXp = Math.min(seconds, 60) * 2; // Up to 120 XP max at 60s
+        var baseTimeXp = Math.min(seconds, 60) * 2;
         var overtimePenalty = 0;
         var timeStatusNote = '';
 
@@ -2315,7 +2315,7 @@ var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
           timeStatusNote = ' <span style="color:var(--moss-green); font-size:13.5px; font-weight:700;">(🎯 Max Time Bonus! Wrapped up on time)</span>';
         } else if (seconds > 70) {
           var extraSec = seconds - 70;
-          overtimePenalty = extraSec * 2; // -2 XP per second over 70s
+          overtimePenalty = extraSec * 2;
           timeStatusNote = ' <span style="color:#B91C1C; font-size:13.5px; font-weight:700;">(-' + overtimePenalty + ' XP overrun penalty for ' + extraSec + 's past 70s)</span>';
         }
 
@@ -2377,7 +2377,7 @@ var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
             modalDesc.innerHTML = encouragement + streakBanner + metricsCard +
               '<div style="background:#EDF3EF; border-radius:16px; padding:18px; text-align:left; border:1px solid #E2E8E5;">' +
                 '<strong style="font-family:\'Fredoka\',cursive; color:#0A3323; font-size:16.5px; display:block; margin-bottom:6px;">Want to speak up with natural confidence?</strong>' +
-                '<span style="font-size:14px; color:#52635B; line-height:1.6; display:block; margin-bottom:10px;">Our live <strong>Communication & Confidence Program</strong> trains tweens and teens how to structure spontaneous arguments, debate dilemmas, and eliminate hesitations.</span>' +
+                '<span style="font-size:14px; color:#52635B; line-height:1.6; display:block; margin-bottom:10px;">Our live <strong>Think & Speak Club</strong> and <strong>Communication & Confidence Program</strong> train tweens and teens how to overcome brain freeze, organize ideas, and speak with natural confidence.</span>' +
                 '<div style="font-size:13.5px; font-weight:600; color:#105666; line-height:1.5;">• Strictly 5–6 students per batch • Classes run 2 days a week</div>' +
               '</div>';
           }
@@ -2396,8 +2396,8 @@ var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
           }
           if (waBtn) {
             waBtn.style.display = 'block';
-            waBtn.innerText = '💬 Inquire About 1:1 Adult Coaching';
-            waBtn.href = 'https://wa.me/966548208412?text=Hi!%20I%20just%20practiced%20on%20PopTalk%20and%20want%20to%20learn%20more%20about%20your%20adult%20fluency%20and%20communication%20programs.';
+            waBtn.innerText = '💬 Join Adult Think & Speak Club';
+            waBtn.href = 'https://wa.me/966548208412?text=Hi!%20I%20just%20practiced%20on%20PopTalk%20and%20want%20to%20learn%20more%20about%20your%20Adult%20Think%20and%20Speak%20Club.';
           }
         }
       }
@@ -2415,7 +2415,7 @@ var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
 
       if (modalTitle) modalTitle.innerText = 'Unlock PopTalk Pro';
       if (modalDesc) {
-        modalDesc.innerHTML = '<strong>' + categoryName + '</strong> is part of the PopTalk Pro Practice Pack.<br><br>Unlock all 7 exclusive modes including <strong>Finish It, Echo Story, Act It Out, and The Big Pitch</strong>, with 200+ prompt cards across all age tracks.<br><br>✨ <em>New creative categories and weekly challenge packs are added regularly!</em>';
+        modalDesc.innerHTML = '<strong>' + categoryName + '</strong> is part of the PopTalk Pro Practice Pack.<br><br>Unlock all exclusive modes with 200+ prompt cards across all age tracks.<br><br>✨ <em>New creative categories and weekly challenge packs are added regularly!</em>';
       }
       if (waBtn) {
         waBtn.style.display = 'block';
@@ -2464,14 +2464,15 @@ var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
       }
       if (modal) modal.style.display = 'flex';
     }
-        function updateHeaderLevelBadge() {
+
+    function updateHeaderLevelBadge() {
       var activeTier = localStorage.getItem('poptalk_user_tier_' + currentAge + '_' + currentMode) || '1';
       var lvlText = document.getElementById('currentLevelText');
       if (lvlText) {
         lvlText.innerText = 'Lvl ' + activeTier;
       }
     }
-        
+
     window.addEventListener('DOMContentLoaded', function() {
       var savedName = localStorage.getItem('poptalk_username');
       if (!savedName) {
