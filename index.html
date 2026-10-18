@@ -2444,15 +2444,79 @@
       if (modal) modal.style.display = 'none';
     }
 
-    function promptForUsername() {
-      var currentName = localStorage.getItem('poptalk_username') || 'Speaker';
-      var newName = prompt("What should your speaker name be?", currentName);
-      if (newName && newName.trim().length > 0) {
-        var cleanName = newName.trim().substring(0, 15);
-        localStorage.setItem('poptalk_username', cleanName);
-        var nameDisplay = document.getElementById('displayUsername');
-        if (nameDisplay) nameDisplay.innerText = cleanName;
+        var selectedSpeakerAvatar = localStorage.getItem('poptalk_avatar') || '🎙️';
+
+    function selectAvatarOption(el, emoji) {
+      playTapSound();
+      selectedSpeakerAvatar = emoji;
+      var allAvatars = document.querySelectorAll('.avatar-choice-pill');
+      allAvatars.forEach(function(btn) {
+        btn.style.background = '#F8FAF9';
+        btn.style.borderColor = '#E2E8E5';
+        btn.style.transform = 'scale(1)';
+      });
+      if (el) {
+        el.style.background = '#FFF3E6';
+        el.style.borderColor = '#E85D04';
+        el.style.transform = 'scale(1.12)';
       }
+    }
+
+    function saveCustomUsername() {
+      playLaunchTone();
+      var input = document.getElementById('customUsernameInput');
+      var rawVal = (input && input.value.trim().length > 0) ? input.value.trim() : 'Speaker';
+      var cleanName = rawVal.substring(0, 15);
+
+      localStorage.setItem('poptalk_username', cleanName);
+      localStorage.setItem('poptalk_avatar', selectedSpeakerAvatar);
+
+      var nameDisplay = document.getElementById('displayUsername');
+      if (nameDisplay) {
+        nameDisplay.innerText = selectedSpeakerAvatar + ' ' + cleanName;
+      }
+
+      var modal = document.getElementById('generalModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function promptForUsername() {
+      playTapSound();
+      var currentName = localStorage.getItem('poptalk_username') || '';
+      selectedSpeakerAvatar = localStorage.getItem('poptalk_avatar') || '🎙️';
+
+      var modalIcon = document.getElementById('modalIcon');
+      var modalTitle = document.getElementById('modalTitle');
+      var modalDesc = document.getElementById('modalDesc');
+      var waBtn = document.getElementById('modalWaBtn');
+      var modal = document.getElementById('generalModal');
+
+      if (modalIcon) modalIcon.innerText = '🪪';
+      if (modalTitle) modalTitle.innerText = 'Your Speaker Pass';
+      if (waBtn) waBtn.style.display = 'none';
+
+      var avatars = ['🎙️', '🦁', '🚀', '🌟', '🦊', '👑'];
+      var avatarHtml = avatars.map(function(em) {
+        var isSelected = (em === selectedSpeakerAvatar);
+        var bg = isSelected ? '#FFF3E6' : '#F8FAF9';
+        var border = isSelected ? '#E85D04' : '#E2E8E5';
+        var scale = isSelected ? 'scale(1.12)' : 'scale(1)';
+        return '<button type="button" class="avatar-choice-pill" onclick="selectAvatarOption(this, \'' + em + '\')" style="font-size:22px; padding:8px 10px; border-radius:12px; border:2px solid ' + border + '; background:' + bg + '; cursor:pointer; transition:all 0.15s ease; transform:' + scale + ';">' + em + '</button>';
+      }).join('');
+
+      if (modalDesc) {
+        modalDesc.innerHTML =
+          '<div style="font-size:14.5px; color:#52635B; margin-bottom:14px; line-height:1.5;">Pick your stage icon and enter the name you want on your speaking scorecard!</div>' +
+          '<div style="display:flex; justify-content:center; gap:8px; margin-bottom:16px; flex-wrap:wrap;">' + avatarHtml + '</div>' +
+          '<input type="text" id="customUsernameInput" maxlength="15" placeholder="Enter your name (e.g. Ifrah)" value="' + currentName.replace(/"/g, '&quot;') + '" style="width:100%; box-sizing:border-box; padding:13px 16px; font-family:\'Fredoka\',cursive; font-size:17px; color:#0A3323; background:#F8FAF9; border:2px solid #CBD5E1; border-radius:14px; text-align:center; outline:none; margin-bottom:14px;" onkeydown="if(event.key===\'Enter\') saveCustomUsername()" />' +
+          '<button type="button" onclick="saveCustomUsername()" style="width:100%; padding:13px 18px; border:none; border-radius:14px; background:linear-gradient(135deg, #E85D04, #F48C06); color:#FFFFFF; font-family:\'Fredoka\',cursive; font-size:17px; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(232,93,4,0.25);">🚀 Save My Speaker Pass</button>';
+      }
+
+      if (modal) modal.style.display = 'flex';
+      setTimeout(function() {
+        var inp = document.getElementById('customUsernameInput');
+        if (inp) inp.focus();
+      }, 150);
     }
 
     function openLevelClearedModal(modeName, levelNum) {
@@ -2487,12 +2551,13 @@
     }
 
     window.addEventListener('DOMContentLoaded', function() {
-      var savedName = localStorage.getItem('poptalk_username');
+            var savedName = localStorage.getItem('poptalk_username');
+      var savedAvatar = localStorage.getItem('poptalk_avatar') || '🎙️';
       if (!savedName) {
         setTimeout(promptForUsername, 500);
       } else {
         var nameDisplay = document.getElementById('displayUsername');
-        if (nameDisplay) nameDisplay.innerText = savedName;
+        if (nameDisplay) nameDisplay.innerText = savedAvatar + ' ' + savedName;
       }
 
       initStreak();
