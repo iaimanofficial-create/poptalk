@@ -1388,8 +1388,8 @@
 
     var audioCtx = null;
 
-    function acceptCurveball() {
-      if (!activePrompt || !activePrompt.hardTwist) return;
+        function acceptCurveball() {
+      if (currentLevel !== 'hard' || !activePrompt || !activePrompt.hardTwist) return;
       curveballAccepted = true;
       playCurveballAlert();
       var cbBtn = document.getElementById('curveballBtn');
@@ -1397,7 +1397,7 @@
       var banner = document.getElementById('twistBanner');
       if (banner) {
         var isStoryMode = (currentMode === 'picture');
-        var prefix = isStoryMode ? '⚡ PLOT TWIST (+50 XP):' : '⚡ CURVEBALL CHALLENGE (+50 XP):';
+        var prefix = isStoryMode ? '⚡ PLOT TWIST (+30 XP):' : '⚡ CURVEBALL CHALLENGE (+30 XP):';
         var instruction = isStoryMode ? 'Weave this into your story now!' : 'Address this challenge before finishing!';
         banner.innerHTML = prefix + ' ' + activePrompt.hardTwist + '<br><span style="font-size:12.5px;font-weight:500;">(' + instruction + ')</span>';
         banner.style.display = 'block';
@@ -2100,11 +2100,15 @@
       var words = document.getElementById('lifeboatWords');
       var tip = document.getElementById('lifeboatTip');
 
-      var banner = document.getElementById('twistBanner');
-      if (banner) {
-        banner.style.display = 'none';
-        banner.innerText = '';
-      }
+         var banner = document.getElementById('twistBanner');
+   if (banner) {
+     banner.style.display = 'none';
+     banner.innerText = '';
+   }
+   var cbBtn = document.getElementById('curveballBtn');
+   if (cbBtn) {
+     cbBtn.style.display = 'none';
+   }
 
       if (content) {
         if (currentLevel === 'easy') {
@@ -2221,12 +2225,12 @@
         if (timerState === 'speaking') {
           timeRemaining--;
 
-          var secondsElapsed = targetTime - timeRemaining;
-          if (!twistTriggered && secondsElapsed >= 20 && activePrompt && activePrompt.hardTwist) {
-            twistTriggered = true;
-            var cbBtnLive = document.getElementById('curveballBtn');
-            if (cbBtnLive) cbBtnLive.style.display = 'block';
-          }
+                 var secondsElapsed = targetTime - timeRemaining;
+       if (currentLevel === 'hard' && !twistTriggered && secondsElapsed >= 20 && activePrompt && activePrompt.hardTwist) {
+         twistTriggered = true;
+         var cbBtnLive = document.getElementById('curveballBtn');
+         if (cbBtnLive) cbBtnLive.style.display = 'block';
+       }
 
           if (timeRemaining > 0) {
             var pct = (timeRemaining / targetTime) * 100;
@@ -2394,7 +2398,7 @@
           '<div style="font-size:15px; color:#293830; line-height:1.7; margin-bottom:14px;">' +
             '• <strong>Practice Time:</strong> ' + seconds + 's (' + (seconds * 2) + ' XP)<br>' +
             '• <strong>Session Completion:</strong> +40 XP<br>' +
-            '• <strong>Curveball Twist:</strong> ' + (curveballAccepted ? '<span style="color:var(--moss-green); font-weight:700;">Accepted (+50 XP!)</span>' : 'Not used (+0 XP)') + '<br>' +
+            (currentLevel === 'hard' ? '• <strong>Curveball Twist:</strong> ' + (curveballAccepted ? '<span style="color:var(--moss-green); font-weight:700;">Accepted (+30 XP!)</span>' : 'Not used (+0 XP)') + '<br>' : '') +
             '• <strong>Total Career XP:</strong> <span style="font-family:\'Fredoka\',cursive; color:#105666; font-weight:700;">' + careerXp.toLocaleString() + ' XP</span>' +
           '</div>' +
         '</div>';
@@ -2482,7 +2486,7 @@
             '<div style="font-size:15px; color:#293830; line-height:1.75; margin-bottom:14px;">' +
               '• <strong>Speaking Time:</strong> ' + seconds + 's (' + durationXp + ' XP)' + timeStatusNote + '<br>' +
               '• <strong>Word Power:</strong> ' + wordCount + ' words (+' + wordXp + ' XP)<br>' +
-              '• <strong>Curveball Twist:</strong> ' + (curveballAccepted ? '<span style="color:var(--moss-green); font-weight:700;">Accepted (+50 XP!)</span>' : '<span style="color:#52635B;">Not used (+0 XP)</span>') + '<br>' +
+              (currentLevel === 'hard' ? '• <strong>Curveball Twist:</strong> ' + (curveballAccepted ? '<span style="color:var(--moss-green); font-weight:700;">Accepted (+30 XP!)</span>' : '<span style="color:#52635B;">Not used (+0 XP)</span>') + '<br>' : '') +
               '• <strong>Speaking Pace:</strong> ' + wpm + ' WPM <span style="font-weight:700; color:' + paceColor + ';">(' + paceLabel + ')</span><br>' +
               '• <strong>Filler Words:</strong> ' + fillerDetail + '<br>' +
               '• <strong>Total Career XP:</strong> <span style="font-family:\'Fredoka\',cursive; color:#105666; font-weight:700;">' + careerXp.toLocaleString() + ' XP</span>' +
