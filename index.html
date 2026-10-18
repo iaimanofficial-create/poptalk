@@ -2147,22 +2147,35 @@
       }, 1000);
     }
 
-    function finishSpeech() {
+            function finishSpeech() {
       playFanfare();
       clearInterval(timerInterval);
-      isSpeakingActive = false;
 
-      var micPill = document.getElementById('micLivePill');
-      if (micPill) micPill.style.display = 'none';
-
-      if (recognition) {
-        try { recognition.stop(); } catch(e) {}
+      // Update button immediately so user knows they tapped Finish
+      var speakBtn = document.getElementById('speakBtn');
+      if (speakBtn) {
+        speakBtn.disabled = true;
+        speakBtn.innerText = '⏳ Saving final words...';
       }
 
       var totalSpoken = (targetTime - Math.max(0, timeRemaining)) + overtimeSeconds;
       var streak = recordStreakCompletion();
 
+      // Keep isSpeakingActive TRUE for 750ms so the last 2-3 spoken words are not cut off!
       setTimeout(function() {
+        isSpeakingActive = false;
+
+        var micPill = document.getElementById('micLivePill');
+        if (micPill) micPill.style.display = 'none';
+
+        if (recognition) {
+          try { recognition.stop(); } catch(e) {}
+        }
+
+        if (speakBtn) {
+          speakBtn.disabled = false;
+        }
+
         var fullTranscript = getCleanFullTranscript();
         var wordsArray = fullTranscript.length > 0 ? fullTranscript.split(/\s+/) : [];
         var wordCount = wordsArray.length;
@@ -2193,7 +2206,7 @@
         
         var tryAgainBtn = document.getElementById('tryAgainBtn');
         if (tryAgainBtn) tryAgainBtn.style.display = 'block';
-      }, 400);
+      }, 750);
     }
 
     function resetAllTimers() {
