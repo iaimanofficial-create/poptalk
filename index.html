@@ -680,7 +680,8 @@
         </div>
 
         <div class="prompt-text" id="promptDisplay">🎲 Ready? Tap "Spin for Topic" below to reveal your challenge!</div>
-        <div class="twist-banner" id="twistBanner"></div>
+        <button class="btn" id="curveballBtn" onclick="acceptCurveball()" style="display:none; background:#FEF3C7; color:#92400E; border:2px dashed #F59E0B; margin-bottom:14px; font-size:14.5px; padding:10px 14px;">⚡ Trigger Curveball Twist (+50 XP)</button>
+<div class="twist-banner" id="twistBanner"></div>
 
         <button class="btn-ideas" id="ideasBtn" onclick="toggleIdeas()" style="display:none;">🗺️ Need Ideas? (Tap for Help)</button>
 
@@ -1257,7 +1258,27 @@
     var targetTime = 30;
     var overtimeSeconds = 0;
     var bufferUsed = false;
-    var twistTriggered = false;
+    twistTriggered = false;
+curveballAccepted = false;
+var cbBtn = document.getElementById('curveballBtn');
+if (cbBtn) cbBtn.style.display = 'none';
+var curveballAccepted = false;
+
+function acceptCurveball() {
+  if (!activePrompt || !activePrompt.hardTwist) return;
+  curveballAccepted = true;
+  playCurveballAlert();
+  var cbBtn = document.getElementById('curveballBtn');
+  if (cbBtn) cbBtn.style.display = 'none';
+  var banner = document.getElementById('twistBanner');
+  if (banner) {
+    var isStoryMode = (currentMode === 'picture');
+    var prefix = isStoryMode ? '⚡ PLOT TWIST (+50 XP):' : '⚡ CURVEBALL CHALLENGE (+50 XP):';
+    var instruction = isStoryMode ? 'Weave this into your story now!' : 'Address this challenge before finishing!';
+    banner.innerHTML = prefix + ' ' + activePrompt.hardTwist + '<br><span style="font-size:12.5px;font-weight:500;">(' + instruction + ')</span>';
+    banner.style.display = 'block';
+  }
+}
     var activePrompt = null;
     var categoryDecks = {};
     var isSpinning = false;
@@ -1667,19 +1688,35 @@
       } catch(e) {}
     }
 
-    function getTargetDuration(level) {
-      if (level === 'easy') return 30;
-      if (level === 'medium') return 45;
-      if (level === 'hard') return 60;
-      return 30;
-    }
+     function getTargetDuration(level) {
+   if (currentAge === 'teen' || currentAge === 'adult') {
+     return 60;
+   }
+   if (level === 'easy') return 30;
+   if (level === 'medium') return 45;
+   if (level === 'hard') return 60;
+   return 30;
+ }
 
     function selectTrack(ageKey, displayLabel) {
-      playTapSound();
-      currentAge = ageKey;
-      
-      var label = document.getElementById('currentTrackLabel');
-      if (label) label.innerText = displayLabel;
+         playTapSound();
+   currentAge = ageKey;
+
+   var label = document.getElementById('currentTrackLabel');
+   if (label) label.innerText = displayLabel;
+
+   var levelBtns = document.querySelectorAll('#levelGroup .pill');
+   if (levelBtns.length === 3) {
+     if (ageKey === 'junior') {
+       levelBtns[0].innerText = '🟢 Easy (30s)';
+       levelBtns[1].innerText = '🟡 Medium (45s)';
+       levelBtns[2].innerText = '🔴 Hard (60s)';
+     } else {
+       levelBtns[0].innerText = '🟢 Easy (60s)';
+       levelBtns[1].innerText = '🟡 Medium (60s)';
+       levelBtns[2].innerText = '🔴 Hard (60s)';
+     }
+   }
       
       var landing = document.getElementById('landingScreen');
       var arena = document.getElementById('arenaScreen');
@@ -1976,32 +2013,34 @@
     }
 
     function startThinking() {
-      playThinkingChime();
-      resetAllTimers();
-      timerState = 'thinking';
-      timeRemaining = 30;
-      bufferUsed = false;
-      
-      var bufferBtn = document.getElementById('bufferBtn');
-      var thinkBtn = document.getElementById('thinkBtn');
-      var speakBtn = document.getElementById('speakBtn');
-      
-      if (bufferBtn) bufferBtn.style.display = 'block';
-      if (thinkBtn) thinkBtn.style.display = 'none';
-      if (speakBtn) speakBtn.innerText = "🚀 I'm Ready! Speak Now";
+     function startThinking() {
+   playThinkingChime();
+   resetAllTimers();
+   timerState = 'thinking';
+   timeRemaining = 60;
+   bufferUsed = false;
 
-      updateTimerDisplay('00:30', '🧠 Thinking Time', 100);
+   var bufferBtn = document.getElementById('bufferBtn');
+   var thinkBtn = document.getElementById('thinkBtn');
+   var speakBtn = document.getElementById('speakBtn');
 
-      timerInterval = setInterval(function() {
-        timeRemaining--;
-        updateTimerDisplay('00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining, '🧠 Thinking Time', (timeRemaining / 30) * 100);
+   if (bufferBtn) bufferBtn.style.display = 'none';
+   if (thinkBtn) thinkBtn.style.display = 'none';
+   if (speakBtn) speakBtn.innerText = "🚀 I'm Ready! Speak Now";
 
-        if (timeRemaining <= 0) {
-          clearInterval(timerInterval);
-          startSpeaking();
-        }
-      }, 1000);
-    }
+   updateTimerDisplay('01:00', '🧠 Thinking Time (60s)', 100);
+
+   timerInterval = setInterval(function() {
+     timeRemaining--;
+     var displayStr = (timeRemaining === 60) ? '01:00' : '00:' + (timeRemaining < 10 ? '0' : '') + timeRemaining;
+     updateTimerDisplay(displayStr, '🧠 Thinking Time (60s)', (timeRemaining / 60) * 100);
+
+     if (timeRemaining <= 0) {
+       clearInterval(timerInterval);
+       startSpeaking();
+     }
+   }, 1000);
+ }
 
     function addBufferTime() {
       playAddTimeSound();
@@ -2060,17 +2099,12 @@
         if (timerState === 'speaking') {
           timeRemaining--;
 
-          if (currentLevel === 'hard' && !twistTriggered && timeRemaining <= (targetTime / 2)) {
-            twistTriggered = true;
-            playCurveballAlert();
-            var banner = document.getElementById('twistBanner');
-            if (banner && activePrompt) {
-              var isStoryMode = (currentMode === 'picture');
-              var prefix = isStoryMode ? '⚡ PLOT TWIST:' : '⚡ DEBATE CHALLENGE:';
-              var instruction = isStoryMode ? 'Fit this into your story now without stopping' : 'Answer this objection now without breaking your flow';
-              banner.innerHTML = prefix + ' ' + activePrompt.hardTwist + '<br><span style="font-size:12.5px;font-weight:500;">(' + instruction + ')</span>';
-              banner.style.display = 'block';
-            }
+                 var secondsElapsed = targetTime - timeRemaining;
+       if (!twistTriggered && secondsElapsed >= 20 && activePrompt && activePrompt.hardTwist) {
+         twistTriggered = true;
+         var cbBtn = document.getElementById('curveballBtn');
+         if (cbBtn) cbBtn.style.display = 'block';
+       }
           }
 
           if (timeRemaining > 0) {
@@ -2089,11 +2123,22 @@
               micPill.style.display = 'inline-block';
             }
           }
-        } else if (timerState === 'overtime') {
-          overtimeSeconds++;
-          var badge = document.getElementById('overtimeBadge');
-          if (badge) badge.innerText = 'Overtime: +0:' + (overtimeSeconds < 10 ? '0' : '') + overtimeSeconds + ' bonus';
-        }
+             } else if (timerState === 'overtime') {
+       overtimeSeconds++;
+       var badge = document.getElementById('overtimeBadge');
+       if (badge) {
+         if (currentAge === 'junior' || overtimeSeconds <= 10) {
+           badge.style.background = '#EAF0E1';
+           badge.style.color = 'var(--moss-green)';
+           badge.innerText = 'Wrap-up Grace Time: +0:' + (overtimeSeconds < 10 ? '0' : '') + overtimeSeconds + ' (Max XP!)';
+         } else {
+           var penaltySec = overtimeSeconds - 10;
+           badge.style.background = '#FFF1F0';
+           badge.style.color = '#B91C1C';
+           badge.innerText = '⚠️ Over Time Limit: +' + overtimeSeconds + 's (-' + (penaltySec * 2) + ' XP penalty)';
+         }
+       }
+     }
       }, 1000);
     }
 
@@ -2167,7 +2212,7 @@
 
       if (thinkBtn) {
         thinkBtn.style.display = 'block';
-        thinkBtn.innerText = '🧠 Start Thinking (30s)';
+        thinkBtn.innerText = '🧠 Start Thinking (60s)';
       }
       if (speakBtn) {
         speakBtn.style.display = 'block';
@@ -2177,6 +2222,8 @@
       if (bufferBtn) bufferBtn.style.display = 'none';
       if (overtimeBadge) overtimeBadge.style.display = 'none';
       if (twistBanner) twistBanner.style.display = 'none';
+var cbBtn = document.getElementById('curveballBtn');
+if (cbBtn) cbBtn.style.display = 'none';
       if (micPill) micPill.style.display = 'none';
       if (progressBar) progressBar.style.width = '100%';
     }
@@ -2206,7 +2253,8 @@
       var streakBanner = '<div style="background:#FFF3E6; border:1.5px solid #FBD0A7; border-radius:12px; padding:12px; margin:14px 0; color:#B45309; font-weight:700; font-family:\'Fredoka\',cursive; font-size:16px; text-align:center;">🔥 ' + streak + ' Day Practice Streak Kept!</div>';
 
       if (currentAge === 'junior') {
-        var juniorXp = (seconds * 2) + 40;
+        var juniorCurveballXp = curveballAccepted ? 50 : 0;
+var juniorXp = (seconds * 2) + 40 + juniorCurveballXp;
         var careerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10) + juniorXp;
         localStorage.setItem('poptalk_total_xp', careerXp.toString());
 
@@ -2243,54 +2291,83 @@
      var safeSeconds = Math.max(1, seconds);
      var wpm = (typeof forcedWpm === 'number') ? forcedWpm : (wordCount > 0 ? Math.round((wordCount / safeSeconds) * 60) : 0);
 
-        var fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
+                var fillerList = ['um', 'uh', 'er', 'ah', 'like', 'actually', 'basically'];
         var fillerCount = 0;
+        var detectedFillers = [];
         wordsArray.forEach(function(w) {
           var cleanWord = w.toLowerCase().replace(/[^a-z]/g, '');
-          if (fillerList.indexOf(cleanWord) !== -1) fillerCount++;
+          if (fillerList.indexOf(cleanWord) !== -1) {
+            fillerCount++;
+            if (detectedFillers.indexOf(cleanWord) === -1) {
+              detectedFillers.push(cleanWord);
+            }
+          }
         });
 
-        var durationXp = seconds * 2;
-        var wordXp = wordCount * 3;
-        var hardBonus = (currentLevel === 'hard') ? 50 : 0;
+        // --- TIME DISCIPLINE XP CALCULATOR (60s Max, 61-70s Grace, 71s+ Penalty) ---
+        var baseTimeXp = Math.min(seconds, 60) * 2; // Up to 120 XP max at 60s
+        var overtimePenalty = 0;
+        var timeStatusNote = '';
+
+        if (seconds < 60) {
+          timeStatusNote = ' <span style="color:#52635B; font-size:13.5px;">(Speak full 60s for max 120 XP)</span>';
+        } else if (seconds >= 60 && seconds <= 70) {
+          timeStatusNote = ' <span style="color:var(--moss-green); font-size:13.5px; font-weight:700;">(🎯 Max Time Bonus! Wrapped up on time)</span>';
+        } else if (seconds > 70) {
+          var extraSec = seconds - 70;
+          overtimePenalty = extraSec * 2; // -2 XP per second over 70s
+          timeStatusNote = ' <span style="color:#B91C1C; font-size:13.5px; font-weight:700;">(-' + overtimePenalty + ' XP overrun penalty for ' + extraSec + 's past 70s)</span>';
+        }
+
+        var durationXp = Math.max(0, baseTimeXp - overtimePenalty);
+        var wordXp = wordCount * 2;
+        var hardBonus = curveballAccepted ? 50 : 0;
+        var fillerPenalty = fillerCount * 3;
+        var rawSessionXp = Math.max(10, (durationXp + wordXp + hardBonus) - fillerPenalty);
         var streakMultiplier = 1 + (Math.max(1, streak) * 0.1);
-        var sessionXp = Math.round((durationXp + wordXp + hardBonus) * streakMultiplier);
+        var sessionXp = Math.round(rawSessionXp * streakMultiplier);
 
         var careerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10) + sessionXp;
         localStorage.setItem('poptalk_total_xp', careerXp.toString());
 
-        var paceLabel = 'Balanced & Steady';
+        var paceLabel = 'Natural & Conversational';
         var paceColor = 'var(--moss-green)';
-        if (wpm < 110 && wpm > 0) {
+        if (wpm < 100 && wpm > 0) {
           paceLabel = 'Thoughtful / Deliberate';
           paceColor = 'var(--midnight-green)';
-        } else if (wpm > 165) {
-          paceLabel = 'High Energy / Fast';
+        } else if (wpm > 150) {
+          paceLabel = 'Fast & Energetic';
           paceColor = '#D97706';
         }
 
+        var fillerDetail = fillerCount === 0 
+          ? '<span style="color:var(--moss-green); font-weight:700;">0 (Clean delivery!)</span>' 
+          : '<span style="color:#B91C1C; font-weight:700;">' + fillerCount + ' (' + detectedFillers.join(', ') + ') (-' + fillerPenalty + ' XP)</span>';
+
         var metricsCard = '';
-        if (wordCount >= 2) {
+        if (wordCount >= 1) {
           metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:16px; padding:18px; margin:16px 0; text-align:left;">' +
             '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1.5px solid #F3F5F4; padding-bottom:10px;">' +
               '<span style="font-family:\'Fredoka\',cursive; font-size:18px; color:#0A3323; font-weight:700;">⭐ XP Earned</span>' +
               '<span style="font-family:\'Fredoka\',cursive; font-size:24px; color:#E85D04; font-weight:700;">+' + sessionXp + ' XP</span>' +
             '</div>' +
-            '<div style="font-size:15px; color:#293830; line-height:1.7; margin-bottom:14px;">' +
-              '• <strong>Speaking Time:</strong> ' + seconds + 's (' + durationXp + ' XP)<br>' +
-              '• <strong>Word Power:</strong> ' + wordCount + ' words (' + wordXp + ' XP)<br>' +
-              '• <strong>Pace:</strong> ' + wpm + ' WPM <span style="font-weight:700; color:' + paceColor + ';">(' + paceLabel + ')</span><br>' +
+            '<div style="font-size:15px; color:#293830; line-height:1.75; margin-bottom:14px;">' +
+              '• <strong>Speaking Time:</strong> ' + seconds + 's (' + durationXp + ' XP)' + timeStatusNote + '<br>' +
+              '• <strong>Word Power:</strong> ' + wordCount + ' words (+' + wordXp + ' XP)<br>' +
+              '• <strong>Curveball Twist:</strong> ' + (curveballAccepted ? '<span style="color:var(--moss-green); font-weight:700;">Accepted (+50 XP!)</span>' : '<span style="color:#52635B;">Not used (+0 XP)</span>') + '<br>' +
+              '• <strong>Speaking Pace:</strong> ' + wpm + ' WPM <span style="font-weight:700; color:' + paceColor + ';">(' + paceLabel + ')</span><br>' +
+              '• <strong>Filler Words:</strong> ' + fillerDetail + '<br>' +
               '• <strong>Total Career XP:</strong> <span style="font-family:\'Fredoka\',cursive; color:#105666; font-weight:700;">' + careerXp.toLocaleString() + ' XP</span>' +
             '</div>' +
             '<strong style="font-family:\'Fredoka\',cursive; font-size:15px; color:#0A3323; display:block; margin-bottom:6px;">💬 What you spoke:</strong>' +
-            '<div style="font-size:14.5px; color:#293830; font-style:italic; background:#F8FAF9; padding:12px 14px; border-radius:10px; border:1px solid #E2E8E5; max-height:110px; overflow-y:auto; line-height:1.6; margin-bottom:12px;">"' + cleanTranscript + '"</div>' +
+            '<div style="font-size:14.5px; color:#293830; font-style:italic; background:#F8FAF9; padding:12px 14px; border-radius:10px; border:1px solid #E2E8E5; max-height:110px; overflow-y:auto; line-height:1.6; margin-bottom:8px;">"' + cleanTranscript + '"</div>' +
           '</div>';
         } else {
           metricsCard = '<div style="background:#FFFFFF; border:1.5px solid #E2E8E5; border-radius:16px; padding:16px; margin:16px 0; text-align:left;">' +
             '<strong style="font-family:\'Fredoka\',cursive; font-size:16px; color:#105666; display:block; margin-bottom:8px;">⚠️ Quiet Session Detected</strong>' +
             '<div style="font-size:14px; color:#293830; line-height:1.65;">' +
-              'We didn’t pick up enough words to award full XP. Make sure your microphone is enabled and speak clearly!<br>' +
-              '<span style="display:block; margin-top:6px; font-family:\'Fredoka\',cursive; color:#E85D04;">+10 XP Participation Bonus Awarded</span>' +
+              'We didn’t pick up words on the mic. Make sure microphone access is allowed and speak clearly!<br>' +
+              '<span style="display:block; margin-top:6px; font-family:\'Fredoka\',cursive; color:#E85D04;">• Speaking Time: ' + seconds + 's (' + durationXp + ' XP)' + timeStatusNote + '</span>' +
             '</div>' +
           '</div>';
         }
