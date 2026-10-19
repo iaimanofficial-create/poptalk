@@ -680,6 +680,71 @@
         padding: 32px;
       }
     }
+        /* --- WHY POPTALK & MISSION CARD --- */
+    .mission-section {
+      margin-top: 28px;
+      background: var(--surface-white);
+      border: 1.5px solid var(--border-soft);
+      border-radius: 20px;
+      padding: 24px 28px;
+      text-align: left;
+      box-shadow: 0 4px 16px rgba(10, 51, 35, 0.04);
+    }
+    .mission-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .mission-badge {
+      font-size: 26px;
+      background: #EDF3EF;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .mission-header h3 {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--dark-green);
+      margin-bottom: 2px;
+    }
+    .mission-header span {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--moss-green);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .mission-body-text {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .mission-quote-box {
+      background: #F8FAF9;
+      border-left: 4px solid var(--moss-green);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 14px;
+    }
+    .mission-quote-box p {
+      font-size: 13.5px;
+      color: var(--dark-green);
+      line-height: 1.55;
+      font-style: italic;
+      margin: 0;
+    }
+    .mission-quote-box strong {
+      font-style: normal;
+      color: var(--midnight-green);
+    }
   </style>
 </head>
 <body>
@@ -746,6 +811,31 @@
           </div>
         </div>
       </div>
+              <!-- WHY POPTALK & MISSION -->
+      <div class="mission-section">
+        <div class="mission-header">
+          <div class="mission-badge">💡</div>
+          <div>
+            <h3>Why PopTalk Exists</h3>
+            <span>The Spontaneous Speaking Gym</span>
+          </div>
+        </div>
+
+        <p class="mission-body-text">
+          Classrooms spend years teaching vocabulary and grammar, yet they rarely train us to think on our feet. Whether speaking in public or chatting with a friend, sudden pressure creates a bottleneck between thought and speech.
+        </p>
+
+        <p class="mission-body-text">
+          The hesitation we feel rarely comes from a lack of ideas. Instead, it comes from the quiet fear of freezing, losing our words, or struggling to put our thoughts across.
+        </p>
+
+        <div class="mission-quote-box">
+          <p>
+            <strong>🎯 Our Mission:</strong> To eliminate daily speaking anxiety. By giving you a pressure-free, audience-free space to practice every day, we help you train your brain to think, organize, and express yourself naturally—turning everyday conversations into second nature.
+          </p>
+        </div>
+      </div>
+
     </div>
 
     <!-- SCREEN 2: PRACTICE ARENA -->
