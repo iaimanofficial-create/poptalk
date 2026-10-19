@@ -680,70 +680,91 @@
         padding: 32px;
       }
     }
-        /* --- WHY POPTALK & MISSION CARD --- */
+            /* --- WHY POPTALK & MISSION (POLISHED) --- */
     .mission-section {
-      margin-top: 28px;
-      background: var(--surface-white);
-      border: 1.5px solid var(--border-soft);
+      margin-top: 36px;
+      background: #FFFFFF;
+      border: 1px solid rgba(10, 51, 35, 0.1);
       border-radius: 20px;
-      padding: 24px 28px;
+      padding: 30px 32px;
       text-align: left;
-      box-shadow: 0 4px 16px rgba(10, 51, 35, 0.04);
+      box-shadow: 0 4px 20px rgba(10, 51, 35, 0.04);
+    }
+    .mission-top-bar {
+      margin-bottom: 14px;
+    }
+    .mission-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #2D6A4F;
+      background: #EBF3EE;
+      padding: 4px 10px;
+      border-radius: 20px;
     }
     .mission-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
+      gap: 14px;
+      margin-bottom: 18px;
     }
-    .mission-badge {
-      font-size: 26px;
-      background: #EDF3EF;
-      width: 46px;
-      height: 46px;
+    .mission-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #F4F8F5;
+      border: 1px solid #D9E6DE;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 12px;
       flex-shrink: 0;
     }
     .mission-header h3 {
-      font-family: 'Fredoka', cursive, sans-serif;
-      font-size: 19px;
-      font-weight: 600;
-      color: var(--dark-green);
-      margin-bottom: 2px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0A3323;
+      margin: 0 0 2px 0;
+      letter-spacing: -0.3px;
     }
-    .mission-header span {
-      font-size: 12.5px;
+    .mission-subheading {
+      font-size: 13px;
       font-weight: 600;
-      color: var(--moss-green);
+      color: #527564;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     .mission-body-text {
       font-size: 14.5px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 12px;
+      color: #374A40;
+      line-height: 1.65;
+      margin: 0 0 14px 0;
     }
     .mission-quote-box {
       background: #F8FAF9;
-      border-left: 4px solid var(--moss-green);
+      border: 1px solid #E3ECE6;
+      border-left: 3px solid #2D6A4F;
       border-radius: 8px;
-      padding: 14px 16px;
-      margin-top: 14px;
+      padding: 16px 18px;
+      margin-top: 18px;
+    }
+    .quote-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #2D6A4F;
+      margin-bottom: 6px;
     }
     .mission-quote-box p {
       font-size: 13.5px;
-      color: var(--dark-green);
+      color: #1A3026;
       line-height: 1.55;
-      font-style: italic;
       margin: 0;
-    }
-    .mission-quote-box strong {
-      font-style: normal;
-      color: var(--midnight-green);
     }
   </style>
 </head>
@@ -811,13 +832,22 @@
           </div>
         </div>
       </div>
-              <!-- WHY POPTALK & MISSION -->
+      
+            <!-- WHY POPTALK & MISSION -->
       <div class="mission-section">
+        <div class="mission-top-bar">
+          <span class="mission-pill">Our Philosophy</span>
+        </div>
+
         <div class="mission-header">
-          <div class="mission-badge">💡</div>
+          <div class="mission-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M17 5v14M7 9v6M22 10v4M2 10v4"/>
+            </svg>
+          </div>
           <div>
             <h3>Why PopTalk Exists</h3>
-            <span>The Spontaneous Speaking Gym</span>
+            <span class="mission-subheading">The Spontaneous Speaking Gym</span>
           </div>
         </div>
 
@@ -830,8 +860,16 @@
         </p>
 
         <div class="mission-quote-box">
+          <div class="quote-header">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+            <span>Mission</span>
+          </div>
           <p>
-            <strong>🎯 Our Mission:</strong> To eliminate daily speaking anxiety. By giving you a pressure-free, audience-free space to practice every day, we help you train your brain to think, organize, and express yourself naturally—turning everyday conversations into second nature.
+            To eliminate daily speaking anxiety. By giving you a pressure-free, audience-free space to practice every day, we help you train your brain to think, organize, and express yourself naturally—turning everyday conversations into second nature.
           </p>
         </div>
       </div>
