@@ -3,7 +3,7 @@ const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './lotus-bg.jpg'
+  './icon.svg'
 ];
 
 self.addEventListener('install', (event) => {
