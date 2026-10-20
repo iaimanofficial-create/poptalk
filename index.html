@@ -789,6 +789,127 @@
       line-height: 1.6;
       margin: 0;
     }
+    /* Vertical Arena Cards */
+.arena-card-vertical {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(10, 51, 35, 0.12);
+  border-radius: 20px;
+  padding: 22px 18px;
+  margin-top: 18px;
+  text-align: left;
+  box-shadow: 0 4px 18px rgba(10, 51, 35, 0.05);
+  box-sizing: border-box;
+}
+
+.card-pill {
+  display: inline-block;
+  background: #EFF3E8;
+  color: #556B30;
+  border: 1px solid rgba(131, 153, 88, 0.35);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.arena-card-vertical .card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0A3323;
+  margin: 0 0 10px 0;
+  line-height: 1.35;
+}
+
+.arena-card-vertical .card-text,
+.arena-card-vertical .card-subtext {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #374151;
+  margin: 0 0 12px 0;
+}
+
+.arena-card-vertical .card-subtext {
+  font-style: italic;
+  color: #0A3323;
+  font-weight: 600;
+  margin-top: 14px;
+}
+
+/* Bullet Points */
+.creator-points {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.creator-points li {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #4B5563;
+  background: #FAF7F6;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border-left: 3px solid #D3968C;
+}
+
+.creator-points li strong {
+  color: #0A3323;
+}
+
+/* Action Buttons */
+.arena-btn-secondary {
+  width: 100%;
+  padding: 11px;
+  border-radius: 12px;
+  border: 1.5px solid #0A3323;
+  background: transparent;
+  color: #0A3323;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.arena-btn-secondary:hover {
+  background: #0A3323;
+  color: #FAFDF8;
+}
+
+.creator-links-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.arena-social-btn {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  background: #0A3323;
+  color: #FAFDF8;
+  transition: opacity 0.2s ease;
+}
+
+.arena-social-btn.academy {
+  background: #EFF3E8;
+  color: #0A3323;
+  border: 1px solid rgba(10, 51, 35, 0.15);
+}
+
+.arena-social-btn:hover {
+  opacity: 0.9;
+}
   </style>
 </head>
 <body>
@@ -985,6 +1106,42 @@
         <div class="btn-action-row" id="actionBtnRow" style="display:none;">
           <button class="btn btn-think" id="thinkBtn" onclick="startThinking()">🧠 Start Thinking (60s)</button>
           <button class="btn btn-speak" id="speakBtn" onclick="startSpeaking()">🎙️ Start Speaking</button>
+              <!-- Arena Guide & Tips Card -->
+      <div class="arena-card-vertical tips-card">
+        <div class="card-pill">💡 Coach's Cue</div>
+        <h3 class="card-title" id="tip-title">The 3-Second Pause</h3>
+        <p class="card-text" id="tip-desc">
+          When a prompt pops up, take 3 slow seconds to breathe and smile before you begin speaking. Pausing calms the mind and gives your brain time to frame the first sentence.
+        </p>
+        <button class="arena-btn-secondary" onclick="nextTip()">Shuffle Tip 🔄</button>
+      </div>
+
+      <!-- Meet Ifrah / Founder Card -->
+      <div class="arena-card-vertical creator-card">
+        <div class="card-pill">🌱 Founder's Note</div>
+        <h3 class="card-title">Hey, I'm Ifrah! Glad you're here.</h3>
+        <p class="card-text">
+          As a homeschooling mom of two, I faced a familiar challenge: whenever my kids were asked a question, they would freeze up, unsure of how to frame an answer—or they simply weren't being asked the right questions to spark their thinking.
+        </p>
+        <p class="card-text">
+          I created <strong>PopTalk</strong> to give young minds and beginner adults (especially non-native speakers!) a safe, pressure-free arena to practice thinking on their feet.
+        </p>
+        
+        <ul class="creator-points">
+          <li><strong>The Challenge:</strong> Overthinking, freezing up, and struggling to structure spontaneous thoughts in English.</li>
+          <li><strong>The Solution:</strong> Fun, bite-sized daily prompts that guide you on how to organize ideas quickly and speak with ease.</li>
+          <li><strong>The Result:</strong> Natural confidence, clear articulation, and zero fear of being put on the spot.</li>
+        </ul>
+
+        <p class="card-subtext">Whether you're practicing with your family or building your own fluency, welcome to our corner!</p>
+
+        <div class="creator-links-group">
+          <a href="https://www.instagram.com/ifrahoutloud" target="_blank" rel="noopener noreferrer" class="arena-social-btn">
+            📸 Follow My Journey (@ifrahoutloud)
+          </a>
+          <a href="https://www.instagram.com/little.speakers.academy" target="_blank" rel="noopener noreferrer" class="arena-social-btn academy">
+            ✨ Little Speakers Academy
+          </a>
         </div>
       </div>
 
@@ -1008,6 +1165,33 @@
   </div>
 
   <script>
+          const speakingTips = [
+      {
+        title: "The 3-Second Pause",
+        desc: "When a prompt pops up, take 3 slow seconds to breathe and smile before you begin speaking. Pausing calms the mind and gives your brain time to frame the first sentence."
+      },
+      {
+        title: "Praise the Courage First",
+        desc: "Parents: when listening to a prompt response, celebrate the brave attempt and ideas first. Grammar and polish come with practice; enthusiasm comes from encouragement!"
+      },
+      {
+        title: "Replace 'Um' with a Breath",
+        desc: "When you feel stuck searching for the next word, don't worry about filling the quiet with 'uhhh'. Close your mouth, take a small breath, and continue."
+      },
+      {
+        title: "Paint One Picture",
+        desc: "Instead of trying to say everything, focus on one specific detail: name a color, a sound, or a feeling. Specific details make any spontaneous answer come alive."
+      }
+    ];
+
+    let currentTipIndex = 0;
+
+    function nextTip() {
+      currentTipIndex = (currentTipIndex + 1) % speakingTips.length;
+      document.getElementById("tip-title").innerText = speakingTips[currentTipIndex].title;
+      document.getElementById("tip-desc").innerText = speakingTips[currentTipIndex].desc;
+    }
+
     const promptBank = [
       {
         age: 'junior', mode: 'picture', level: 1,
