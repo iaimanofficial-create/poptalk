@@ -1102,11 +1102,17 @@
         </div>
 
         <button class="btn btn-buffer" id="bufferBtn" onclick="addBufferTime()">+15s More Thinking</button>
-        
-        <div class="btn-action-row" id="actionBtnRow" style="display:none;">
+                <div class="btn-action-row" id="actionBtnRow" style="display:none;">
           <button class="btn btn-think" id="thinkBtn" onclick="startThinking()">🧠 Start Thinking (60s)</button>
           <button class="btn btn-speak" id="speakBtn" onclick="startSpeaking()">🎙️ Start Speaking</button>
-              <!-- Arena Guide & Tips Card -->
+        </div>
+      </div>
+
+      <!-- Action Row: Try Again & New Topic -->
+      <button class="btn btn-try-again" id="tryAgainBtn" onclick="tryAgainSameTopic()" style="display:none;">🔁 Try Again (Same Topic)</button>
+      <button class="btn btn-spin" id="spinBtn" onclick="spinPrompt()">🎲 Spin for Topic</button>
+
+      <!-- Arena Guide & Tips Card -->
       <div class="arena-card-vertical tips-card">
         <div class="card-pill">💡 Coach's Cue</div>
         <h3 class="card-title" id="tip-title">The 3-Second Pause</h3>
@@ -1144,10 +1150,6 @@
           </a>
         </div>
       </div>
-
-      <!-- Action Row: Try Again & New Topic -->
-      <button class="btn btn-try-again" id="tryAgainBtn" onclick="tryAgainSameTopic()" style="display:none;">🔁 Try Again (Same Topic)</button>
-      <button class="btn btn-spin" id="spinBtn" onclick="spinPrompt()">🎲 Spin for Topic</button>
     </div>
   </div>
 
