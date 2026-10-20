@@ -1,20 +1,24 @@
 {
   "name": "PopTalk",
   "short_name": "PopTalk",
-  "start_url": "./index.html",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#FAFDF8",
   "theme_color": "#0A3323",
   "icons": [
     {
-      "src": "icon.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "lotus-bg.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
     },
     {
-      "src": "icon.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "lotus-bg.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
     }
   ]
 }
