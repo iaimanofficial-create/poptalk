@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background: Warm Natural Beige -->
+    <rect id="bg" width="512" height="512" rx="115" fill="#FAFDF8" />
+  </defs>
+
+  <!-- Canvas App Icon Base -->
+  <use href="#bg" />
+
+  <!-- SPEECH BUBBLE OUTER FRAME (Deep Green) -->
+  <path d="M 145 120 
+           H 415 
+           A 48 48 0 0 1 463 168 
+           V 336 
+           A 48 48 0 0 1 415 384 
+           H 225 
+           L 155 435 
+           V 384 
+           H 97 
+           A 48 48 0 0 1 49 336 
+           V 168 
+           A 48 48 0 0 1 97 120 
+           Z" 
+        fill="none" 
+        stroke="#0A3323" 
+        stroke-width="26" 
+        stroke-linejoin="round" 
+        stroke-linecap="round" />
+
+  <!-- MONOGRAM: LETTER 'p' (Deep Green) -->
+  <!-- Stem -->
+  <line x1="140" y1="185" x2="140" y2="350" stroke="#0A3323" stroke-width="26" stroke-linecap="round" />
+  <!-- Bowl Loop -->
+  <path d="M 140 200 
+           C 185 195, 222 215, 222 260 
+           C 222 305, 185 322, 140 318" 
+        fill="none" 
+        stroke="#0A3323" 
+        stroke-width="26" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
+
+  <!-- MONOGRAM: LETTER 't' (Deep Green) -->
+  <!-- Crossbar extending rightward -->
+  <line x1="260" y1="210" x2="395" y2="210" stroke="#0A3323" stroke-width="26" stroke-linecap="round" />
+  <!-- Vertical Stem with base curve -->
+  <path d="M 320 160 
+           V 305 
+           C 320 328, 336 342, 362 342 
+           H 375" 
+        fill="none" 
+        stroke="#0A3323" 
+        stroke-width="26" 
+        stroke-linecap="round" />
+
+  <!-- BOTANICAL LILY / PETAL ACCENT (Moss Green) -->
+  <path d="M 188 355 
+           C 230 320, 248 275, 242 245 
+           C 212 250, 172 290, 188 355 Z" 
+        fill="#839958" />
+  <line x1="188" y1="355" x2="228" y2="270" stroke="#FAFDF8" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+</svg>
