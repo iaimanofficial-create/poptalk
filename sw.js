@@ -1,4 +1,4 @@
-const CACHE_NAME = 'poptalk-v6';
+const CACHE_NAME = 'poptalk-v10';
 const ASSETS = [
   './',
   './index.html',
@@ -8,12 +8,10 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    })
-  );
   self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+  );
 });
 
 self.addEventListener('activate', (event) => {
@@ -28,13 +26,26 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
-  self.clients.claim();
+  return self.clients.claim();
 });
 
+// NETWORK-FIRST: Always fetch fresh content from GitHub first!
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
-    })
+    fetch(event.request)
+      .then((networkResponse) => {
+        // If we got a fresh file from GitHub, update the cache copy silently
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return networkResponse;
+      })
+      .catch(() => {
+        // Only if user has NO internet (offline), serve from cache
+        return caches.match(event.request);
+      })
   );
 });
