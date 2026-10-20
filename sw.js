@@ -1,4 +1,4 @@
-const CACHE_NAME = 'poptalk-v5';
+const CACHE_NAME = 'poptalk-v6';
 const ASSETS = [
   './',
   './index.html',
