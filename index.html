@@ -2216,6 +2216,9 @@
     document.getElementById('poptalk-promo-modal').style.display = 'flex';
     return;
   }
+      if (lvl === 1) {
+        localStorage.setItem('poptalk_lvl1_spins', '0');
+      }
       currentLevel = lvl;
       document.querySelectorAll('#levelGroup .pill').forEach(function(btn) {
         btn.classList.remove('active');
@@ -2304,10 +2307,17 @@
 
     function spinPrompt() {
       if (isSpinning) return;
-            if (currentLevel > 1 && !localStorage.getItem('poptalk_has_pass')) {
-        document.getElementById('poptalk-promo-modal').style.display = 'flex';
-        return;
+
+      // Track Level 1 prompt completion for free users
+      if (!localStorage.getItem('poptalk_has_pass')) {
+        var freeSpins = parseInt(localStorage.getItem('poptalk_lvl1_spins') || '0', 10);
+        if (freeSpins >= 5) {
+          document.getElementById('poptalk-promo-modal').style.display = 'flex';
+          return;
+        }
+        localStorage.setItem('poptalk_lvl1_spins', freeSpins + 1);
       }
+
       isSpinning = true;
 
       resetAllTimers();
