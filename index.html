@@ -3055,6 +3055,41 @@
     message.innerText = 'Please enter a valid key from your purchase email.';
   }
 }
+    // Check on page load: Auto-unlock if redirected from Lemon Squeezy, and update UI
+(function initPassStatus() {
+  if (window.location.search.includes('unlocked=true')) {
+    localStorage.setItem('poptalk_has_pass', 'true');
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
+  if (localStorage.getItem('poptalk_has_pass')) {
+    const headerBtn = document.getElementById('poptalk-header-unlock-btn');
+    if (headerBtn) headerBtn.style.display = 'none';
+  }
+})();
+
+// Manual Key Verification (for other devices or returning users)
+function verifyFounderKey() {
+  const input = document.getElementById('founder-key-input').value.trim();
+  const message = document.getElementById('key-message');
+
+  if (input.length >= 6) {
+    localStorage.setItem('poptalk_has_pass', 'true');
+    localStorage.setItem('poptalk_user_key', input);
+    message.style.color = '#10B981';
+    message.innerText = 'Pass Activated! Unlocking...';
+    
+    setTimeout(function() {
+      document.getElementById('poptalk-promo-modal').style.display = 'none';
+      const headerBtn = document.getElementById('poptalk-header-unlock-btn');
+      if (headerBtn) headerBtn.style.display = 'none';
+      location.reload();
+    }, 1000);
+  } else {
+    message.style.color = '#EF4444';
+    message.innerText = 'Please enter a valid key from your purchase email.';
+  }
+}
 </script>
     <!-- PopTalk Founder Pass Modal (Shows after Level 1) -->
 <div id="poptalk-promo-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center; padding:16px;">
