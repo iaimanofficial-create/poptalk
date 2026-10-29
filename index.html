@@ -926,10 +926,15 @@
           <div style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Speaker ✏️</div>
           <div style="font-family: 'Fredoka', cursive; font-size: 15px; font-weight: 600; color: var(--dark-green);" id="displayUsername">Speaker</div>
         </div>
-        <div style="display: flex; gap: 5px; align-items: center;">
+                <div style="display: flex; gap: 5px; align-items: center;">
           <div class="streak-pill" id="levelBadge" style="margin:0; padding: 4px 8px; font-size: 11.5px; background:#FEF3C7; border-color:#FDE68A; color:#92400E;">
             🌱 <span id="currentLevelText">Lvl 1</span>
           </div>
+          <!-- Pass Unlock Button -->
+          <button id="poptalk-header-unlock-btn" type="button" onclick="document.getElementById('poptalk-promo-modal').style.display='flex';" style="background:none; border:none; color:#6B7280; font-size:12px; cursor:pointer; text-decoration:underline; padding:2px 6px;">
+            🔑 Unlock Pass
+          </button>
+        </div>
           <div class="streak-pill" id="streakBadge" style="margin:0; padding: 4px 8px; font-size: 11.5px;">
             🔥 <span id="streakCount">0</span>
           </div>
