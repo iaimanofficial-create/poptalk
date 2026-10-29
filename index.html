@@ -2459,11 +2459,20 @@
       var words = document.getElementById('lifeboatWords');
       var tip = document.getElementById('lifeboatTip');
 
-         var banner = document.getElementById('twistBanner');
-   if (banner) {
-     banner.style.display = 'none';
-     banner.innerText = '';
-   }
+      var banner = document.getElementById('twistBanner');
+      if (banner) {
+        banner.style.display = 'none';
+        banner.innerText = '';
+      }
+
+      // Hide helper box completely on Level 3 (Freestyle / Mastery)
+      if (currentLevel === 3) {
+        if (content) content.style.display = 'none';
+        return;
+      } else {
+        if (content) content.style.display = 'block';
+      }
+
    var cbBtn = document.getElementById('curveballBtn');
    if (cbBtn) {
      cbBtn.style.display = 'none';
@@ -2670,16 +2679,25 @@
 
         openCelebrationModal(totalSpoken, fullTranscript, streak, wordCount, wpm);
 
-                if (currentTier === 1 && completedCount >= 5) {
-          if (localStorage.getItem('poptalk_has_pass')) {
-            localStorage.setItem(tierKey, '2');
-            localStorage.setItem('poptalk_completed_count_' + currentAge + '_' + currentMode + '_lvl2', '0');
+                        // 3-Level Progression Logic
+        if (completedCount >= 5) {
+          if (currentTier === 1) {
+            if (localStorage.getItem('poptalk_has_pass')) {
+              localStorage.setItem(tierKey, '2');
+              localStorage.setItem('poptalk_completed_count_' + currentAge + '_' + currentMode + '_lvl2', '0');
+              updateHeaderLevelBadge();
+            } else {
+              // Free user finished Level 1 -> Trigger Founder Pass modal
+              var promoModal = document.getElementById('poptalk-promo-modal');
+              if (promoModal) promoModal.style.display = 'flex';
+            }
+          } else if (currentTier === 2) {
+            // Level 2 complete -> Advance to Level 3 (Mastery / Unlimited)
+            localStorage.setItem(tierKey, '3');
+            localStorage.setItem('poptalk_completed_count_' + currentAge + '_' + currentMode + '_lvl3', '0');
             updateHeaderLevelBadge();
-          } else {
-            // Free user finished 5 prompts in Level 1 -> Trigger Founder Pass modal
-            var promoModal = document.getElementById('poptalk-promo-modal');
-            if (promoModal) promoModal.style.display = 'flex';
           }
+          // Level 3 has no cap — unlimited practice
         }
 
         var currentCareerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10);
