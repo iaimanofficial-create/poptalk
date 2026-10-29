@@ -3032,9 +3032,27 @@
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js');
   }
+    function verifyFounderKey() {
+  const input = document.getElementById('founder-key-input').value.trim();
+  const message = document.getElementById('key-message');
+
+  if (input.length >= 6) {
+    localStorage.setItem('poptalk_has_pass', 'true');
+    localStorage.setItem('poptalk_user_key', input);
+    message.style.color = '#10B981';
+    message.innerText = 'Pass Activated! Unlocking...';
+    setTimeout(function() {
+      document.getElementById('poptalk-promo-modal').style.display = 'none';
+      location.reload();
+    }, 1000);
+  } else {
+    message.style.color = '#EF4444';
+    message.innerText = 'Please enter a valid key from your purchase email.';
+  }
+}
 </script>
-  <!-- PopTalk Founder Pass Modal (Shows after Level 1) -->
-<div id="poptalk-promo-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; display:none; align-items:center; justify-content:center; padding:16px;">
+    <!-- PopTalk Founder Pass Modal (Shows after Level 1) -->
+<div id="poptalk-promo-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center; padding:16px;">
   <div style="background:#ffffff; border-radius:16px; max-width:440px; width:100%; padding:24px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.2); font-family:sans-serif;">
     <h2 style="margin:0 0 8px 0; color:#111827; font-size:22px;">Level 1 Complete! 🎉</h2>
     <p style="margin:0 0 16px 0; color:#4B5563; font-size:14px; line-height:1.5;">
@@ -3057,9 +3075,21 @@
       </a>
     </div>
 
-    <!-- Dismiss Button -->
-    <button onclick="document.getElementById('poptalk-promo-modal').style.display='none'" style="background:none; border:none; color:#9CA3AF; font-size:13px; cursor:pointer; text-decoration:underline;">
-      Maybe later, continue practicing
+    <!-- License Key Input -->
+    <div style="margin: 14px 0 10px; padding-top: 12px; border-top: 1px solid #E5E7EB;">
+      <p style="font-size: 12px; color: #4B5563; margin-bottom: 8px;">Already purchased? Enter your key:</p>
+      <div style="display: flex; gap: 6px; justify-content: center;">
+        <input type="text" id="founder-key-input" placeholder="Paste license key" style="padding: 8px 10px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px; width: 65%;">
+        <button type="button" onclick="verifyFounderKey()" style="padding: 8px 14px; background: #111827; color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer;">
+          Unlock
+        </button>
+      </div>
+      <p id="key-message" style="font-size: 11px; margin: 6px 0 0; min-height: 14px;"></p>
+    </div>
+
+    <!-- Free Replay Button -->
+    <button type="button" onclick="document.getElementById('poptalk-promo-modal').style.display='none'; setLevel(1);" style="background:none; border:none; color:#6B7280; font-size:13px; cursor:pointer; text-decoration:underline;">
+      Not ready yet? Replay Level 1 (Free)
     </button>
   </div>
 </div>
