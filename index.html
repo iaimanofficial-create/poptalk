@@ -2211,15 +2211,15 @@
     }
 
     function setLevel(lvl) {
-      playTapSound();
-        if (lvl > 1 && !localStorage.getItem('poptalk_has_pass')) {
+  playTapSound();
+  if (lvl > 1 && !localStorage.getItem('poptalk_has_pass')) {
     document.getElementById('poptalk-promo-modal').style.display = 'flex';
     return;
   }
-      if (lvl === 1) {
-        localStorage.setItem('poptalk_lvl1_spins', '0');
-      }
-      currentLevel = lvl;
+  if (lvl === 1) {
+    localStorage.setItem('poptalk_lvl1_spins', '0');
+  }
+  currentLevel = lvl;
       document.querySelectorAll('#levelGroup .pill').forEach(function(btn) {
         btn.classList.remove('active');
       });
