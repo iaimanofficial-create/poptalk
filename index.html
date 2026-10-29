@@ -3025,5 +3025,35 @@
     navigator.serviceWorker.register('./sw.js');
   }
 </script>
+  <!-- PopTalk Founder Pass Modal (Shows after Level 1) -->
+<div id="poptalk-promo-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; display:none; align-items:center; justify-content:center; padding:16px;">
+  <div style="background:#ffffff; border-radius:16px; max-width:440px; width:100%; padding:24px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.2); font-family:sans-serif;">
+    <h2 style="margin:0 0 8px 0; color:#111827; font-size:22px;">Level 1 Complete! 🎉</h2>
+    <p style="margin:0 0 16px 0; color:#4B5563; font-size:14px; line-height:1.5;">
+      You just completed your first workout! Join our first 100 founding members with <strong>50% off lifetime access</strong>.
+    </p>
+
+    <!-- Variant Buttons -->
+    <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+      <a href="https://poptalk.lemonsqueezy.com/checkout/buy/ff8511c7-8f7b-4c2c-b5a5-c0a8c7af312f?enabled=2273496&discount=FOUNDER100" target="_blank" style="padding:12px; background:#4F46E5; color:#fff; text-decoration:none; border-radius:8px; font-weight:bold; font-size:14px;">
+        Unlock Junior Pass (Ages 5–8) — ₹499
+      </a>
+      <a href="https://poptalk.lemonsqueezy.com/checkout/buy/c2c0b547-b5cc-4167-ba4d-eb1f8e8e0865?enabled=2273599&discount=FOUNDER100" target="_blank" style="padding:12px; background:#4F46E5; color:#fff; text-decoration:none; border-radius:8px; font-weight:bold; font-size:14px;">
+        Unlock Teens Pass — ₹499
+      </a>
+      <a href="https://poptalk.lemonsqueezy.com/checkout/buy/71e15c4e-2384-418a-b64c-11bea6d52d82?enabled=2273602&discount=FOUNDER100" target="_blank" style="padding:12px; background:#4F46E5; color:#fff; text-decoration:none; border-radius:8px; font-weight:bold; font-size:14px;">
+        Unlock Adult Pass — ₹499
+      </a>
+      <a href="https://poptalk.lemonsqueezy.com/checkout/buy/774662ea-0837-46a0-a96e-7f875190aa56?enabled=2273608&discount=FOUNDER100" target="_blank" style="padding:12px; background:#10B981; color:#fff; text-decoration:none; border-radius:8px; font-weight:bold; font-size:14px;">
+        🌟 All-Access Family Pass — ₹999
+      </a>
+    </div>
+
+    <!-- Dismiss Button -->
+    <button onclick="document.getElementById('poptalk-promo-modal').style.display='none'" style="background:none; border:none; color:#9CA3AF; font-size:13px; cursor:pointer; text-decoration:underline;">
+      Maybe later, continue practicing
+    </button>
+  </div>
+</div>
 </body>
 </html>
