@@ -2208,6 +2208,10 @@
 
     function setLevel(lvl) {
       playTapSound();
+        if (lvl > 1 && !localStorage.getItem('poptalk_has_pass')) {
+    document.getElementById('poptalk-promo-modal').style.display = 'flex';
+    return;
+  }
       currentLevel = lvl;
       document.querySelectorAll('#levelGroup .pill').forEach(function(btn) {
         btn.classList.remove('active');
