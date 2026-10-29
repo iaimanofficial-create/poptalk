@@ -2670,10 +2670,16 @@
 
         openCelebrationModal(totalSpoken, fullTranscript, streak, wordCount, wpm);
 
-        if (currentTier === 1 && completedCount >= 5) {
-          localStorage.setItem(tierKey, '2');
-          localStorage.setItem('poptalk_completed_count_' + currentAge + '_' + currentMode + '_lvl2', '0');
-          updateHeaderLevelBadge();
+                if (currentTier === 1 && completedCount >= 5) {
+          if (localStorage.getItem('poptalk_has_pass')) {
+            localStorage.setItem(tierKey, '2');
+            localStorage.setItem('poptalk_completed_count_' + currentAge + '_' + currentMode + '_lvl2', '0');
+            updateHeaderLevelBadge();
+          } else {
+            // Free user finished 5 prompts in Level 1 -> Trigger Founder Pass modal
+            var promoModal = document.getElementById('poptalk-promo-modal');
+            if (promoModal) promoModal.style.display = 'flex';
+          }
         }
 
         var currentCareerXp = parseInt(localStorage.getItem('poptalk_total_xp') || '0', 10);
